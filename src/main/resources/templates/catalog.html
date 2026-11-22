@@ -45,14 +45,26 @@
 
 <!-- ============ МЕНЮ КАТЕГОРИЙ ============ -->
 <nav class="cnav" aria-label="Категории">
-    <div class="cnav-inner" tabindex="0" aria-label="Категории товаров, прокручиваемый список">
-        <a th:href="@{/catalog}" data-cat="">Все товары</a>
-        <a th:each="cat : ${catalogCategories}"
-           th:href="@{/catalog(category=${cat})}"
-           th:attr="data-cat=${cat}"
-           th:text="${cat}">Категория</a>
-        <a th:href="@{/#actions}">Акции</a>
-        <a th:href="@{/#sales}">Ликвидации</a>
+    <div class="cnav-bar container">
+        <button class="cnav-toggle" id="categoryMenuToggle" type="button"
+                aria-expanded="false" aria-controls="categoryMenu">
+            <span class="cnav-burger" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </span>
+            <span>Категории</span>
+        </button>
+        <span class="cnav-current" id="currentCatalogCategory">Все товары</span>
+    </div>
+    <div class="cnav-panel" id="categoryMenu" aria-hidden="true">
+        <div class="cnav-inner">
+            <a th:href="@{/catalog}" data-cat="">Все товары</a>
+            <a th:each="cat : ${catalogCategories}"
+               th:href="@{/catalog(category=${cat})}"
+               th:attr="data-cat=${cat}"
+               th:text="${cat}">Категория</a>
+            <a th:href="@{/#actions}">Акции</a>
+            <a th:href="@{/#sales}">Ликвидации</a>
+        </div>
     </div>
 </nav>
 
