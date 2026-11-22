@@ -5,13 +5,13 @@
 :root {
     --navy: #0b2a45;
     --navy-admin: #112233;
-    --cream: #f1f2ee;
-    --sand: #e8eae4;
-    --sand-dark: #dddfd7;
+    --cream: #e9ede8;
+    --sand: #e1e6df;
+    --sand-dark: #d7ded5;
     --gold: #d9c79c;
     --ink: #252923;
     --muted: #6f6f6f;
-    --line: #d6d9d0;
+    --line: #d1d8ce;
 
     --serif: 'Noto Serif', Georgia, serif;
     --sans: 'Inter', Arial, sans-serif;
@@ -375,7 +375,7 @@ a.action-link:hover {
     position: absolute;
     right: 0;
     bottom: clamp(18px, 2.8vw, 36px);
-    background: rgba(241, 242, 238, 0.97);
+    background: rgba(233, 237, 232, 0.97);
     color: var(--ink);
     text-decoration: none;
     padding: 14px 20px;
@@ -2552,7 +2552,7 @@ input:checked + .slider:before {
 .cnav a:hover { border-bottom-color: rgba(217, 199, 156, .6); }
 .cnav a.on { border-bottom-color: var(--gold); }
 
-.cband { background: #f1ede5; padding: clamp(20px, 3vw, 34px) 0 clamp(26px, 3.4vw, 44px); }
+.cband { background: #e5e9e3; padding: clamp(20px, 3vw, 34px) 0 clamp(26px, 3.4vw, 44px); }
 .ccrumbs { font-size: 12px; color: var(--muted); }
 .ccrumbs a { text-decoration: none; }
 .ccrumbs a:hover { color: var(--ink); }
@@ -2565,7 +2565,7 @@ input:checked + .slider:before {
 }
 
 /* фильтры */
-.cf { position: sticky; top: 16px; padding: 24px 22px 18px; background: #fbfaf6; }
+.cf { position: sticky; top: 16px; padding: 24px 22px 18px; background: #f0f3ee; }
 .cf-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
 .cf-title { display: flex; align-items: center; gap: 10px; font-family: var(--sans), sans-serif; font-size: 15px; font-weight: 700; }
 .cf-close, .f-open, .f-apply { display: none; }
@@ -2622,7 +2622,7 @@ input:checked + .slider:before {
 
 /* карточки товаров */
 .cgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.pc { background: #fcfbf8; border: 1px solid #ece8de; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.pc { background: #f6f8f4; border: 1px solid #ece8de; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
 .pc-img { position: relative; aspect-ratio: 1.44; overflow: hidden; }
 .pc-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
 .pc:hover .pc-img img { transform: scale(1.03); }
