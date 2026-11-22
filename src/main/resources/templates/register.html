@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" th:href="@{/style.css(v=3)}">
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}">
 </head>
 
 <body class="page-auth">
@@ -24,9 +24,7 @@
     <a class="auth-brand" th:href="@{ / }"
        aria-label="Белый Дом — на главную">
 
-        <img width="48" height="60" src="/images/logo-stork.svg" alt="" aria-hidden="true">
-
-        <span class="logo-text" th:text="${shopSettings.storeName}">Белый Дом</span>
+        <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
     </a>
 
     <div>
@@ -53,9 +51,7 @@
 
         <a class="auth-mobile-brand" th:href="@{/}">
 
-            <img width="48" height="60" src="/images/logo-stork.svg" alt="" aria-hidden="true">
-
-            <span class="logo-text" th:text="${shopSettings.storeName}">Белый Дом</span>
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
         </a>
 
         <div class="auth-head">
