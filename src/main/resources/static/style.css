@@ -2542,9 +2542,14 @@ input:checked + .slider:before {
 .cnav { background: var(--navy); }
 .cnav-inner {
     max-width: 1440px; margin: 0 auto; padding: 0 var(--pad);
-    display: flex; gap: clamp(18px, 2.4vw, 36px); overflow-x: auto; scrollbar-width: none;
+    display: flex; gap: clamp(18px, 2.4vw, 36px); overflow-x: auto;
+    scrollbar-width: thin; scrollbar-color: var(--gold) rgba(255, 255, 255, .2);
+    scroll-behavior: smooth; overscroll-behavior-x: contain;
 }
-.cnav-inner::-webkit-scrollbar { display: none; }
+.cnav-inner::-webkit-scrollbar { display: block; height: 6px; }
+.cnav-inner::-webkit-scrollbar-track { background: rgba(255, 255, 255, .2); }
+.cnav-inner::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 999px; }
+.cnav-inner:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 .cnav a {
     flex-shrink: 0; padding: 18px 0 15px; color: #fff; text-decoration: none;
     font-size: 13px; border-bottom: 2px solid transparent; transition: border-color .2s;
