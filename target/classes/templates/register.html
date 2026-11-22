@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f1f2ee">
+
+    <title>Регистрация — Белый Дом</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}">
+</head>
+
+<body class="page-auth">
+
+<div class="auth-side">
+
+    <a class="auth-brand" th:href="@{ / }"
+       aria-label="Белый Дом — на главную">
+
+        <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
+    </a>
+
+    <div>
+        <h2 class="auth-title">
+            Личный кабинет <span>в Белом Доме</span>
+        </h2>
+
+        <p class="auth-lead">
+            Оформляйте заказы быстрее, следите за историей покупок
+            и сохраняйте избранное.
+        </p>
+    </div>
+
+    <div class="auth-info">
+        <span>Интернет-магазин сантехники</span>
+        <span>Ваши данные защищены</span>
+    </div>
+
+</div>
+
+<main class="auth-main">
+
+    <div class="auth-wrap">
+
+        <a class="auth-mobile-brand" th:href="@{/}">
+
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
+        </a>
+
+        <div class="auth-head">
+
+            <h1 class="auth-h">Регистрация</h1>
+
+            <p class="auth-sub">
+                Создайте аккаунт, чтобы оформлять заказы быстрее.
+            </p>
+
+        </div>
+
+        <section class="auth-card">
+
+            <h2 class="auth-card-h">Новый аккаунт</h2>
+
+            <p class="auth-card-sub">
+                Заполните данные ниже.
+            </p>
+
+            <!-- Ошибка с сервера -->
+            <div class="auth-alert"
+                 role="alert"
+                 th:if="${error != null}"
+                 th:text="${error}">
+            </div>
+
+            <!-- Ошибка проверки в браузере -->
+            <div class="auth-alert"
+                 id="rgError"
+                 role="alert"
+                 hidden>
+            </div>
+
+            <form class="auth-form"
+                  id="registerForm"
+                  th:action="@{/register}"
+                  th:object="${user}"
+                  method="post"
+                  novalidate>
+
+                <!-- ФИО -->
+                <div class="au-field">
+
+                    <label for="rg-name">ФИО</label>
+
+                    <div class="au-input">
+
+                        <input
+                                id="rg-name"
+                                type="text"
+                                th:field="*{fullName}"
+                                required
+                                autocomplete="name"
+                                placeholder="Иванов Иван Иванович">
+
+                    </div>
+                </div>
+
+                <!-- Телефон и Email -->
+                <div class="au-row">
+
+                    <div class="au-field">
+
+                        <label for="rg-phone">Телефон</label>
+
+                        <div class="au-input">
+
+                            <input
+                                    id="rg-phone"
+                                    type="tel"
+                                    th:field="*{phone}"
+                                    required
+                                    autocomplete="tel"
+                                    placeholder="+7 999 123-45-67">
+
+                        </div>
+                    </div>
+
+                    <div class="au-field">
+
+                        <label for="rg-email">E-mail</label>
+
+                        <div class="au-input">
+
+                            <input
+                                    id="rg-email"
+                                    type="email"
+                                    th:field="*{email}"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="mail@example.com">
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Логин -->
+                <div class="au-field">
+
+                    <label for="rg-login">Логин</label>
+
+                    <div class="au-input">
+
+                        <input
+                                id="rg-login"
+                                type="text"
+                                th:field="*{username}"
+                                required
+                                autocomplete="username"
+                                placeholder="username">
+
+                    </div>
+                </div>
+
+                <!-- Пароль -->
+                <div class="au-field">
+
+                    <label for="rg-pass">Пароль</label>
+
+                    <div class="au-input au-input--pass">
+
+                        <input
+                                id="rg-pass"
+                                type="password"
+                                th:field="*{password}"
+                                required
+                                minlength="8"
+                                maxlength="64"
+                                autocomplete="new-password"
+                                placeholder="Не короче 8 символов">
+
+                        <button
+                                type="button"
+                                class="au-toggle"
+                                data-toggle-pass="rg-pass"
+                                aria-pressed="false">
+                            Показать
+                        </button>
+
+                    </div>
+
+                    <p class="au-hint" id="rgHint">
+                        От 8 до 64 символов, минимум одна буква
+                        и одна цифра.
+                    </p>
+
+                </div>
+
+                <!-- Повтор пароля -->
+                <div class="au-field">
+
+                    <label for="rg-pass2">Повторите пароль</label>
+
+                    <div class="au-input au-input--pass">
+
+                        <input
+                                id="rg-pass2"
+                                type="password"
+                                required
+                                minlength="8"
+                                maxlength="64"
+                                autocomplete="new-password">
+
+                        <button
+                                type="button"
+                                class="au-toggle"
+                                data-toggle-pass="rg-pass2"
+                                aria-pressed="false">
+                            Показать
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- Кнопка регистрации -->
+                <button type="submit" class="au-btn">
+                    Зарегистрироваться
+                </button>
+
+            </form>
+
+            <p class="auth-note">
+                Уже есть аккаунт?
+                <a th:href="@{/login}">Войти</a>
+            </p>
+
+        </section>
+
+        <p class="auth-copy-r">© 2026 Белый Дом</p>
+
+    </div>
+
+</main>
+
+<script th:src="@{/script.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f1f2ee">
+    <title>Вход — Белый Дом</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}">
+</head>
+<body class="page-auth">
+
+<div class="auth-side">
+    <a class="auth-brand" th:href="@{/}" aria-label="Белый Дом — на главную">
+        <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
+    </a>
+
+    <div>
+        <h2 class="auth-title">Добро пожаловать <span>в Белый Дом</span></h2>
+        <p class="auth-lead">Оформляйте заказы быстрее, следите за их статусом и сохраняйте избранное в личном кабинете.</p>
+    </div>
+
+    <div class="auth-info">
+        <span>Интернет-магазин сантехники</span>
+        <span>Безопасный вход для покупателей</span>
+    </div>
+</div>
+
+<main class="auth-main">
+    <div class="auth-wrap">
+        <a class="auth-mobile-brand" th:href="@{/}">
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
+        </a>
+
+        <div class="auth-head">
+            <h1 class="auth-h">Вход</h1>
+            <p class="auth-sub">Введите свои данные, чтобы продолжить.</p>
+        </div>
+
+        <section class="auth-card">
+            <h2 class="auth-card-h">Добро пожаловать</h2>
+            <p class="auth-card-sub">Используйте почту или логин и пароль.</p>
+
+            <div class="auth-alert" role="alert"
+                 th:if="${error != null or param.error != null}"
+                 th:text="${error != null ? error : 'Неверный логин или пароль.'}"></div>
+
+            <form class="auth-form" th:action="@{/login}" method="post">
+                <div class="au-field">
+                    <label for="lg-user">Email или логин</label>
+                    <div class="au-input">
+                        <input id="lg-user" type="text" name="username" required autocomplete="username" autofocus>
+                    </div>
+                </div>
+
+                <div class="au-field">
+                    <label for="lg-pass">Пароль</label>
+                    <div class="au-input au-input--pass">
+                        <input id="lg-pass" type="password" name="password" required autocomplete="current-password">
+                        <button type="button" class="au-toggle" data-toggle-pass="lg-pass" aria-pressed="false">Показать</button>
+                    </div>
+                </div>
+
+                <!-- «Запомнить меня» и «Забыли пароль?» из макета: пока только внешний вид,
+                     на сервере они не обрабатываются. Удалите блок, если функция не нужна. -->
+                <div class="au-meta">
+                    <label class="au-check"><input type="checkbox" name="remember" value="1"><span>Запомнить меня</span></label>
+                    <a href="#" onclick="return false">Забыли пароль?</a>
+                </div>
+
+                <button type="submit" class="au-btn">Войти</button>
+            </form>
+
+            <p class="auth-note">Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>
+        </section>
+
+        <p class="auth-copy-r">© 2026 Белый Дом</p>
+    </div>
+</main>
+
+<script th:src="@{/script.js}"></script>
+</body>
+</html>

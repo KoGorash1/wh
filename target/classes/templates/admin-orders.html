@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказы — Белый Дом</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}">
+</head>
+<body class="page-admin">
+
+<aside>
+    <div class="aside-header">
+        <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
+    </div>
+    <nav class="nav-menu" aria-label="Разделы админки">
+        <a class="nav-item" th:href="@{/admin}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l9-8 9 8M5 10v10h14V10"/></svg>
+            Обзор
+        </a>
+        <a class="nav-item" th:href="@{/admin/products}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"/></svg>
+            Товары
+        </a>
+        <a class="nav-item" th:href="@{/admin/categories}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h7v7H4zM13 5h7v7h-7zM4 14h7v5H4zM13 14h7v5h-7z"/></svg>
+            Категории
+        </a>
+        <a class="nav-item active" th:href="@{/admin/orders}" aria-current="page">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12l2 4v14H4V7zM4 7h16M9 11h6"/></svg>
+            Заказы
+        </a>
+        <a class="nav-item" th:href="@{/admin/promotions}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8zM7.5 7.5h.01"/></svg>
+            Акции
+        </a>
+        <a class="nav-item" th:href="@{/admin/liquidation}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>
+            Ликвидация
+        </a>
+        <a class="nav-item" th:href="@{/admin/clients}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M9.5 10a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM21 20v-2a4 4 0 00-3-3.9"/></svg>
+            Клиенты
+        </a>
+        <a class="nav-item" th:href="@{/admin/settings}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 100-6 3 3 0 000 6zM19 12a7 7 0 00-.1-1l2-1.5-2-3.5-2.3 1a7 7 0 00-1.7-1L14.5 3h-4l-.4 2.5a7 7 0 00-1.7 1l-2.3-1-2 3.5 2 1.5a7 7 0 000 2l-2 1.5 2 3.5 2.3-1a7 7 0 001.7 1l.4 2.5h4l.4-2.5a7 7 0 001.7-1l2.3 1 2-3.5-2-1.5c.1-.3.1-.7.1-1z"/></svg>
+            Настройки
+        </a>
+        <a class="nav-item" th:href="@{/}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6H5v12h5M15 8l4 4-4 4M19 12H9"/></svg>
+            На сайт
+        </a>
+    </nav>
+</aside>
+
+<main>
+    <header class="top-header">
+        <div class="page-title">
+            <h1>Заказы</h1>
+            <p>Заказы покупателей из интернет-магазина</p>
+        </div>
+        <div class="user-dropdown" th:if="${session.username != null}" th:text="${session.username}">admin</div>
+    </header>
+
+    <!-- сводка -->
+    <section class="stats-grid-orders" aria-label="Сводка">
+        <div class="stat-card"><div class="label">Всего заказов</div><div class="value" th:text="${page.totalCount}">0</div></div>
+        <div class="stat-card"><div class="label">Новые</div><div class="value" th:text="${page.newCount}">0</div></div>
+        <div class="stat-card"><div class="label">Сумма заказов</div><div class="value value--sm" th:text="${page.sumAll}">0 ₽</div></div>
+        <div class="stat-card"><div class="label">Средний чек</div><div class="value value--sm" th:text="${page.avg}">0 ₽</div></div>
+    </section>
+
+    <!-- поиск и фильтр -->
+    <form class="orders-filters-bar" th:action="@{/admin/orders}" method="get">
+        <input class="filter-select" type="search" name="q" th:value="${q}" placeholder="Поиск: номер, имя, телефон, e-mail" aria-label="Поиск">
+        <select class="filter-select" name="status" aria-label="Статус">
+            <option value="" th:selected="${#strings.isEmpty(statusFilter)}">Все статусы</option>
+            <option th:each="s : ${page.statuses}" th:value="${s.code}" th:text="${s.label}"
+                    th:selected="${s.code == statusFilter}"></option>
+        </select>
+        <button type="submit" class="btn-header-action">Найти</button>
+        <a class="btn-header-action btn-ghost" th:href="@{/admin/orders}">Сбросить</a>
+    </form>
+
+    <div class="orders-layout">
+
+        <!-- список -->
+        <div class="table-card">
+            <table>
+                <thead>
+                <tr>
+                    <th>Заказ</th>
+                    <th>Клиент</th>
+                    <th>Сумма</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="o : ${page.rows}" th:classappend="${o.id == selectedId} ? 'is-sel'">
+                    <td>
+                        <div class="cat-name" th:text="${o.number}">БД-261119-001</div>
+                        <div class="order-item-desc" th:text="${o.date}">19.11.2026 12:00</div>
+                    </td>
+                    <td>
+                        <div th:text="${o.customer}">Иван Иванов</div>
+                        <div class="order-item-desc" th:text="${o.phone}">+7 999 123-45-67</div>
+                    </td>
+                    <td th:text="${o.total}">0 ₽</td>
+                    <td><span class="order-status-badge" th:classappend="${o.status}" th:text="${o.statusLabel}">Новый</span></td>
+                    <td class="actions-links">
+                        <a th:href="@{/admin/orders(id=${o.id}, q=${q}, status=${statusFilter})}">Открыть</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(page.rows)}">
+                    <td colspan="5" class="table-empty">Заказов не найдено</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- выбранный заказ -->
+        <div>
+            <div class="order-details-card" th:if="${page.selected != null}" th:with="d=${page.selected}">
+                <div class="order-details-header">
+                    <h3 th:text="${d.number}">БД-261119-001</h3>
+                    <span class="order-status-badge" th:classappend="${d.status}" th:text="${d.statusLabel}">Новый</span>
+                </div>
+                <p class="order-item-desc" th:text="'Оформлен ' + ${d.date}">Оформлен</p>
+
+                <form class="order-status-form" th:action="@{/admin/orders/{id}/status(id=${d.id})}" method="post">
+                    <input type="hidden" name="q" th:value="${q}">
+                    <input type="hidden" name="filter" th:value="${statusFilter}">
+                    <select class="filter-select" name="status" aria-label="Статус заказа">
+                        <option th:each="s : ${page.statuses}" th:value="${s.code}" th:text="${s.label}"
+                                th:selected="${#strings.toUpperCase(d.status) == s.code}"></option>
+                    </select>
+                    <button type="submit" class="btn-header-action">Сохранить</button>
+                </form>
+
+                <div class="order-section-title">Покупатель</div>
+                <div class="order-customer-name" th:text="${d.customer}">Иван Иванов</div>
+                <div class="order-customer-info">
+                    <div th:text="${d.phone}">+7 999 123-45-67</div>
+                    <div th:if="${!#strings.isEmpty(d.email)}" th:text="${d.email}">mail@example.com</div>
+                </div>
+
+                <div class="order-section-title">Адрес</div>
+                <div class="order-customer-info" th:text="${d.address}">Город, улица, дом</div>
+                <div class="order-customer-info">
+                    <span th:text="${d.deliveryType == 'courier' ? 'Курьерская доставка' : 'Самовывоз'}">Самовывоз</span>
+                    <span th:if="${d.deliveryCost != '0 ₽'}" th:text="${' · доставка ' + d.deliveryCost}"></span>
+                    <span th:if="${!#strings.isEmpty(d.paymentMethod)}" th:text="${' · ' + (d.paymentMethod == 'online' ? 'Онлайн-оплата' : 'Оплата при получении')}"></span>
+                </div>
+
+                <div class="order-section-title">Товары</div>
+                <div class="order-item-row" th:each="l : ${d.lines}">
+                    <img class="order-item-thumb" th:if="${l.image != null}" th:src="${l.image}" alt="">
+                    <div class="order-item-thumb" th:unless="${l.image != null}"></div>
+                    <div class="order-item-info">
+                        <div class="order-item-title" th:text="${l.title}">Раковина</div>
+                        <div class="order-item-desc" th:text="${l.quantity} + ' × ' + ${l.unitPrice}">1 × 48 600 ₽</div>
+                    </div>
+                    <div class="order-item-sum" th:text="${l.sum}">48 600 ₽</div>
+                </div>
+
+                <div class="order-summary-total"><span>Итого</span><span th:text="${d.total}">0 ₽</span></div>
+
+                <div th:if="${!#strings.isEmpty(d.comment)}">
+                    <div class="order-section-title">Комментарий и детали заказа</div>
+                    <div class="order-customer-info order-comment" th:text="${d.comment}"></div>
+                </div>
+            </div>
+
+            <div class="hint-card" th:if="${page.selected == null}">
+                <h4>Выберите заказ</h4>
+                <p>Нажмите «Открыть» в списке, чтобы увидеть состав заказа, контакты и адрес.</p>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

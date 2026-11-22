@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f1f2ee">
+    <title>Оформление заказа — Белый Дом</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}">
+</head>
+<body class="page-checkout" id="top">
+
+<header class="header">
+    <div class="header-inner">
+        <a class="logo-wrapper" th:href="@{/}">
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
+        </a>
+
+        <nav class="nav" id="mainNav" aria-label="Основное меню">
+            <a th:href="@{/catalog}">Каталог</a>
+            <a th:href="@{/#showroom}">Из шоурума</a>
+            <a th:href="@{/#actions}">Акции</a>
+            <a th:href="@{/#sales}">Ликвидации</a>
+            <a class="nav-auth" th:if="${session.username == null}" th:href="@{/login}">Войти</a>
+            <a class="nav-auth" th:if="${session.username == null}" th:href="@{/register}">Регистрация</a>
+            <a class="nav-auth" th:if="${session.username != null and session.isStaff == true}" th:href="@{/admin}">Панель управления</a>
+            <a class="nav-auth" th:if="${session.username != null}" th:href="@{/logout}">Выйти</a>
+        </nav>
+
+        <div class="header-actions">
+            <a class="action-link" th:href="@{/catalog}" aria-label="Поиск">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"/>
+                    <path d="M20 20l-4-4"/>
+                </svg>
+                <span>Поиск</span>
+            </a>
+
+            <span class="action-divider" aria-hidden="true"></span>
+
+            <a class="action-link action-cart" th:href="@{/cart}" aria-label="Корзина">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/>
+                </svg>
+                <span>Корзина</span>
+                <b class="cart-count" data-cart-count hidden></b>
+            </a>
+
+            <span class="action-divider" aria-hidden="true"></span>
+
+            <th:block th:if="${session.username == null}">
+                <a class="action-link action-login" th:href="@{/login}" aria-label="Войти">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+                    </svg>
+                    <span>Войти</span>
+                </a>
+                <a class="btn-reg" th:href="@{/register}">Регистрация</a>
+            </th:block>
+
+            <th:block th:if="${session.username != null}">
+                <a th:if="${session.isStaff}" th:href="@{/admin}" class="staff-badge">
+                    <i class="staff-dot"></i>
+                    <span th:text="${session.isAdmin} ? 'Админ' : 'Сотрудник'">Админ</span>
+                </a>
+                <span class="action-link user-name" th:text="${session.username}">user</span>
+                <a class="btn-reg" th:href="@{/logout}">Выйти</a>
+            </th:block>
+
+            <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mainNav">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="container shop">
+    <div class="co-head">
+        <nav class="crumbs" aria-label="Хлебные крошки">
+            <a th:href="@{/}">Главная</a> /
+            <a th:href="@{/cart}">Корзина</a> /
+            Оформление заказа
+        </nav>
+
+        <div class="steps" aria-label="Шаги оформления">
+            <span>01 Корзина</span>
+            <i></i>
+            <span class="on">02 Данные</span>
+            <i></i>
+            <span>03 Готово</span>
+        </div>
+    </div>
+
+    <h1 class="page-h">Оформление заказа</h1>
+
+    <form class="shop-grid" id="checkoutForm" novalidate
+          th:attr="data-delivery-price=${shopSettings.deliveryPrice},data-free-threshold=${shopSettings.freeDeliveryThreshold}">
+        <div>
+            <section class="co-sec">
+                <h2>Контактные данные</h2>
+                <p class="co-hint">Для подтверждения заказа и связи по доставке.</p>
+
+                <div class="co-grid">
+                    <div class="co-field">
+                        <label for="coFirst">Имя</label>
+                        <input id="coFirst" name="firstName" type="text" maxlength="60" autocomplete="given-name" placeholder="Ваше имя" required>
+                    </div>
+
+                    <div class="co-field">
+                        <label for="coLast">Фамилия</label>
+                        <input id="coLast" name="lastName" type="text" maxlength="60" autocomplete="family-name" placeholder="Ваша фамилия" required>
+                    </div>
+
+                    <div class="co-field">
+                        <label for="coPhone">Телефон</label>
+                        <input id="coPhone" name="phone" type="tel" maxlength="20" autocomplete="tel" placeholder="+7 ___ ___-__-__" required>
+                    </div>
+
+                    <div class="co-field">
+                        <label for="coEmail">E-mail</label>
+                        <input id="coEmail" name="email" type="email" maxlength="160" autocomplete="email" placeholder="mail@example.com">
+                    </div>
+                </div>
+            </section>
+
+            <section class="co-sec">
+                <h2>Доставка</h2>
+
+                <div class="co-opts">
+                    <label class="co-opt" th:if="${shopSettings.pickupEnabled}">
+                        <input type="radio" name="delivery" value="pickup" th:checked="${shopSettings.pickupEnabled}">
+                        <b>Самовывоз из шоурума</b>
+                        <span th:text="${'Забрать после подтверждения менеджером. Адрес: ' + shopSettings.showroomAddress}">Забрать после подтверждения менеджером</span>
+                        <em>0 ₽</em>
+                    </label>
+
+                    <label class="co-opt" th:if="${shopSettings.courierEnabled}">
+                        <input type="radio" name="delivery" value="courier" th:checked="${!shopSettings.pickupEnabled}">
+                        <b>Курьерская доставка</b>
+                        <span th:text="${shopSettings.deliveryTime}">Срок доставки</span>
+                        <em id="coCourierPrice" th:text="${shopSettings.deliveryPrice == null || shopSettings.deliveryPrice == 0 ? '0 ₽' : #numbers.formatDecimal(shopSettings.deliveryPrice, 0, 'WHITESPACE', 0, 'POINT') + ' ₽'}">0 ₽</em>
+                    </label>
+                </div>
+
+                <div class="co-grid">
+                    <div class="co-field co-field--wide">
+                        <label for="coAddress">Адрес</label>
+                        <input id="coAddress" name="address" type="text" maxlength="300" autocomplete="street-address" placeholder="Город, улица, дом, квартира">
+                    </div>
+
+                    <div class="co-field co-field--wide">
+                        <label for="coComment">Комментарий к заказу</label>
+                        <textarea id="coComment" name="comment" maxlength="500" placeholder="Необязательно"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="co-sec">
+                <h2>Оплата</h2>
+
+                <div class="co-opts">
+                    <label class="co-opt co-opt--slim" th:if="${shopSettings.paymentOnDeliveryEnabled}">
+                        <input type="radio" name="payment" value="card_on_delivery" checked>
+                        <b>Картой при получении</b>
+                    </label>
+
+                    <label class="co-opt co-opt--slim" th:if="${shopSettings.onlinePaymentEnabled}">
+                        <input type="radio" name="payment" value="online">
+                        <b>Онлайн картой</b>
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <div class="sum-card" aria-label="Ваш заказ">
+            <h2>Ваш заказ</h2>
+            <div class="co-items" id="coItems"></div>
+
+            <div class="sum-row">
+                <span id="coGoodsLabel">Товары</span>
+                <span id="coGoods">0 ₽</span>
+            </div>
+
+            <div class="sum-row">
+                <span>Доставка</span>
+                <span id="coDelivery">0 ₽</span>
+            </div>
+
+            <div class="sum-total">
+                <span>Итого</span>
+                <b id="coTotal">0 ₽</b>
+            </div>
+
+            <button class="btn-main" id="coSubmit" type="submit">
+                <span>Подтвердить заказ</span>
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 12h16M14 6l6 6-6 6"/>
+                </svg>
+            </button>
+
+            <label class="co-consent">
+                <input type="checkbox" id="coConsent">
+                <span>Согласен с обработкой персональных данных</span>
+            </label>
+
+            <p class="sum-note" id="coNote">Менеджер свяжется для подтверждения заказа.</p>
+            <a class="sum-back" th:href="@{/cart}">← Вернуться в корзину</a>
+        </div>
+    </form>
+</main>
+
+<footer class="footer footer--row">
+    <div class="footer-inner">
+        <a class="footer-logo" th:href="@{/}">
+            <img class="brand-logo" src="/images/logo-footer.svg" alt="Белый Дом">
+        </a>
+
+        <nav class="fr-links" aria-label="Ссылки в подвале">
+            <a th:href="@{/catalog}">Каталог</a>
+            <a th:href="@{/#actions}">Акции</a>
+            <a th:href="@{/#sales}">Ликвидации</a>
+            <a class="fr-admin" th:href="@{/admin/login}">Вход для администратора</a>
+        </nav>
+
+        <a class="fr-up" href="#top" id="toTop">Наверх ↑</a>
+    </div>
+</footer>
+
+<script th:src="@{/script.js}"></script>
+</body>
+</html>

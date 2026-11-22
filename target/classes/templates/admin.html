@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Панель управления — Белый Дом</title>
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}"/>
+    <style>
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="page-admin">
+
+<!-- Боковое меню -->
+<aside>
+    <div class="aside-header">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        Белый Дом
+    </div>
+
+    <div class="nav-menu">
+        <a class="nav-item" href="/admin" th:classappend="${activeSection == 'overview'} ? 'active'">
+            <svg viewBox="0 0 24 24"><rect height="7" width="7" x="3" y="3"></rect><rect height="7" width="7" x="14" y="3"></rect><rect height="7" width="7" x="14" y="14"></rect><rect height="7" width="7" x="3" y="14"></rect></svg>
+            Обзор
+        </a>
+        <a class="nav-item" href="/admin/products" th:classappend="${activeSection == 'products' || activeSection == 'product-add' || activeSection == 'product-edit'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            Товары
+        </a>
+        <a class="nav-item" href="/admin/categories" th:classappend="${activeSection == 'categories'} ? 'active'">
+            <svg viewBox="0 0 24 24"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line></svg>
+            Категории
+        </a>
+        <a class="nav-item" href="/admin/orders" th:classappend="${activeSection == 'orders'} ? 'active'">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            Заказы
+        </a>
+        <a class="nav-item" href="/admin/promotions" th:classappend="${activeSection == 'promotions'} ? 'active'">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Акции
+        </a>
+        <a class="nav-item" href="/admin/liquidation" th:classappend="${activeSection == 'liquidation'} ? 'active'">
+            <svg viewBox="0 0 24 24"><line x1="19" x2="5" y1="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
+            Ликвидация
+        </a>
+        <a class="nav-item" href="/admin/clients" th:classappend="${activeSection == 'clients'} ? 'active'">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+            Клиенты
+        </a>
+        <a class="nav-item" href="/admin/settings" th:classappend="${activeSection == 'settings'} ? 'active'">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 1 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2z"></path></svg>
+            Настройки
+        </a>
+    </div>
+
+    <div style="padding: 20px 24px; border-top: 1px solid rgba(255,255,255,0.05);">
+        <a href="/logout" style="color: #ff8a80; text-decoration: none; font-size: 14px;">Выйти из системы</a>
+    </div>
+</aside>
+
+<!-- Основной контент -->
+<main>
+
+    <!-- Шапка -->
+    <div class="top-header">
+        <div class="page-title">
+            <h1 th:text="${activeSection == 'categories'} ? 'Категории' :
+                          (${activeSection == 'orders'} ? 'Заказы' :
+                          (${activeSection == 'promotions'} ? 'Акции' :
+                          (${activeSection == 'liquidation'} ? 'Ликвидация' :
+                          (${activeSection == 'clients'} ? 'Клиенты' :
+                          (${activeSection == 'settings'} ? 'Настройки' :
+                          (${activeSection == 'product-add'} ? 'Добавить товар' :
+                          (${activeSection == 'product-edit'} ? 'Редактировать товар' : 'Панель управления')))))))">Панель управления</h1>
+
+            <p th:text="${activeSection == 'categories'} ? 'Управляйте структурой каталога и категориями товаров.' :
+                        (${activeSection == 'orders'} ? 'Просматривайте заявки покупателей и меняйте статус выполнения.' :
+                        (${activeSection == 'promotions'} ? 'Создавайте скидки, управляйте сроками и товарами со скидкой.' :
+                        (${activeSection == 'liquidation'} ? 'Управляйте остатками и товарами, выводимыми из коллекции.' :
+                        (${activeSection == 'clients'} ? 'Покупатели, история заказов и общая сумма покупок.' :
+                        (${activeSection == 'settings'} ? 'Данные магазина, доставка, оплата, уведомления и доступ сотрудников.' :
+                        (${activeSection == 'product-add'} ? 'Создание новой карточки товара' :
+                        (${activeSection == 'product-edit'} ? 'Редактирование карточки товара' : 'Управляйте товарами, заказами и акциями интернет-магазина «Белый Дом».')))))))">Описание</p>
+        </div>
+
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <a class="btn-header-action" href="#promoFormCard" th:if="${activeSection == 'promotions'}">+ Создать новую акцию</a>
+            <a class="btn-header-action" href="#liqCardForm" id="btnAddLiquidationTop" th:if="${activeSection == 'liquidation'}">+ Добавить в ликвидацию</a>
+            <a class="btn-header-action" th:href="@{/admin/products/new}" th:if="${activeSection == 'products' || activeSection == 'overview'}">+ Добавить товар</a>
+            <div class="user-dropdown">
+                <span th:text="${isAdmin} ? 'Администратор' : 'Сотрудник'">Администратор</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ: КАТЕГОРИИ -->
+    <div th:if="${activeSection == 'categories'}">
+        <div class="stats-grid-cat">
+            <div class="stat-card">
+                <div class="label">Всего категорий</div>
+                <div class="value" th:text="${totalCategoriesCount != null ? totalCategoriesCount : 0}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Товаров в каталоге</div>
+                <div class="value" th:text="${totalProductsCount != null ? totalProductsCount : 0}">0</div>
+            </div>
+        </div>
+
+        <form class="search-box" method="get" action="/admin/categories">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg>
+            <label class="visually-hidden" for="catSearch">Поиск по названию категории</label>
+            <input id="catSearch" name="q" placeholder="Поиск по названию категории" type="text" th:value="${categoryQuery}"/>
+        </form>
+
+        <div class="admin-grid-with-preview">
+            <div class="table-card">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Категория</th>
+                        <th>Товаров</th>
+                        <th>Каталог</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cat : ${categories}">
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="cat-thumb"></div>
+                                <div class="cat-name" th:text="${cat.name()}">Категория</div>
+                            </div>
+                        </td>
+                        <td th:text="${cat.count()}">0</td>
+                        <td>
+                            <a th:href="@{/catalog(category=${cat.name()})}">Открыть в каталоге</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${categories == null || #lists.isEmpty(categories)}">
+                        <td colspan="3" style="text-align: center; padding: 24px; color: #666;">Категории не найдены</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="preview-card">
+                <h3>Переименовать категорию</h3>
+                <p class="subtitle">Обновит название категории у всех товаров в каталоге</p>
+                <form method="post" action="/admin/categories/rename">
+                    <div class="form-group">
+                        <label for="oldCategorySelect">Текущая категория <span>*</span></label>
+                        <select class="form-control" id="oldCategorySelect" name="oldName" required>
+                            <option value="" disabled selected>Выберите категорию</option>
+                            <option th:each="cat : ${categories}" th:value="${cat.name()}" th:text="${cat.name()}">Категория</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCategoryName">Новое название <span>*</span></label>
+                        <input class="form-control" id="newCategoryName" name="newName" placeholder="Например, Ванные гарнитуры" required type="text"/>
+                    </div>
+                    <button class="btn-submit-cat" type="submit">Сохранить название</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ: АКЦИИ -->
+    <div th:if="${activeSection == 'promotions'}">
+        <div th:if="${promoSaved}" style="margin-bottom: 16px; padding: 12px 16px; border-radius: 8px; background: #e8f3ec; color: #1b5e20; font-size: 14px;">
+            Изменения по акции сохранены.
+        </div>
+        <div th:if="${param.error != null}" style="margin-bottom:16px;padding:12px;background:#fde8e7;color:#8a1c16;border-radius:8px;">Укажите цену ниже прежней цены товара. Товар из ликвидации нельзя одновременно включить в акцию.</div>
+
+        <div class="stats-grid-cat">
+            <div class="stat-card">
+                <div class="label">Товаров со скидкой</div>
+                <div class="value" th:text="${saleProducts != null ? #lists.size(saleProducts) : 0}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Всего товаров</div>
+                <div class="value" th:text="${products != null ? #lists.size(products) : 0}">0</div>
+            </div>
+        </div>
+
+        <div class="admin-grid-with-preview">
+            <div>
+                <div class="admin-form-card" id="promoFormCard">
+                    <h3>Новая акция</h3>
+                    <form id="promoForm" th:action="@{/admin/promotions/launch}" method="post">
+                        <div class="form-group">
+                            <label for="promoProductSelect">Товар <span>*</span></label>
+                            <select class="form-control" id="promoProductSelect" name="productId">
+                                <option th:each="pr : ${products}"
+                                        th:value="${pr.id}"
+                                        th:text="${pr.title}"
+                                        th:attr="data-title=${pr.title},data-price=${pr.price},data-old=${pr.oldPrice},data-img=${pr.imageUrl}"
+                                        th:selected="${selectedProduct != null && selectedProduct.id == pr.id}">
+                                    Товар
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div>
+                                <label for="promoOldPrice">Старая цена</label>
+                                <input class="form-control" id="promoOldPrice" name="oldPrice" type="text" readonly
+                                        th:value="${selectedProduct != null && selectedProduct.oldPrice != null ? #numbers.formatDecimal(selectedProduct.oldPrice, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : (selectedProduct != null && selectedProduct.price != null ? #numbers.formatDecimal(selectedProduct.price, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : '')}"/>
+                            </div>
+                            <div>
+                                <label for="promoNewPrice">Новая цена <span>*</span></label>
+                                <input class="form-control" id="promoNewPrice" name="newPrice" required type="text"
+                                        th:value="${selectedProduct != null && selectedProduct.price != null ? #numbers.formatDecimal(selectedProduct.price, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : ''}"/>
+                            </div>
+                            <div>
+                                <label for="promoDiscount">Скидка</label>
+                                <input class="form-control" id="promoDiscount" readonly type="text" value="0%"/>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button class="btn-submit-cat" style="width: auto; padding: 0 24px;" type="submit">Запустить акцию</button>
+                            <button class="form-control" id="promoSaveBtn" style="width: auto; background: #eae5d8; border: none; cursor: pointer; border-radius: 8px; padding: 0 20px;" type="submit">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-card" id="promoActiveTable">
+                    <div style="padding: 20px 24px; font-size: 18px; font-family: var(--serif), serif; border-bottom: 1px solid #eee;">Товары в акции</div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Товар</th>
+                            <th>Цена</th>
+                            <th>Старая цена</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sp : ${saleProducts}">
+                            <td style="font-weight: 500;" th:text="${sp.title}">Товар</td>
+                            <td th:text="${#numbers.formatDecimal(sp.price, 0, 'WHITESPACE', 0, 'POINT') + ' ₽'}">0 ₽</td>
+                            <td>
+                                <s th:if="${sp.oldPrice != null}" th:text="${#numbers.formatDecimal(sp.oldPrice, 0, 'WHITESPACE', 0, 'POINT') + ' ₽'}">0 ₽</s>
+                                <span th:if="${sp.oldPrice == null}">—</span>
+                            </td>
+                            <td><span class="order-status-badge paid">Активна</span></td>
+                            <td>
+                                <div class="actions-links" style="display: flex; gap: 12px; align-items: center;">
+                                    <a href="#promoFormCard"
+                                       class="js-edit-promo"
+                                       th:attr="data-id=${sp.id},data-price=${sp.price},data-old=${sp.oldPrice}">Изменить</a>
+                                    <form th:action="@{/admin/promotions/finish}" method="post" style="display: inline; margin: 0;">
+                                        <input type="hidden" name="productId" th:value="${sp.id}"/>
+                                        <button type="submit" style="background: none; border: none; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit;">Завершить</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${saleProducts == null || #lists.isEmpty(saleProducts)}">
+                            <td colspan="5" style="text-align: center; padding: 24px; color: #666;">Пока нет товаров со скидкой</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Превью акции -->
+            <div class="preview-card">
+                <h3>Предпросмотр</h3>
+                <div class="preview-box" id="promoPreviewBox" style="background: #b5a48b; overflow: hidden;">
+                    <img id="promoPreviewImg"
+                         th:if="${selectedProduct != null && selectedProduct.imageUrl != null && !#strings.isEmpty(selectedProduct.imageUrl)}"
+                         th:src="${selectedProduct.imageUrl}"
+                         alt=""
+                         style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
+                    <span class="badge sale" style="position: absolute; left: 12px; top: 12px;">Акция</span>
+                </div>
+                <div id="promoPreviewTitle" style="font-family: var(--serif), serif; font-size: 20px; margin-top: 12px;"
+                     th:text="${selectedProduct != null ? selectedProduct.title : 'Товар'}">Товар</div>
+                <div style="display: flex; gap: 15px; align-items: baseline; margin-top: 8px;">
+                    <s id="promoPreviewOld" style="color: #888; font-size: 13px;"
+                       th:text="${selectedProduct != null && selectedProduct.oldPrice != null ? #numbers.formatDecimal(selectedProduct.oldPrice, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : ''}"></s>
+                    <span id="promoPreviewNew" style="font-family: var(--serif), serif; font-size: 22px; color: #b71c1c;"
+                           th:text="${selectedProduct != null && selectedProduct.price != null ? #numbers.formatDecimal(selectedProduct.price, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : 'Цена уточняется'}">0 ₽</span>
+                </div>
+                <div style="font-size: 12px; color: #666; margin-top: 8px;">Акция применяется к карточке товара в каталоге</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ: ЛИКВИДАЦИЯ -->
+    <div th:if="${activeSection == 'liquidation'}">
+        <div th:if="${liqSaved}" style="margin-bottom: 16px; padding: 12px 16px; border-radius: 8px; background: #e8f3ec; color: #1b5e20; font-size: 14px;">
+            Изменения в разделе ликвидации сохранены.
+        </div>
+        <div th:if="${param.error != null}" style="margin-bottom:16px;padding:12px;background:#fde8e7;color:#8a1c16;border-radius:8px;">Проверьте остаток и укажите цену ниже прежней. Товар из акции сначала нужно завершить.</div>
+
+        <div class="stats-grid-cat">
+            <div class="stat-card">
+                <div class="label">Товаров в ликвидации</div>
+                <div class="value" th:text="${totalLiquidationCount != null ? totalLiquidationCount : 0}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Всего товаров в каталоге</div>
+                <div class="value" th:text="${products != null ? #lists.size(products) : 0}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Средняя скидка</div>
+                <div class="value" th:text="${avgLiquidationDiscount != null && avgLiquidationDiscount > 0 ? '-' + avgLiquidationDiscount + '%' : '0%'}">0%</div>
+            </div>
+        </div>
+
+        <form class="orders-filters-bar" method="get" action="/admin/liquidation" style="grid-template-columns: 2fr 1fr auto;">
+            <div class="search-box" style="margin-bottom: 0;">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg>
+                <label class="visually-hidden" for="liqSearch">Поиск по названию или категории</label>
+                <input id="liqSearch" name="q" placeholder="Поиск по названию или категории" type="text" th:value="${liqQuery}"/>
+            </div>
+            <label class="visually-hidden" for="liqCategoryFilter">Категория</label>
+            <select class="filter-select" id="liqCategoryFilter" name="category">
+                <option value="">Все категории</option>
+                <option th:each="c : ${categories}" th:value="${c}" th:text="${c}" th:selected="${c == liqCategory}"></option>
+            </select>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button type="submit" class="btn-header-action">Найти</button>
+                <a href="/admin/liquidation" class="btn-header-action btn-ghost">Сбросить</a>
+            </div>
+        </form>
+
+        <div class="admin-grid-with-preview">
+            <div class="table-card">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена до</th>
+                        <th>Цена после</th>
+                        <th>Остаток</th>
+                        <th>Скидка</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="row : ${liquidationRows}">
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="cat-thumb"></div>
+                                <div>
+                                    <div class="cat-name" th:text="${row.title()}">Товар</div>
+                                    <div style="font-size: 11px; color: #888;" th:text="${row.category()}">Категория</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <s th:if="${row.oldPrice() != null}" th:text="${#numbers.formatDecimal(row.oldPrice(), 0, 'WHITESPACE', 0, 'POINT') + ' ₽'}">0 ₽</s>
+                            <span th:if="${row.oldPrice() == null}">—</span>
+                        </td>
+                        <td style="font-weight: 600; color: #b71c1c;" th:text="${#numbers.formatDecimal(row.price(), 0, 'WHITESPACE', 0, 'POINT') + ' ₽'}">0 ₽</td>
+                        <td th:text="${row.stockLabel()}">10 шт.</td>
+                        <td th:text="${row.discountPercent() > 0 ? '-' + row.discountPercent() + '%' : '—'}">—</td>
+                        <td>
+                            <div class="actions-links" style="display: flex; gap: 10px; align-items: center;">
+                                <a th:href="@{/admin/liquidation(productId=${row.id()}, q=${liqQuery}, category=${liqCategory})}">Изменить</a>
+                                <form th:action="@{/admin/liquidation/remove}" method="post" style="display: inline; margin: 0;">
+                                    <input type="hidden" name="productId" th:value="${row.id()}"/>
+                                    <button type="submit" style="background: none; border: none; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit;">Убрать</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${liquidationRows == null || #lists.isEmpty(liquidationRows)}">
+                        <td colspan="6" style="text-align: center; padding: 24px; color: #666;">Товаров в ликвидации пока нет</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Правая панель карточки ликвидации -->
+            <div class="preview-card" id="liqCardForm">
+                <h3>Карточка ликвидации</h3>
+                <div style="font-size: 11px; color: #888; margin-bottom: 12px;">Выберите товар и сохраните параметры ликвидации</div>
+
+                <div class="preview-box" id="liqPreviewBox" style="background: #b5a48b; overflow: hidden;">
+                    <img id="liqPreviewImg"
+                         th:if="${selectedProduct != null && selectedProduct.imageUrl != null && !#strings.isEmpty(selectedProduct.imageUrl)}"
+                         th:src="${selectedProduct.imageUrl}"
+                         alt=""
+                         style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
+                    <span class="badge sale" style="position: absolute; left: 12px; top: 12px; background: #b71c1c;">Ликвидация</span>
+                </div>
+                <div id="liqPreviewTitle" style="font-family: var(--serif), serif; font-size: 20px; margin-top: 12px;"
+                     th:text="${selectedProduct != null ? selectedProduct.title : 'Товар'}">Товар</div>
+                <div style="display: flex; gap: 15px; align-items: baseline; margin-top: 8px; margin-bottom: 16px;">
+                    <s id="liqPreviewOld" style="color: #888; font-size: 13px;"
+                       th:text="${selectedProduct != null && selectedProduct.oldPrice != null ? #numbers.formatDecimal(selectedProduct.oldPrice, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : ''}"></s>
+                    <span id="liqPreviewNew" style="font-family: var(--serif), serif; font-size: 22px; color: #b71c1c;"
+                          th:text="${selectedProduct != null && selectedProduct.price != null ? #numbers.formatDecimal(selectedProduct.price, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : 'Цена уточняется'}">0 ₽</span>
+                </div>
+
+                <form id="liqForm" th:action="@{/admin/liquidation/save}" method="post">
+                    <div class="form-group">
+                        <label for="liqProductSelect">Товар <span>*</span></label>
+                        <select class="form-control" id="liqProductSelect" name="productId">
+                            <option th:each="pr : ${products}"
+                                    th:value="${pr.id}"
+                                    th:text="${pr.title}"
+                                    th:attr="data-title=${pr.title},data-price=${pr.price},data-old=${pr.oldPrice},data-img=${pr.imageUrl},data-stock=${pr.stock},data-reason=${pr.liquidationReason}"
+                                    th:selected="${selectedProduct != null && selectedProduct.id == pr.id}">
+                                Товар
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label for="liqOldPrice">Цена до *</label>
+                            <input class="form-control" id="liqOldPrice" name="oldPrice" type="text" readonly
+                                   th:value="${selectedProduct != null && selectedProduct.oldPrice != null ? #numbers.formatDecimal(selectedProduct.oldPrice, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : (selectedProduct != null && selectedProduct.price != null ? #numbers.formatDecimal(selectedProduct.price, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : '')}"/>
+                        </div>
+                        <div>
+                            <label for="liqNewPrice">Цена после *</label>
+                            <input class="form-control" id="liqNewPrice" name="newPrice" required type="text"
+                                    th:value="${selectedProduct != null && selectedProduct.price != null ? #numbers.formatDecimal(selectedProduct.price, 0, 'WHITESPACE', 0, 'POINT') + ' ₽' : ''}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="liqStock">Остаток *</label>
+                        <input class="form-control" id="liqStock" name="stock" type="number" min="0"
+                               th:value="${selectedProduct != null ? selectedProduct.stock : 10}"/>
+                    </div>
+
+                    <div class="toggle-group" style="margin-top: 15px; margin-bottom: 18px;">
+                        <span>Показывать в ликвидации</span>
+                        <label class="visually-hidden" for="liqShowOnSite">Показывать в ликвидации</label>
+                        <label class="switch" for="liqShowOnSite">
+                            <input id="liqShowOnSite" name="showOnSite" type="checkbox" value="1"
+                                   th:checked="${selectedProduct != null && selectedProduct.badge != null && #strings.equalsIgnoreCase(selectedProduct.badge, 'liquidation')}"/>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Причина ликвидации *</label>
+                        <div class="radio-group-vertical" style="margin-top: 8px;">
+                            <label class="radio-label" for="liqReason1">
+                                <input id="liqReason1" name="reason" type="radio" value="Вывод из коллекции"
+                                       th:checked="${selectedProduct == null || selectedProduct.liquidationReason == null || selectedProduct.liquidationReason == 'Вывод из коллекции'}"/>
+                                Вывод из коллекции
+                            </label>
+                            <label class="radio-label" for="liqReason2">
+                                <input id="liqReason2" name="reason" type="radio" value="Последние остатки"
+                                       th:checked="${selectedProduct != null && selectedProduct.liquidationReason == 'Последние остатки'}"/>
+                                Последние остатки
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn-submit-cat" style="margin-top: 20px;" type="submit">Сохранить изменения</button>
+                    <a href="/admin/liquidation" class="form-control" style="margin-top: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: none; border: 1px solid #dcd8ce; cursor: pointer; border-radius: 8px;">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- РАЗДЕЛ: КЛИЕНТЫ -->
+    <div th:if="${activeSection == 'clients'}">
+        <div class="stats-grid-cat" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="stat-card">
+                <div class="label">Всего клиентов</div>
+                <div class="value" th:text="${totalClientsCount != null ? totalClientsCount : 0}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Повторные покупки</div>
+                <div class="value" th:text="${(repeatPercent != null ? repeatPercent : 0) + '%'}">0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Средний чек</div>
+                <div class="value" th:text="${avgCheckFormatted != null ? avgCheckFormatted : '0 ₽'}">0 ₽</div>
+            </div>
+        </div>
+
+        <form class="orders-filters-bar" method="get" action="/admin/clients" style="grid-template-columns: 2fr 1fr 1fr 1fr auto;">
+            <div class="search-box" style="margin-bottom: 0;">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg>
+                <label class="visually-hidden" for="clientSearch">Поиск по имени, телефону или email</label>
+                <input id="clientSearch" name="q" placeholder="Поиск по имени, телефону или email" type="text" th:value="${clientQuery}"/>
+            </div>
+
+            <label class="visually-hidden" for="clientSegment">Сегмент</label>
+            <select class="filter-select" id="clientSegment" name="segment">
+                <option value="" th:selected="${#strings.isEmpty(clientSegment)}">Все сегменты</option>
+                <option value="REPEAT" th:selected="${clientSegment == 'REPEAT'}">Повторные (2+)</option>
+                <option value="VIP" th:selected="${clientSegment == 'VIP'}">Крупные (от 100 000 ₽)</option>
+            </select>
+
+            <label class="visually-hidden" for="clientOrdersFilter">Заказы</label>
+            <select class="filter-select" id="clientOrdersFilter" name="ordersFilter">
+                <option value="" th:selected="${#strings.isEmpty(clientOrdersFilter)}">Любое кол-во заказов</option>
+                <option value="1" th:selected="${clientOrdersFilter == '1'}">1 заказ</option>
+                <option value="2+" th:selected="${clientOrdersFilter == '2+'}">2 и более</option>
+                <option value="3+" th:selected="${clientOrdersFilter == '3+'}">3 и более</option>
+            </select>
+
+            <label class="visually-hidden" for="clientAmountFilter">Сумма</label>
+            <select class="filter-select" id="clientAmountFilter" name="amountFilter">
+                <option value="" th:selected="${#strings.isEmpty(clientAmountFilter)}">Любая сумма</option>
+                <option value="50K+" th:selected="${clientAmountFilter == '50K+'}">От 50 000 ₽</option>
+                <option value="100K+" th:selected="${clientAmountFilter == '100K+'}">От 100 000 ₽</option>
+            </select>
+
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button type="submit" class="btn-header-action">Найти</button>
+                <a href="/admin/clients" class="btn-header-action btn-ghost">Сбросить</a>
+            </div>
+        </form>
+
+        <div class="admin-grid-with-preview" style="grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);">
+            <div class="table-card" style="overflow-x: auto;">
+                <table style="min-width: 620px;">
+                    <thead>
+                    <tr>
+                        <th>Клиент</th>
+                        <th>Телефон</th>
+                        <th>Заказов</th>
+                        <th>Сумма</th>
+                        <th>Открыть</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="c : ${clients}" th:classappend="${selectedClient != null && selectedClient.key() == c.key()} ? 'is-sel'">
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 36px; height: 36px; flex: 0 0 36px; background: #e0dcd0; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 600;"
+                                     th:text="${c.initials()}">КЛ</div>
+                                <div>
+                                    <div class="cat-name" th:text="${c.name()}">Имя</div>
+                                    <div style="font-size: 11px; color: #888;" th:text="${c.email()}">email</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td th:text="${c.phone()}">+7</td>
+                        <td th:text="${c.ordersCount()}">0</td>
+                        <td style="font-weight: 600; white-space: nowrap;" th:text="${c.totalSpentFormatted()}">0 ₽</td>
+                        <td class="actions-links">
+                            <a th:href="@{/admin/clients(clientKey=${c.key()}, q=${clientQuery}, segment=${clientSegment}, ordersFilter=${clientOrdersFilter}, amountFilter=${clientAmountFilter})}">Карточка</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${clients == null || #lists.isEmpty(clients)}">
+                        <td colspan="5" style="text-align: center; padding: 24px; color: #666;">Клиенты не найдены</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Правая панель карточки клиента -->
+            <div class="preview-card" th:if="${selectedClient != null}">
+                <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
+                    <div style="width: 44px; height: 44px; flex: 0 0 44px; background: #e0dcd0; border-radius: 50%; display: grid; place-items: center; font-weight: 600;"
+                         th:text="${selectedClient.initials()}">КЛ</div>
+                    <div>
+                        <div style="font-family: var(--serif), serif; font-size: 18px;" th:text="${selectedClient.name()}">Имя</div>
+                        <div style="font-size: 12px; color: #888;" th:text="'Последний заказ: ' + ${selectedClient.lastOrderDate()}">Последний заказ</div>
+                    </div>
+                </div>
+
+                <div class="order-section-title">Контакты</div>
+                <div class="order-customer-info">
+                    <div th:if="${!#strings.isEmpty(selectedClient.phone())}" th:text="${selectedClient.phone()}"></div>
+                    <div th:if="${!#strings.isEmpty(selectedClient.email())}" th:text="${selectedClient.email()}"></div>
+                    <div th:if="${!#strings.isEmpty(selectedClient.address())}" th:text="${selectedClient.address()}"></div>
+                </div>
+
+                <div class="order-section-title">Статистика</div>
+                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-top: 6px;">
+                    <span style="color: #666;">Заказов</span><span style="font-weight: 500;" th:text="${selectedClient.ordersCount()}">0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-top: 6px;">
+                    <span style="color: #666;">Общая сумма</span><span style="font-weight: 500;" th:text="${selectedClient.totalSpentFormatted()}">0 ₽</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-top: 6px;">
+                    <span style="color: #666;">Средний чек</span><span style="font-weight: 500;" th:text="${selectedClient.avgCheckFormatted()}">0 ₽</span>
+                </div>
+
+                <div class="order-section-title" style="margin-top: 20px;">Заказы клиента</div>
+                <div th:each="ord : ${selectedClient.recentOrders()}"
+                     style="background: #faf8f5; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <a th:href="@{/admin/orders(id=${ord.id()})}" style="color: inherit; text-decoration: none;"><b th:text="${ord.number()}">№</b></a>
+                        <span th:text="${ord.totalFormatted()}">0 ₽</span>
+                    </div>
+                    <div style="font-size: 11px; color: #888;" th:text="${ord.date() + ' · ' + ord.statusLabel()}">Дата</div>
+                </div>
+
+                <a class="btn-submit-cat"
+                   style="margin-top: 20px; display: flex; align-items: center; justify-content: center; text-decoration: none;"
+                   th:href="@{/admin/orders(q=${selectedClient.searchKey()})}">Открыть все заказы</a>
+            </div>
+
+            <div class="preview-card" th:if="${selectedClient == null}">
+                <h3>Клиент не выбран</h3>
+                <p class="subtitle">В базе пока нет заказов от покупателей или фильтры не дали совпадений.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Рабочие настройки магазина -->
+    <div th:if="${activeSection == 'settings'}">
+        <p th:if="${param.saved != null}" style="padding:12px;background:#e8f3ec;border-radius:8px;">Настройки сохранены.</p>
+        <p th:if="${param.error != null}" style="padding:12px;background:#fde8e7;border-radius:8px;">Проверьте email, название магазина, стоимость доставки и оставьте включёнными доставку и оплату при получении.</p>
+        <form th:action="@{/admin/settings}" th:object="${settings}" method="post" class="settings-grid">
+            <div class="settings-section-card">
+                <h3>Контакты магазина</h3>
+                <div class="form-group"><label for="storeName">Название</label><input class="form-control" id="storeName" th:field="*{storeName}" maxlength="120" required></div>
+                <div class="form-group"><label for="storePhone">Телефон</label><input class="form-control" id="storePhone" th:field="*{phone}" maxlength="32"></div>
+                <div class="form-group"><label for="storeEmail">Email</label><input class="form-control" id="storeEmail" th:field="*{email}" type="email" maxlength="160"></div>
+                <div class="form-group"><label for="showroomAddress">Адрес шоурума</label><input class="form-control" id="showroomAddress" th:field="*{showroomAddress}" maxlength="300"></div>
+            </div>
+            <div class="settings-section-card">
+                <h3>Доставка</h3>
+                <label><input type="checkbox" th:field="*{courierEnabled}"> Курьерская доставка доступна</label><br>
+                <label><input type="checkbox" th:field="*{pickupEnabled}"> Самовывоз доступен</label>
+                <div class="form-group"><label for="deliveryPrice">Стоимость, ₽</label><input class="form-control" id="deliveryPrice" th:field="*{deliveryPrice}" type="number" min="0" step="0.01"></div>
+                <div class="form-group"><label for="freeDeliveryThreshold">Бесплатно от, ₽ (0 — отключено)</label><input class="form-control" id="freeDeliveryThreshold" th:field="*{freeDeliveryThreshold}" type="number" min="0" step="0.01"></div>
+                <div class="form-group"><label for="deliveryTime">Срок доставки</label><input class="form-control" id="deliveryTime" th:field="*{deliveryTime}" maxlength="120"></div>
+            </div>
+            <div class="settings-section-card">
+                <h3>Оплата</h3>
+                <label><input type="checkbox" th:field="*{paymentOnDeliveryEnabled}"> Оплата при получении</label><br>
+                <label><input type="checkbox" disabled> Онлайн-оплата</label>
+                <p style="color:#8a4b08;margin-top:12px;">Эквайринг не подключён. Онлайн-оплата появится после подключения платёжного сервиса.</p>
+            </div>
+            <div class="settings-section-card" style="grid-column:1/-1;">
+                <button class="btn-submit-cat" type="submit">Сохранить настройки</button>
+            </div>
+        </form>
+
+        <section class="settings-section-card" th:if="${isAdmin}" style="margin-top:24px;">
+            <h3>Сотрудники и доступ</h3>
+            <p th:if="${param.staffSaved != null}" style="color:#1b5e20;">Изменения доступа сохранены.</p>
+            <p th:if="${param.staffError != null}" style="color:#b42318;">Не удалось выполнить действие. Проверьте данные; пароль должен содержать минимум 8 символов, букву и цифру.</p>
+            <table><thead><tr><th>Имя</th><th>Логин</th><th>Email</th><th>Роль</th><th>Действия</th></tr></thead>
+                <tbody><tr th:each="u : ${staffUsers}">
+                    <td th:text="${u.fullName}">Имя</td><td th:text="${u.username}">Логин</td><td th:text="${u.email}">email</td>
+                    <td><form th:action="@{/admin/staff/{id}/role(id=${u.id})}" method="post" style="display:flex;gap:6px;align-items:center;">
+                        <select name="role"><option value="ADMIN" th:selected="${u.role == 'ADMIN'}">Администратор</option><option value="STAFF" th:selected="${u.role == 'STAFF'}">Сотрудник</option></select><button type="submit">Сменить</button></form></td>
+                    <td><form th:action="@{/admin/staff/{id}/delete(id=${u.id})}" method="post" onsubmit="return confirm('Удалить доступ этого пользователя?');"><button class="delete" type="submit">Удалить</button></form></td>
+                </tr></tbody>
+            </table>
+            <h4 style="margin:24px 0 12px;">Добавить сотрудника</h4>
+            <form th:action="@{/admin/staff/add}" method="post" class="editor-grid">
+                <input class="form-control" name="fullName" placeholder="Имя сотрудника" maxlength="160" required>
+                <input class="form-control" name="username" placeholder="Логин" minlength="3" maxlength="80" required>
+                <input class="form-control" name="email" type="email" placeholder="Email" maxlength="160" required>
+                <input class="form-control" name="password" type="password" placeholder="Пароль: 8+ символов, буква и цифра" minlength="8" maxlength="64" required>
+                <button class="btn-submit-cat" type="submit">Создать сотрудника</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- ОБЗОР / ТОВАРЫ -->
+    <div th:if="${activeSection == 'overview' || activeSection == 'products'}">
+        <div class="stats-grid" th:if="${activeSection == 'overview'}">
+            <div class="stat-card"><div class="label">Всего товаров</div><div class="value" th:text="${productCount}">0</div></div>
+            <div class="stat-card"><div class="label">Новые заказы</div><div class="value" th:text="${newOrderCount}">0</div></div>
+            <div class="stat-card"><div class="label">Акции</div><div class="value" th:text="${promotionCount}">0</div></div>
+            <div class="stat-card"><div class="label">В шоуруме</div><div class="value" th:text="${showroomCount}">0</div></div>
+        </div>
+
+        <form th:action="${activeSection == 'products'} ? @{/admin/products} : @{/admin}" method="get" style="display:flex;gap:10px;margin:18px 0;">
+            <input class="form-control" type="search" name="keyword" placeholder="Поиск по названию, категории или артикулу" th:value="${keyword}" style="max-width:420px;">
+            <button class="btn-header-action" type="submit">Найти</button>
+            <a class="btn-header-action btn-ghost" th:href="${activeSection == 'products'} ? @{/admin/products} : @{/admin}">Сбросить</a>
+        </form>
+
+        <div class="table-card">
+            <table>
+                <thead><tr><th>Фото</th><th>Название</th><th>Категория</th><th>Цена</th><th>Остаток</th><th>Статус</th><th>Действия</th></tr></thead>
+                <tbody>
+                <tr th:each="p : ${products}">
+                    <td><img class="product-thumb" th:if="${p.imageUrl != null && !#strings.isEmpty(p.imageUrl)}" th:src="${p.imageUrl}" th:alt="${p.title}" style="width:52px;height:52px;object-fit:cover;border-radius:6px;"><span th:unless="${p.imageUrl != null && !#strings.isEmpty(p.imageUrl)}">—</span></td>
+                    <td><b th:text="${p.title}">Товар</b><br/><span th:if="${p.article != null}" style="font-size:11px;color:#888;" th:text="${'Артикул: ' + p.article}">Артикул</span><span th:if="${p.barcode != null}" style="font-size:11px;color:#888;" th:text="${'Штрихкод: ' + p.barcode}">Штрихкод</span><br/><span style="font-size:11px;color:#888;" th:text="${'ID ' + p.id}">ID</span></td>
+                    <td th:text="${p.category}">Категория</td>
+                    <td><span th:if="${p.price != null}" th:text="${#numbers.formatDecimal(p.price, 0, 'WHITESPACE', 2, 'POINT') + ' ₽'}">0 ₽</span><span th:unless="${p.price != null}">Цена уточняется</span><br/><s th:if="${p.oldPrice != null}" th:text="${#numbers.formatDecimal(p.oldPrice, 0, 'WHITESPACE', 2, 'POINT') + ' ₽'}"></s></td>
+                    <td th:text="${p.stock != null ? p.stock + ' шт.' : '—'}">—</td>
+                    <td><span class="badge active" th:text="${p.badge == 'sale' ? 'Акция' : (p.badge == 'liquidation' ? 'Ликвидация' : (p.price == null || p.price <= 0 || p.stock == null || p.stock <= 0 ? 'Пока недоступен' : 'Опубликован'))}">Опубликован</span></td>
+                    <td><div class="actions-links"><a th:href="@{/admin/products/edit/{id}(id=${p.id})}">Редактировать</a>
+                        <form th:if="${isAdmin}" th:action="@{/admin/products/delete/{id}(id=${p.id})}" method="post" style="display:inline" onsubmit="return confirm('Удалить товар из каталога?');"><button class="delete" type="submit" style="border:0;background:none;cursor:pointer;font:inherit;">Удалить</button></form>
+                        <span th:unless="${isAdmin}" style="color:#999">Удалять может администратор</span></div></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(products)}"><td colspan="7" style="text-align:center;padding:28px;">Товары не найдены.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ЗАГЛУШКА ДЛЯ ОСТАЛЬНЫХ ВКЛАДОК -->
+    <div class="table-card" style="padding: 40px; text-align: center;" th:if="${activeSection != 'categories' && activeSection != 'orders' && activeSection != 'promotions' && activeSection != 'liquidation' && activeSection != 'clients' && activeSection != 'settings' && activeSection != 'overview' && activeSection != 'products' && activeSection != 'product-add' && activeSection != 'product-edit'}">
+        <h2 style="font-size: 24px; color: #112233; margin-bottom: 10px; text-transform: capitalize;" th:text="${activeSection}">Раздел</h2>
+        <p style="color: #666; margin-bottom: 20px;">Управление данным разделом находится в разработке.</p>
+        <a class="btn-add" href="/admin" style="display: inline-flex; width: auto; padding: 10px 20px;">Вернуться к обзору</a>
+    </div>
+
+</main>
+
+<script>
+    (() => {
+        const parseNum = (v) => {
+            const n = parseFloat(String(v || '').replace(/[^0-9.,]/g, '').replace(',', '.'));
+            return Number.isFinite(n) && n > 0 ? n : null;
+        };
+        const fmtRub = (n) => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+
+        const promoSel = document.getElementById('promoProductSelect');
+        if (promoSel) {
+            const oldInp = document.getElementById('promoOldPrice');
+            const newInp = document.getElementById('promoNewPrice');
+            const discInp = document.getElementById('promoDiscount');
+            const prevTitle = document.getElementById('promoPreviewTitle');
+            const prevOld = document.getElementById('promoPreviewOld');
+            const prevNew = document.getElementById('promoPreviewNew');
+            const prevImg = document.getElementById('promoPreviewImg');
+            const prevBox = document.getElementById('promoPreviewBox');
+
+            const syncPromo = () => {
+                const opt = promoSel.options[promoSel.selectedIndex];
+                const title = opt ? (opt.dataset.title || opt.textContent) : '';
+                const img = opt ? (opt.dataset.img || '') : '';
+                const oldVal = parseNum(oldInp && oldInp.value);
+                const newVal = parseNum(newInp && newInp.value);
+
+                if (prevTitle) prevTitle.textContent = title;
+                if (prevNew) prevNew.textContent = newVal ? fmtRub(newVal) : '0 ₽';
+                if (prevOld) prevOld.textContent = oldVal ? fmtRub(oldVal) : '';
+
+                if (discInp) {
+                    if (oldVal && newVal && oldVal > newVal) {
+                        const pct = Math.round(((oldVal - newVal) / oldVal) * 100);
+                        discInp.value = '-' + pct + '%';
+                    } else {
+                        discInp.value = '0%';
+                    }
+                }
+
+                if (img && prevImg) {
+                    prevImg.src = img;
+                    prevImg.style.display = 'block';
+                } else if (img && prevBox && !prevImg) {
+                    const created = document.createElement('img');
+                    created.id = 'promoPreviewImg';
+                    created.src = img;
+                    created.alt = '';
+                    created.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                    prevBox.prepend(created);
+                }
+            };
+
+            promoSel.addEventListener('change', () => {
+                const opt = promoSel.options[promoSel.selectedIndex];
+                if (!opt) return;
+                const price = parseNum(opt.dataset.price);
+                const oldPrice = parseNum(opt.dataset.old);
+                if (newInp && price) newInp.value = fmtRub(price);
+                if (oldInp) oldInp.value = oldPrice ? fmtRub(oldPrice) : (price ? fmtRub(price) : '');
+                syncPromo();
+            });
+
+            if (oldInp) oldInp.addEventListener('input', syncPromo);
+            if (newInp) newInp.addEventListener('input', syncPromo);
+
+            document.querySelectorAll('.js-edit-promo').forEach((link) => {
+                link.addEventListener('click', () => {
+                    const id = link.dataset.id;
+                    if (id) {
+                        promoSel.value = id;
+                        const price = parseNum(link.dataset.price);
+                        const oldPrice = parseNum(link.dataset.old);
+                        if (newInp && price) newInp.value = fmtRub(price);
+                        if (oldInp) oldInp.value = oldPrice ? fmtRub(oldPrice) : (price ? fmtRub(price) : '');
+                        syncPromo();
+                    }
+                });
+            });
+
+            syncPromo();
+        }
+
+        const liqSel = document.getElementById('liqProductSelect');
+        if (liqSel) {
+            const oldInp = document.getElementById('liqOldPrice');
+            const newInp = document.getElementById('liqNewPrice');
+            const stockInp = document.getElementById('liqStock');
+            const showSw = document.getElementById('liqShowOnSite');
+            const prevTitle = document.getElementById('liqPreviewTitle');
+            const prevOld = document.getElementById('liqPreviewOld');
+            const prevNew = document.getElementById('liqPreviewNew');
+            const prevImg = document.getElementById('liqPreviewImg');
+            const prevBox = document.getElementById('liqPreviewBox');
+            const addTopBtn = document.getElementById('btnAddLiquidationTop');
+
+            const syncLiq = () => {
+                const opt = liqSel.options[liqSel.selectedIndex];
+                const title = opt ? (opt.dataset.title || opt.textContent) : '';
+                const img = opt ? (opt.dataset.img || '') : '';
+                const oldVal = parseNum(oldInp && oldInp.value);
+                const newVal = parseNum(newInp && newInp.value);
+
+                if (prevTitle) prevTitle.textContent = title;
+                if (prevNew) prevNew.textContent = newVal ? fmtRub(newVal) : '0 ₽';
+                if (prevOld) prevOld.textContent = oldVal ? fmtRub(oldVal) : '';
+
+                if (img && prevImg) {
+                    prevImg.src = img;
+                    prevImg.style.display = 'block';
+                } else if (img && prevBox && !prevImg) {
+                    const created = document.createElement('img');
+                    created.id = 'liqPreviewImg';
+                    created.src = img;
+                    created.alt = '';
+                    created.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                    prevBox.prepend(created);
+                }
+            };
+
+            liqSel.addEventListener('change', () => {
+                const opt = liqSel.options[liqSel.selectedIndex];
+                if (!opt) return;
+                const price = parseNum(opt.dataset.price);
+                const oldPrice = parseNum(opt.dataset.old);
+                if (newInp && price) newInp.value = fmtRub(price);
+                if (oldInp) oldInp.value = oldPrice ? fmtRub(oldPrice) : (price ? fmtRub(price) : '');
+                if (stockInp && opt.dataset.stock) stockInp.value = opt.dataset.stock;
+                const reason = opt.dataset.reason || '';
+                const reason2 = document.getElementById('liqReason2');
+                const reason1 = document.getElementById('liqReason1');
+                if (reason1 && reason2) {
+                    reason2.checked = reason === reason2.value;
+                    reason1.checked = !reason2.checked;
+                }
+                syncLiq();
+            });
+
+            if (oldInp) oldInp.addEventListener('input', syncLiq);
+            if (newInp) newInp.addEventListener('input', syncLiq);
+
+            if (addTopBtn) {
+                addTopBtn.addEventListener('click', () => {
+                    if (showSw) showSw.checked = true;
+                    liqSel.focus();
+                });
+            }
+
+            syncLiq();
+        }
+    })();
+</script>
+</body>
+</html>

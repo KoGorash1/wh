@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${isNew} ? 'Новый товар — Белый Дом' : 'Редактирование товара — Белый Дом'">Товар — Белый Дом</title>
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}">
+    <style>
+        .product-editor { max-width: 900px; margin: 40px auto; padding: 28px; background: #fff; border: 1px solid #e8e4dc; border-radius: 12px; }
+        .product-editor h1 { margin: 0 0 24px; color: #112233; font-size: 28px; }
+        .editor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        .editor-field { display: flex; flex-direction: column; gap: 6px; }
+        .editor-field label { color: #555; font-size: 13px; }
+        .editor-field input, .editor-field textarea, .editor-field select { width: 100%; padding: 11px 12px; border: 1px solid #d9d5cc; border-radius: 7px; background: #fff; font: inherit; }
+        .editor-field textarea { min-height: 110px; resize: vertical; }
+        .editor-wide { grid-column: 1 / -1; }
+        .editor-check { display: flex; align-items: center; gap: 9px; margin: 18px 0; }
+        .editor-actions { display: flex; gap: 12px; margin-top: 22px; }
+        .editor-actions button, .editor-actions a { padding: 12px 18px; border: 0; border-radius: 7px; background: #112f40; color: white; text-decoration: none; cursor: pointer; font: inherit; }
+        .editor-actions a { background: #eeeae2; color: #222; }
+        @media (max-width: 650px) { .product-editor { margin: 16px; padding: 20px; } .editor-grid { grid-template-columns: 1fr; } .editor-wide { grid-column: auto; } }
+    </style>
+</head>
+<body class="page-admin">
+<main class="product-editor">
+    <h1 th:text="${isNew} ? 'Добавить товар' : 'Редактировать товар'">Товар</h1>
+    <p th:if="${param.error != null}" style="color:#b42318;margin-bottom:16px;">Проверьте обязательные поля и цену. Цена должна быть больше нуля.</p>
+    <p th:if="${product.badge == 'sale' || product.badge == 'liquidation'}" style="color:#8a4b08;margin-bottom:16px;">Цена и активная метка акции меняются в разделах «Акции» и «Ликвидация».</p>
+    <form th:action="${isNew} ? @{/admin/products/add} : @{/admin/products/update/{id}(id=${product.id})}"
+          th:object="${product}" method="post">
+        <div class="editor-grid">
+            <div class="editor-field"><label for="title">Название *</label><input id="title" th:field="*{title}" maxlength="200" required></div>
+            <div class="editor-field"><label for="category">Категория *</label><input id="category" th:field="*{category}" maxlength="120" required></div>
+            <div class="editor-field"><label for="article">Артикул</label><input id="article" th:field="*{article}" maxlength="200"></div>
+            <div class="editor-field"><label for="barcode">Штрихкод</label><input id="barcode" th:field="*{barcode}" maxlength="32"></div>
+            <div class="editor-field"><label for="color">Цвет</label><input id="color" th:field="*{color}" maxlength="200"></div>
+            <div class="editor-field"><label for="price">Цена, ₽ *</label><input id="price" th:field="*{price}" type="number" min="0.01" step="0.01" required></div>
+            <div class="editor-field"><label for="oldPrice">Старая цена, ₽</label><input id="oldPrice" th:field="*{oldPrice}" type="number" min="0.01" step="0.01"></div>
+            <div class="editor-field"><label for="width">Ширина, см</label><input id="width" th:field="*{width}" type="number" min="1" max="1000"></div>
+            <div class="editor-field"><label for="stock">Остаток, шт.</label><input id="stock" th:field="*{stock}" type="number" min="0"></div>
+            <div class="editor-field"><label for="kit">Комплектация</label><input id="kit" th:field="*{kit}" maxlength="100"></div>
+            <div class="editor-field"><label for="style">Стиль</label><input id="style" th:field="*{style}" maxlength="100"></div>
+            <div class="editor-field"><label for="liquidationReason">Причина ликвидации</label><input id="liquidationReason" th:field="*{liquidationReason}" maxlength="120"></div>
+            <div class="editor-field"><label for="badge">Метка</label><select id="badge" th:field="*{badge}"><option value="">Без метки</option><option value="new">Новинка</option></select></div>
+            <div class="editor-field editor-wide"><label for="imageUrl">Ссылка на изображение</label><input id="imageUrl" th:field="*{imageUrl}" maxlength="1000" type="url"></div>
+            <div class="editor-field editor-wide"><label for="description">Описание</label><textarea id="description" th:field="*{description}" maxlength="1000"></textarea></div>
+        </div>
+        <label class="editor-check"><input th:field="*{isShowroom}" type="checkbox"> Товар представлен в шоуруме</label>
+        <div class="editor-actions">
+            <button type="submit">Сохранить товар</button>
+            <a th:href="@{/admin/products}">Отмена</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>
