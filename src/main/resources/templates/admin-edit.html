@@ -31,6 +31,9 @@
         <div class="editor-grid">
             <div class="editor-field"><label for="title">Название *</label><input id="title" th:field="*{title}" maxlength="200" required></div>
             <div class="editor-field"><label for="category">Категория *</label><input id="category" th:field="*{category}" maxlength="120" required></div>
+            <div class="editor-field"><label for="article">Артикул</label><input id="article" th:field="*{article}" maxlength="200"></div>
+            <div class="editor-field"><label for="barcode">Штрихкод</label><input id="barcode" th:field="*{barcode}" maxlength="32"></div>
+            <div class="editor-field"><label for="color">Цвет</label><input id="color" th:field="*{color}" maxlength="200"></div>
             <div class="editor-field"><label for="price">Цена, ₽ *</label><input id="price" th:field="*{price}" type="number" min="0.01" step="0.01" required></div>
             <div class="editor-field"><label for="oldPrice">Старая цена, ₽</label><input id="oldPrice" th:field="*{oldPrice}" type="number" min="0.01" step="0.01"></div>
             <div class="editor-field"><label for="width">Ширина, см</label><input id="width" th:field="*{width}" type="number" min="1" max="1000"></div>
