@@ -84,18 +84,6 @@
     "description": "Унитаз моноблок напольный, с сидением Артикул: KN6291000."
   },
   {
-    "importKey": "catalog:article:KN6831000",
-    "article": "KN6831000",
-    "barcode": null,
-    "color": null,
-    "title": "Унитаз моноблок напольный, с сидением",
-    "category": "Унитазы",
-    "price": null,
-    "stock": 0,
-    "imageUrl": null,
-    "description": "Унитаз моноблок напольный, с сидением Артикул: KN6831000."
-  },
-  {
     "importKey": "catalog:article:T76050H-1",
     "article": "T76050H-1",
     "barcode": null,
@@ -1260,18 +1248,6 @@
     "description": "Проточный газовый водонагреватель Артикул: VolgaPRO FE1-10L. Штрихкод: 2002780130777."
   },
   {
-    "importKey": "catalog:article:KN6831000",
-    "article": "KN6831000",
-    "barcode": "6940854951070",
-    "color": null,
-    "title": "Унитаз моноблок напольный, с сидением",
-    "category": "Унитазы",
-    "price": null,
-    "stock": 0,
-    "imageUrl": null,
-    "description": "Унитаз моноблок напольный, с сидением Артикул: KN6831000. Штрихкод: 6940854951070."
-  },
-  {
     "importKey": "catalog:article:FS8255Q-06",
     "article": "FS8255Q-06",
     "barcode": null,
@@ -2230,5 +2206,17 @@
     "stock": 0,
     "imageUrl": null,
     "description": "NEXT LUXE Пьедестал для раковин Sanita luxe Цвет: белый. Артикул: PD.FS/Next/N/WHT.G/S1 (NXTSLPD01)."
+  },
+  {
+    "importKey": "catalog:article:KN6831000",
+    "article": "KN6831000",
+    "barcode": "6940854951070",
+    "color": null,
+    "title": "Унитаз моноблок напольный, с сидением",
+    "category": "Унитазы",
+    "price": null,
+    "stock": 0,
+    "imageUrl": null,
+    "description": "Унитаз моноблок напольный, с сидением Артикул: KN6831000."
   }
 ]
