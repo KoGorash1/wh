@@ -6,6 +6,8 @@ import com.wh.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,7 @@ public class DataInitializer {
      * @return обработчик запуска приложения, выполняющий заполнение каталога
      */
     @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public CommandLineRunner loadData(ProductRepository productRepository) {
         return args -> {
             if (productRepository.count() > 0) {
