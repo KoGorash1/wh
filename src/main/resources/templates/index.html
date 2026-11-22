@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,500;1,400&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" th:href="@{/style.css(v=3)}">
+    <link rel="stylesheet" th:href="@{/style.css(v=4)}">
 </head>
 
 <body class="page-home" id="top">
@@ -25,8 +25,7 @@
     <div class="header-inner">
 
         <a class="logo-wrapper" th:href="@{/}">
-            <img class="logo-icon" width="48" height="60" src="/images/logo-stork.svg" alt="" aria-hidden="true">
-            <span class="logo-text" th:text="${shopSettings.storeName}">Белый Дом</span>
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
         </a>
 
         <nav class="nav" id="mainNav" aria-label="Основное меню">
@@ -391,8 +390,7 @@
     <div class="footer-inner">
 
         <a class="footer-logo" th:href="@{/}">
-            <img width="48" height="60" src="/images/logo-stork.svg" alt="" aria-hidden="true">
-            <span class="logo-text" th:text="${shopSettings.storeName}">Белый Дом</span>
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
         </a>
 
         <nav class="footer-links" aria-label="Ссылки в подвале">
