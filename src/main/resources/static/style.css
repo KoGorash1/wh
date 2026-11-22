@@ -5,13 +5,13 @@
 :root {
     --navy: #0b2a45;
     --navy-admin: #112233;
-    --cream: #f7f5f0;
-    --sand: #edeae3;
-    --sand-dark: #e3e0d7;
+    --cream: #f1f2ee;
+    --sand: #e8eae4;
+    --sand-dark: #dddfd7;
     --gold: #d9c79c;
-    --ink: #1a1a1a;
+    --ink: #252923;
     --muted: #6f6f6f;
-    --line: #d9d4c9;
+    --line: #d6d9d0;
 
     --serif: 'Noto Serif', Georgia, serif;
     --sans: 'Inter', Arial, sans-serif;
@@ -375,7 +375,7 @@ a.action-link:hover {
     position: absolute;
     right: 0;
     bottom: clamp(18px, 2.8vw, 36px);
-    background: rgba(247, 245, 240, 0.97);
+    background: rgba(241, 242, 238, 0.97);
     color: var(--ink);
     text-decoration: none;
     padding: 14px 20px;
@@ -816,8 +816,8 @@ a.section-link:hover {
 body.page-admin {
     display: flex;
     min-height: 100vh;
-    background-color: #f7f5f0;
-    color: #1a1a1a;
+    background-color: var(--cream);
+    color: var(--ink);
     overflow-x: auto;
 }
 
@@ -918,7 +918,7 @@ body.page-admin main {
 .page-title h1 {
     font-size: 32px;
     font-weight: 400;
-    color: #1a1a1a;
+    color: var(--ink);
     margin-bottom: 6px;
 }
 
@@ -967,7 +967,7 @@ body.page-admin main {
 .stat-card .value {
     font-size: 32px;
     font-weight: 400;
-    color: #1a1a1a;
+    color: var(--ink);
 }
 
 /* Макеты разделов */
@@ -1084,7 +1084,7 @@ td {
 
 .cat-name, .product-info .title {
     font-weight: 500;
-    color: #1a1a1a;
+    color: var(--ink);
 }
 
 .product-info .art {
@@ -1176,7 +1176,7 @@ td {
 .form-side-card h3, .order-details-header h3, .admin-form-card h2, .admin-form-card h3 {
     font-size: 20px;
     font-weight: 400;
-    color: #1a1a1a;
+    color: var(--ink);
     margin-bottom: 20px;
 }
 
@@ -1205,7 +1205,7 @@ td {
 .order-customer-name {
     font-size: 16px;
     font-weight: 500;
-    color: #1a1a1a;
+    color: var(--ink);
     margin-bottom: 4px;
 }
 
@@ -1235,7 +1235,7 @@ td {
 .order-item-title {
     font-size: 14px;
     font-weight: 500;
-    color: #1a1a1a;
+    color: var(--ink);
 }
 
 .order-item-desc {
@@ -1260,7 +1260,7 @@ td {
     margin-top: 14px;
     padding-top: 14px;
     border-top: 1px solid #e8e4dc;
-    color: #1a1a1a;
+    color: var(--ink);
 }
 
 .preview-card h3 {
@@ -1469,7 +1469,7 @@ input:checked + .slider:before {
 .hint-card h4 {
     font-size: 16px;
     font-weight: 500;
-    color: #1a1a1a;
+    color: var(--ink);
     margin-bottom: 8px;
 }
 
