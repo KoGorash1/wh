@@ -86,6 +86,9 @@ public class OrderService {
         BigDecimal total = BigDecimal.ZERO;
         for (Map.Entry<Long, Integer> e : quantities.entrySet()) {
             Product p = found.get(e.getKey());
+            if (p.getPrice() == null || p.getPrice() <= 0 || p.getStock() == null || p.getStock() <= 0) {
+                throw new BadOrderException("Товар «" + p.getTitle() + "» пока недоступен к заказу");
+            }
             BigDecimal unitPrice = BigDecimal.valueOf(p.getPrice());
             int qty = e.getValue();
             if (qty > 99) {
