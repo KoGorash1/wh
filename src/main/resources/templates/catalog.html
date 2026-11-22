@@ -48,14 +48,10 @@
 <nav class="cnav" aria-label="Категории">
     <div class="cnav-inner">
         <a th:href="@{/catalog}" data-cat="">Все товары</a>
-        <a th:href="@{/catalog(category='Раковины')}" data-cat="Раковины">Раковины</a>
-        <a th:href="@{/catalog(category='Смесители')}" data-cat="Смесители">Смесители</a>
-        <a th:href="@{/catalog(category='Душевые системы')}" data-cat="Душевые системы">Душевые системы</a>
-        <a th:href="@{/catalog(category='Унитазы')}" data-cat="Унитазы">Унитазы</a>
-        <a th:href="@{/catalog(category='Мебель')}" data-cat="Мебель">Мебель</a>
-        <a th:href="@{/catalog(category='Зеркала')}" data-cat="Зеркала">Зеркала</a>
-        <a th:href="@{/catalog(category='Ванны')}" data-cat="Ванны">Ванны</a>
-        <a th:href="@{/catalog(category='Аксессуары')}" data-cat="Аксессуары">Аксессуары</a>
+        <a th:each="cat : ${catalogCategories}"
+           th:href="@{/catalog(category=${cat})}"
+           th:attr="data-cat=${cat}"
+           th:text="${cat}">Категория</a>
         <a th:href="@{/#actions}">Акции</a>
         <a th:href="@{/#sales}">Ликвидации</a>
     </div>
