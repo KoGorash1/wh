@@ -12,8 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /** Imports the user's inventory once and keeps later price/stock edits intact. */
 @Component
@@ -38,6 +40,7 @@ public class CatalogImportRunner implements CommandLineRunner {
         List<Product> pending = new ArrayList<>();
         int added = 0;
         int photoUpdates = 0;
+        Set<String> seenImportKeys = new HashSet<>();
 
         try (InputStream input = resource.getInputStream()) {
             JsonNode entries = objectMapper.readTree(input);
@@ -51,6 +54,9 @@ public class CatalogImportRunner implements CommandLineRunner {
                 String category = text(entry, "category");
                 if (importKey == null || title == null || category == null) {
                     throw new IllegalStateException("Catalog item is missing its key, title, or category");
+                }
+                if (!seenImportKeys.add(importKey)) {
+                    continue;
                 }
 
                 Optional<Product> existing = productRepository.findFirstByImportKey(importKey);
