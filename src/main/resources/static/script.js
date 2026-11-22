@@ -172,21 +172,35 @@
         const params = new URLSearchParams(location.search);
         const category = params.get('category');
         const initialQ = (params.get('q') || '').trim();
-        const categoryNav = document.querySelector('.cnav-inner');
+        const categoryMenu = document.querySelector('.cnav');
+        const categoryToggle = $('categoryMenuToggle');
+        const categoryPanel = $('categoryMenu');
+        const currentCategoryLabel = $('currentCatalogCategory');
 
-        if (categoryNav) {
-            categoryNav.addEventListener('wheel', (event) => {
-                const maxScroll = categoryNav.scrollWidth - categoryNav.clientWidth;
-                if (maxScroll <= 0) return;
-                const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX)
-                    ? event.deltaY
-                    : event.deltaX;
-                const next = Math.max(0, Math.min(maxScroll, categoryNav.scrollLeft + delta));
-                if (next !== categoryNav.scrollLeft) {
-                    categoryNav.scrollLeft = next;
-                    event.preventDefault();
+        if (currentCategoryLabel) currentCategoryLabel.textContent = category || 'Все товары';
+
+        if (categoryMenu && categoryToggle && categoryPanel) {
+            const setCategoryMenuOpen = (open) => {
+                categoryMenu.classList.toggle('is-open', open);
+                categoryToggle.setAttribute('aria-expanded', String(open));
+                categoryPanel.setAttribute('aria-hidden', String(!open));
+            };
+
+            categoryToggle.addEventListener('click', () => {
+                setCategoryMenuOpen(categoryToggle.getAttribute('aria-expanded') !== 'true');
+            });
+            document.addEventListener('click', (event) => {
+                if (!categoryMenu.contains(event.target)) setCategoryMenuOpen(false);
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && categoryToggle.getAttribute('aria-expanded') === 'true') {
+                    setCategoryMenuOpen(false);
+                    categoryToggle.focus();
                 }
-            }, { passive: false });
+            });
+            categoryPanel.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => setCategoryMenuOpen(false));
+            });
         }
 
         const BGS = [
