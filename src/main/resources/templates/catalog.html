@@ -16,8 +16,7 @@
 <header class="ctop">
     <div class="ctop-inner">
         <a class="logo-wrapper" th:href="@{/}">
-            <img class="logo-icon" width="48" height="60" src="/images/logo-stork.svg" alt="" aria-hidden="true">
-            <span class="logo-text" th:text="${shopSettings.storeName}">Белый Дом</span>
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
         </a>
 
         <form class="csearch" id="searchForm" role="search" th:action="@{/catalog}" method="get">
@@ -150,8 +149,7 @@
 <footer class="footer">
     <div class="footer-inner">
         <a class="footer-logo" th:href="@{/}">
-            <img width="48" height="60" src="/images/logo-stork.svg" alt="" aria-hidden="true">
-            <span class="logo-text" th:text="${shopSettings.storeName}">Белый Дом</span>
+            <img class="brand-logo" src="/images/logo-exact.svg" alt="Белый Дом">
         </a>
         <nav class="footer-links" aria-label="Ссылки в подвале">
             <a th:href="@{/catalog}">Каталог</a>
