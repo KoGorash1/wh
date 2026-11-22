@@ -1,4 +1,4 @@
-Warning: truncated output (original token count: 17562)
+Warning: truncated output (original token count: 17570)
 Total output lines: 3270
 
 /* =========================================================
@@ -1330,7 +1330,7 @@ td {
 
 .settings-grid {
     display: grid;
-    grid-template-columns: 1fr …5562 tokens truncated… ease, opacity .18s ease, width .28s ease;
+    grid-template-columns: 1fr …5570 tokens truncated…h .28s ease;
 }
 .cnav.is-open .cnav-burger span:first-child { transform: translateY(7px) rotate(45deg); }
 .cnav.is-open .cnav-burger span:nth-child(2) { opacity: 0; width: 8px; }
@@ -1358,11 +1358,11 @@ td {
     opacity: 0; transform: translateY(8px);
     transition: color .18s ease, background .18s ease, opacity .24s ease, transform .3s ease;
 }
-.cnav.is-open .cnav a { opacity: 1; transform: translateY(0); }
-.cnav.is-open .cnav a:nth-child(2) { transition-delay: .025s; }
-.cnav.is-open .cnav a:nth-child(3) { transition-delay: .05s; }
-.cnav.is-open .cnav a:nth-child(4) { transition-delay: .075s; }
-.cnav.is-open .cnav a:nth-child(5) { transition-delay: .1s; }
+.cnav.is-open .cnav-panel a { opacity: 1; transform: translateY(0); }
+.cnav.is-open .cnav-panel a:nth-child(2) { transition-delay: .025s; }
+.cnav.is-open .cnav-panel a:nth-child(3) { transition-delay: .05s; }
+.cnav.is-open .cnav-panel a:nth-child(4) { transition-delay: .075s; }
+.cnav.is-open .cnav-panel a:nth-child(5) { transition-delay: .1s; }
 .cnav a:hover { background: rgba(255,255,255,.08); color: var(--gold); }
 .cnav a.on { color: var(--gold); background: rgba(255,255,255,.07); }
 
