@@ -172,6 +172,22 @@
         const params = new URLSearchParams(location.search);
         const category = params.get('category');
         const initialQ = (params.get('q') || '').trim();
+        const categoryNav = document.querySelector('.cnav-inner');
+
+        if (categoryNav) {
+            categoryNav.addEventListener('wheel', (event) => {
+                const maxScroll = categoryNav.scrollWidth - categoryNav.clientWidth;
+                if (maxScroll <= 0) return;
+                const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX)
+                    ? event.deltaY
+                    : event.deltaX;
+                const next = Math.max(0, Math.min(maxScroll, categoryNav.scrollLeft + delta));
+                if (next !== categoryNav.scrollLeft) {
+                    categoryNav.scrollLeft = next;
+                    event.preventDefault();
+                }
+            }, { passive: false });
+        }
 
         const BGS = [
             '#d9d0c3', '#c5b09a', '#dfd8cc', '#a8a39b', '#d6d4ce',
