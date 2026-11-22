@@ -1123,10 +1123,12 @@
     "color": "хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 7740,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: хром. Артикул: G1050-8."
+    "imageUrl": "/images/catalog/G1050-8.jpg",
+    "description": "Смеситель для раковины Цвет: хром. Артикул: G1050-8.",
+    "imagePageUrl": "https://gappo.ua/ru/smesiteli/dlja-umyvalnika/gappo-aventador-g1050-8-zmishuvach-dlya-umivalnika-uk-ru",
+    "priceSourceUrl": "https://gappo-russia.ru/catalog/smesiteli/smesitel-dlya-rakoviny-gappo-g1050-8/"
   },
   {
     "importKey": "catalog:article:G1083",
