@@ -30,9 +30,15 @@ public class CartService {
         }
 
         productRepository.findById(productId).ifPresent(product -> {
+            if (product.getPrice() == null || product.getPrice() <= 0
+                    || product.getStock() == null || product.getStock() <= 0) {
+                return;
+            }
             for (CartItem item : items) {
                 if (item.getProduct().getId().equals(productId)) {
-                    item.setQuantity(item.getQuantity() + 1);
+                    if (item.getQuantity() < product.getStock()) {
+                        item.setQuantity(item.getQuantity() + 1);
+                    }
                     return;
                 }
             }
@@ -49,7 +55,10 @@ public class CartService {
 
         for (CartItem item : items) {
             if (item.getProduct().getId().equals(productId)) {
-                item.setQuantity(item.getQuantity() + 1);
+                Integer stock = item.getProduct().getStock();
+                if (stock != null && item.getQuantity() < stock) {
+                    item.setQuantity(item.getQuantity() + 1);
+                }
                 return;
             }
         }
@@ -86,7 +95,10 @@ public class CartService {
         double total = 0;
 
         for (CartItem item : items) {
-            total += item.getProduct().getPrice() * item.getQuantity();
+            Double price = item.getProduct().getPrice();
+            if (price != null && price > 0) {
+                total += price * item.getQuantity();
+            }
         }
 
         return total;
