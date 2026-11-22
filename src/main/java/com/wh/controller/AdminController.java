@@ -164,7 +164,7 @@ public class AdminController {
         if (p.getBadge() != null && p.getBadge().trim().equalsIgnoreCase("sale")) {
             return true;
         }
-        return p.getOldPrice() != null && p.getOldPrice() > p.getPrice();
+        return p.getPrice() != null && p.getOldPrice() != null && p.getOldPrice() > p.getPrice();
     }
 
     private static boolean isLiquidationProduct(Product p) {
@@ -175,7 +175,7 @@ public class AdminController {
     }
 
     private static int calcDiscountPercent(Product p) {
-        if (p.getOldPrice() != null && p.getOldPrice() > p.getPrice() && p.getOldPrice() > 0) {
+        if (p.getPrice() != null && p.getOldPrice() != null && p.getOldPrice() > p.getPrice() && p.getOldPrice() > 0) {
             return (int) Math.round(((p.getOldPrice() - p.getPrice()) / p.getOldPrice()) * 100.0);
         }
         return 0;
@@ -372,7 +372,8 @@ public class AdminController {
         }
 
         List<Product> products = keyword != null && !keyword.trim().isEmpty()
-                ? productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword.trim(), keyword.trim())
+                ? productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrArticleContainingIgnoreCaseOrBarcodeContainingIgnoreCase(
+                        keyword.trim(), keyword.trim(), keyword.trim(), keyword.trim())
                 : productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
@@ -395,7 +396,8 @@ public class AdminController {
         }
 
         List<Product> products = keyword != null && !keyword.trim().isEmpty()
-                ? productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword.trim(), keyword.trim())
+                ? productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCaseOrArticleContainingIgnoreCaseOrBarcodeContainingIgnoreCase(
+                        keyword.trim(), keyword.trim(), keyword.trim(), keyword.trim())
                 : productRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
@@ -543,9 +545,12 @@ public class AdminController {
         if ("liquidation".equalsIgnoreCase(product.getBadge())) {
             return "redirect:/admin/promotions?productId=" + product.getId() + "&error=campaign";
         }
+        if (product.getPrice() == null || product.getPrice() <= 0) {
+            return "redirect:/admin/promotions?productId=" + product.getId() + "&error=price";
+        }
         Double parsedNew = parseMoney(newPriceRaw);
         double baseline = "sale".equalsIgnoreCase(product.getBadge())
-                && product.getOldPrice() != null && product.getOldPrice() > product.getPrice()
+                && product.getPrice() != null && product.getOldPrice() != null && product.getOldPrice() > product.getPrice()
                 ? product.getOldPrice() : product.getPrice();
         if (parsedNew == null || parsedNew >= baseline) {
             return "redirect:/admin/promotions?productId=" + product.getId() + "&error=price";
@@ -570,7 +575,7 @@ public class AdminController {
 
         productRepository.findById(productId).ifPresent(product -> {
             if ("sale".equalsIgnoreCase(product.getBadge())) {
-                if (product.getOldPrice() != null && product.getOldPrice() > product.getPrice()) {
+                if (product.getPrice() != null && product.getOldPrice() != null && product.getOldPrice() > product.getPrice()) {
                     product.setPrice(product.getOldPrice());
                 }
                 product.setBadge(product.getPreviousBadge());
@@ -680,12 +685,15 @@ public class AdminController {
         Product product = selected.get();
         boolean activeOnSite = showOnSite != null;
         if (activeOnSite) {
+            if (product.getPrice() == null || product.getPrice() <= 0) {
+                return "redirect:/admin/liquidation?productId=" + productId + "&error=price";
+            }
             if ("sale".equalsIgnoreCase(product.getBadge())) {
                 return "redirect:/admin/liquidation?productId=" + productId + "&error=campaign";
             }
             Double parsedNew = parseMoney(newPriceRaw);
             double baseline = "liquidation".equalsIgnoreCase(product.getBadge())
-                    && product.getOldPrice() != null && product.getOldPrice() > product.getPrice()
+                    && product.getPrice() != null && product.getOldPrice() != null && product.getOldPrice() > product.getPrice()
                     ? product.getOldPrice() : product.getPrice();
             if (parsedNew == null || parsedNew >= baseline) {
                 return "redirect:/admin/liquidation?productId=" + productId + "&error=price";
@@ -697,7 +705,7 @@ public class AdminController {
             if (reasonRaw != null && !reasonRaw.isBlank()) product.setLiquidationReason(reasonRaw.trim());
             product.setBadge("liquidation");
         } else if ("liquidation".equalsIgnoreCase(product.getBadge())) {
-            if (product.getOldPrice() != null && product.getOldPrice() > product.getPrice()) {
+            if (product.getPrice() != null && product.getOldPrice() != null && product.getOldPrice() > product.getPrice()) {
                 product.setPrice(product.getOldPrice());
             }
             product.setBadge(product.getPreviousBadge());
@@ -722,7 +730,7 @@ public class AdminController {
 
         productRepository.findById(productId).ifPresent(product -> {
             if ("liquidation".equalsIgnoreCase(product.getBadge())) {
-                if (product.getOldPrice() != null && product.getOldPrice() > product.getPrice()) {
+                if (product.getPrice() != null && product.getOldPrice() != null && product.getOldPrice() > product.getPrice()) {
                     product.setPrice(product.getOldPrice());
                 }
                 product.setBadge(product.getPreviousBadge());
@@ -970,12 +978,19 @@ public class AdminController {
     private static void normalizeProduct(Product product) {
         product.setTitle(product.getTitle() == null ? "" : product.getTitle().trim());
         product.setCategory(product.getCategory() == null ? "" : product.getCategory().trim());
+        product.setArticle(blankToNull(product.getArticle()));
+        product.setBarcode(blankToNull(product.getBarcode()));
+        product.setColor(blankToNull(product.getColor()));
         product.setImageUrl(product.getImageUrl() == null ? "" : product.getImageUrl().trim());
         product.setDescription(product.getDescription() == null ? "" : product.getDescription().trim());
         product.setIsShowroom(Boolean.TRUE.equals(product.getIsShowroom()));
         if (product.getBadge() != null && product.getBadge().isBlank()) product.setBadge(null);
         if (product.getKit() != null && product.getKit().isBlank()) product.setKit(null);
         if (product.getStyle() != null && product.getStyle().isBlank()) product.setStyle(null);
+    }
+
+    private static String blankToNull(String value) {
+        return value == null || value.isBlank() ? null : value.trim();
     }
 
     private static boolean validProduct(Product product) {
@@ -1031,6 +1046,9 @@ public class AdminController {
                     || "liquidation".equalsIgnoreCase(product.getBadge());
             product.setTitle(formProduct.getTitle());
             product.setCategory(formProduct.getCategory());
+            product.setArticle(formProduct.getArticle());
+            product.setBarcode(formProduct.getBarcode());
+            product.setColor(formProduct.getColor());
             if (!campaignActive) {
                 product.setPrice(formProduct.getPrice());
                 product.setOldPrice(formProduct.getOldPrice());
