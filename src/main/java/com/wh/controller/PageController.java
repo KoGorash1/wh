@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Comparator;
+
 @Controller
 public class PageController {
 
@@ -27,7 +29,14 @@ public class PageController {
     // Страница каталога
     @GetMapping("/catalog")
     public String catalog(Model model) {
-        model.addAttribute("products", productRepository.findAll());
+        var products = productRepository.findAll();
+        model.addAttribute("products", products);
+        model.addAttribute("catalogCategories", products.stream()
+                .map(Product::getCategory)
+                .filter(category -> category != null && !category.isBlank())
+                .distinct()
+                .sorted(Comparator.naturalOrder())
+                .toList());
         return "catalog";
     }
 
