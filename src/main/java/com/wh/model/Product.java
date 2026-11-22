@@ -1,6 +1,7 @@
 package com.wh.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Entity
@@ -10,6 +11,19 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 200)
+    private String article;
+
+    @Column(length = 32)
+    private String barcode;
+
+    @Column(length = 200)
+    private String color;
+
+    @JsonIgnore
+    @Column(length = 512, unique = true)
+    private String importKey;
 
     private String title;
     private String category;
