@@ -2716,6 +2716,8 @@ input:checked + .slider:before {
     border: 0; background: var(--navy); color: #fff; font: 600 14px var(--sans), sans-serif; cursor: pointer; transition: background .2s;
 }
 .pd-add:hover { background: #143d61; }
+.pd-add:disabled { background: #8b8b86; cursor: not-allowed; }
+.pd-no-image { min-height: 320px; display: grid; place-items: center; background: #eeeae2; color: #77746d; font-size: 14px; }
 .pd-acc { margin-top: 22px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .pd-acc button {
     width: 100%; padding: 16px 0; display: flex; justify-content: space-between; align-items: center;
