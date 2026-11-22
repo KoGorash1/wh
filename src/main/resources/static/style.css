@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 17570)
-Total output lines: 3270
+Warning: truncated output (original token count: 17584)
+Total output lines: 3272
 
 /* =========================================================
    Белый Дом — единая таблица стилей
@@ -1330,23 +1330,22 @@ td {
 
 .settings-grid {
     display: grid;
-    grid-template-columns: 1fr …5570 tokens truncated…h .28s ease;
-}
-.cnav.is-open .cnav-burger span:first-child { transform: translateY(7px) rotate(45deg); }
+    grid-template-columns: 1fr …5584 tokens truncated…ild { transform: translateY(7px) rotate(45deg); }
 .cnav.is-open .cnav-burger span:nth-child(2) { opacity: 0; width: 8px; }
 .cnav.is-open .cnav-burger span:last-child { transform: translateY(-7px) rotate(-45deg); }
 .cnav-current { color: rgba(255,255,255,.72); font-size: 13px; }
 .cnav-panel {
     position: absolute; top: 100%; left: 0; right: 0; z-index: 30;
-    max-height: 0; overflow: hidden; opacity: 0; visibility: hidden;
+    max-height: min(70vh, 560px); overflow-y: auto; opacity: 0; visibility: hidden;
     background: var(--navy); box-shadow: 0 16px 28px rgba(11,42,69,.18);
-    transform: translateY(-8px); transform-origin: top;
-    transition: max-height .42s cubic-bezier(.2,.75,.25,1), opacity .24s ease,
-        transform .32s ease, visibility 0s linear .42s;
+    clip-path: inset(0 0 100% 0); transform: translateY(-10px) scale(.985);
+    transform-origin: top; pointer-events: none;
+    transition: clip-path .46s cubic-bezier(.22,.8,.22,1), opacity .24s ease,
+        transform .4s cubic-bezier(.22,.8,.22,1), visibility 0s linear .46s;
 }
 .cnav.is-open .cnav-panel {
-    max-height: min(70vh, 560px); overflow-y: auto; opacity: 1; visibility: visible;
-    transform: translateY(0); transition-delay: 0s;
+    clip-path: inset(0 0 0 0); opacity: 1; visibility: visible;
+    transform: translateY(0) scale(1); pointer-events: auto; transition-delay: 0s;
 }
 .cnav-inner {
     max-width: 1440px; margin: 0 auto; padding: 12px var(--pad) 22px;
@@ -1355,16 +1354,17 @@ td {
 .cnav a {
     padding: 12px 10px; color: #fff; text-decoration: none;
     font-size: 13px; border-radius: 5px; border-bottom: 0;
-    opacity: 0; transform: translateY(8px);
-    transition: color .18s ease, background .18s ease, opacity .24s ease, transform .3s ease;
+    opacity: 0; transform: translateY(10px) scale(.985); will-change: opacity, transform;
+    transition: color .18s ease, background .18s ease, opacity .28s ease,
+        transform .34s cubic-bezier(.22,.8,.22,1);
 }
-.cnav.is-open .cnav-panel a { opacity: 1; transform: translateY(0); }
-.cnav.is-open .cnav-panel a:nth-child(2) { transition-delay: .025s; }
-.cnav.is-open .cnav-panel a:nth-child(3) { transition-delay: .05s; }
-.cnav.is-open .cnav-panel a:nth-child(4) { transition-delay: .075s; }
-.cnav.is-open .cnav-panel a:nth-child(5) { transition-delay: .1s; }
+.cnav.is-open .cnav-panel a { opacity: 1; transform: translateY(0) scale(1); }
 .cnav a:hover { background: rgba(255,255,255,.08); color: var(--gold); }
 .cnav a.on { color: var(--gold); background: rgba(255,255,255,.07); }
+
+@media (prefers-reduced-motion: reduce) {
+    .cnav-panel, .cnav-burger span, .cnav a { transition-duration: .01ms !important; }
+}
 
 .cband { background: #e5e9e3; padding: clamp(20px, 3vw, 34px) 0 clamp(26px, 3.4vw, 44px); }
 .ccrumbs { font-size: 12px; color: var(--muted); }
