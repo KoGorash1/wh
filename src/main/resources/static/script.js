@@ -176,11 +176,18 @@
         const categoryToggle = $('categoryMenuToggle');
         const categoryPanel = $('categoryMenu');
         const currentCategoryLabel = $('currentCatalogCategory');
+        const categoryLinks = categoryPanel ? [...categoryPanel.querySelectorAll('a')] : [];
 
         if (currentCategoryLabel) currentCategoryLabel.textContent = category || 'Все товары';
 
         if (categoryMenu && categoryToggle && categoryPanel) {
             const setCategoryMenuOpen = (open) => {
+                categoryLinks.forEach((link, index) => {
+                    const distance = open ? index : categoryLinks.length - index - 1;
+                    const stagger = open ? 14 : 8;
+                    const maximum = open ? 210 : 120;
+                    link.style.transitionDelay = `${Math.min(distance * stagger, maximum)}ms`;
+                });
                 categoryMenu.classList.toggle('is-open', open);
                 categoryToggle.setAttribute('aria-expanded', String(open));
                 categoryPanel.setAttribute('aria-hidden', String(!open));
