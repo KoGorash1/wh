@@ -282,10 +282,11 @@
     "color": "оруж. сталь",
     "title": "Тропическая лейка 320*220mm",
     "category": "Душевые лейки",
-    "price": null,
+    "price": 3460.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Тропическая лейка 320*220mm Цвет: оруж. сталь. Артикул: F026-32."
+    "description": "Тропическая лейка 320*220mm Цвет: оруж. сталь. Артикул: F026-32.",
+    "priceSourceUrl": "https://frapshop.ru/dushi/orujeynaya-stal/"
   },
   {
     "importKey": "catalog:article:F027",
@@ -306,10 +307,12 @@
     "color": "белый/хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 8350.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: белый/хром. Артикул: F1049."
+    "imageUrl": "/images/catalog/F1049.webp",
+    "description": "Смеситель для раковины Цвет: белый/хром. Артикул: F1049.",
+    "imagePageUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-f1049-belyj-xrom",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-f1049-belyj-xrom"
   },
   {
     "importKey": "catalog:article:F1061-3",
@@ -318,10 +321,12 @@
     "color": "матов. золото",
     "title": "Смеситель на раковину",
     "category": "Смесители",
-    "price": null,
+    "price": 6450.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель на раковину Цвет: матов. золото. Артикул: F1061-3."
+    "imageUrl": "/images/catalog/F1061-3.webp",
+    "description": "Смеситель на раковину Цвет: матов. золото. Артикул: F1061-3.",
+    "imagePageUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h61-f1061-3",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h61-f1061-3"
   },
   {
     "importKey": "catalog:article:F10703-B",
@@ -330,10 +335,12 @@
     "color": "хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 3250.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: хром. Артикул: F10703-B."
+    "imageUrl": "/images/catalog/F10703-B.webp",
+    "description": "Смеситель для раковины Цвет: хром. Артикул: F10703-B.",
+    "imagePageUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h703-f10703-b-xrom",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h703-f10703-b-xrom"
   },
   {
     "importKey": "catalog:article:F10806-9",
@@ -342,10 +349,11 @@
     "color": "оруж. сталь",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 3700.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: оруж. сталь. Артикул: F10806-9."
+    "description": "Смеситель для раковины Цвет: оруж. сталь. Артикул: F10806-9.",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h806-9-f10806-9-oruzhejnaja-stal"
   },
   {
     "importKey": "catalog:article:F1085-9",
@@ -354,10 +362,11 @@
     "color": "оруж. сталь",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 5800.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: оруж. сталь. Артикул: F1085-9."
+    "description": "Смеситель для раковины Цвет: оруж. сталь. Артикул: F1085-9.",
+    "priceSourceUrl": "https://frapshop.ru/smesiteli/h85/"
   },
   {
     "importKey": "catalog:article:F1086-3",
@@ -366,10 +375,12 @@
     "color": "матов. золото",
     "title": "Смеситель на раковину",
     "category": "Смесители",
-    "price": null,
+    "price": 5850.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель на раковину Цвет: матов. золото. Артикул: F1086-3."
+    "imageUrl": "/images/catalog/F1086-3.webp",
+    "description": "Смеситель на раковину Цвет: матов. золото. Артикул: F1086-3.",
+    "imagePageUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h86-f1086-3",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h86-f1086-3"
   },
   {
     "importKey": "catalog:article:F1089",
@@ -378,10 +389,12 @@
     "color": "хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 6220.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: хром. Артикул: F1089."
+    "imageUrl": "/images/catalog/F1089.webp",
+    "description": "Смеситель для раковины Цвет: хром. Артикул: F1089.",
+    "imagePageUrl": "https://frapshop.ru/smesiteli/h89/",
+    "priceSourceUrl": "https://frapshop.ru/smesiteli/h89/"
   },
   {
     "importKey": "catalog:article:F1089-9",
@@ -390,10 +403,12 @@
     "color": "оруж. сталь",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 6980.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: оруж. сталь. Артикул: F1089-9."
+    "imageUrl": "/images/catalog/F1089-9.webp",
+    "description": "Смеситель для раковины Цвет: оруж. сталь. Артикул: F1089-9.",
+    "imagePageUrl": "https://frapshop.ru/smesiteli/h89/",
+    "priceSourceUrl": "https://frapshop.ru/smesiteli/h89/"
   },
   {
     "importKey": "catalog:article:F1319",
@@ -402,10 +417,11 @@
     "color": "хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 3070.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: хром. Артикул: F1319."
+    "description": "Смеситель для раковины Цвет: хром. Артикул: F1319.",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h19-f1319-xrom"
   },
   {
     "importKey": "catalog:article:F1348",
@@ -414,10 +430,11 @@
     "color": "сатин",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 3900.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: сатин. Артикул: F1348."
+    "description": "Смеситель для раковины Цвет: сатин. Артикул: F1348.",
+    "priceSourceUrl": "https://frapshop.ru/smesiteli/dlya-rakoviny-umyvalnika/"
   },
   {
     "importKey": "catalog:article:F20801",
@@ -426,10 +443,12 @@
     "color": "сатин",
     "title": "Смеситель с гигиенической лейкой",
     "category": "Смесители",
-    "price": null,
+    "price": 6380.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель с гигиенической лейкой Цвет: сатин. Артикул: F20801."
+    "imageUrl": "/images/catalog/F20801.webp",
+    "description": "Смеситель с гигиенической лейкой Цвет: сатин. Артикул: F20801.",
+    "imagePageUrl": "https://frapshop.ru/gigienicheskij-dush-so-smesitelem-frap-h801-f20801-satin",
+    "priceSourceUrl": "https://frapshop.ru/gigienicheskij-dush-so-smesitelem-frap-h801-f20801-satin"
   },
   {
     "importKey": "catalog:article:F2245",
@@ -438,10 +457,11 @@
     "color": "белый/хром",
     "title": "Смеситель для ванны с длинным изливом",
     "category": "Смесители",
-    "price": null,
+    "price": 7174.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для ванны с длинным изливом Цвет: белый/хром. Артикул: F2245."
+    "description": "Смеситель для ванны с длинным изливом Цвет: белый/хром. Артикул: F2245.",
+    "priceSourceUrl": "https://rkeramika.ru/smesitel-dlya-vanny-frap-dlinnyy-izliv-f-35-khrom-belyy.html"
   },
   {
     "importKey": "catalog:article:F2258",
@@ -450,10 +470,11 @@
     "color": "белый/хром",
     "title": "Смеситель для ванны с длинным изливом",
     "category": "Смесители",
-    "price": null,
+    "price": 6595.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для ванны с длинным изливом Цвет: белый/хром. Артикул: F2258."
+    "description": "Смеситель для ванны с длинным изливом Цвет: белый/хром. Артикул: F2258.",
+    "priceSourceUrl": "https://www.virage24.ru/catalog/santexnika/smesiteli-i-santexnika-dlia-vanny/smesiteli-i-komplektuiushhie/smesiteli-dlia-vanny-dusa/frap?page=2"
   },
   {
     "importKey": "catalog:article:F2260",
@@ -462,10 +483,11 @@
     "color": "хром",
     "title": "Смеситель для ванны с длинным изливом",
     "category": "Смесители",
-    "price": null,
+    "price": 9480.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для ванны с длинным изливом Цвет: хром. Артикул: F2260."
+    "description": "Смеситель для ванны с длинным изливом Цвет: хром. Артикул: F2260.",
+    "priceSourceUrl": "https://frapshop.ru/smesiteli/h60/"
   },
   {
     "importKey": "catalog:article:F2491-9",
@@ -474,10 +496,11 @@
     "color": "оруж. сталь",
     "title": "Душевая система с изливом",
     "category": "Душевые системы",
-    "price": null,
+    "price": 23657.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Душевая система с изливом Цвет: оруж. сталь. Артикул: F2491-9."
+    "description": "Душевая система с изливом Цвет: оруж. сталь. Артикул: F2491-9.",
+    "priceSourceUrl": "https://market.yandex.ru/card/dushevaya-stoyka-frap-f2491-9-oruzheynaya-stal-latun-dush-3222sm/103823145557"
   },
   {
     "importKey": "catalog:article:F4049",
@@ -498,10 +521,12 @@
     "color": "графит",
     "title": "Смеситель с гигиенической лейкой",
     "category": "Смесители",
-    "price": null,
+    "price": 7470.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель с гигиенической лейкой Цвет: графит. Артикул: F7504-9."
+    "imageUrl": "/images/catalog/F7504-9.jpg",
+    "description": "Смеситель с гигиенической лейкой Цвет: графит. Артикул: F7504-9.",
+    "imagePageUrl": "https://frapshop.ru/dushi/gigienicheskie/",
+    "priceSourceUrl": "https://frapshop.ru/dushi/gigienicheskie/"
   },
   {
     "importKey": "catalog:article:G1018",
@@ -750,10 +775,12 @@
     "color": "матов. золото",
     "title": "RAGLO мойка врезная 50х50х20 см",
     "category": "Кухонные мойки",
-    "price": null,
+    "price": 22420.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "RAGLO мойка врезная 50х50х20 см Цвет: матов. золото. Артикул: R700.5050.03."
+    "imageUrl": "/images/catalog/R700-5050-03.jpg",
+    "description": "RAGLO мойка врезная 50х50х20 см Цвет: матов. золото. Артикул: R700.5050.03.",
+    "imagePageUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r700-5050-03/",
+    "priceSourceUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r700-5050-03/"
   },
   {
     "importKey": "catalog:article:R700.5050.05",
@@ -762,10 +789,12 @@
     "color": "сатин",
     "title": "RAGLO мойка врезная 50х50х20 см",
     "category": "Кухонные мойки",
-    "price": null,
+    "price": 20840.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "RAGLO мойка врезная 50х50х20 см Цвет: сатин. Артикул: R700.5050.05."
+    "imageUrl": "/images/catalog/R700-5050-05.jpg",
+    "description": "RAGLO мойка врезная 50х50х20 см Цвет: сатин. Артикул: R700.5050.05.",
+    "imagePageUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r700-5050-05/",
+    "priceSourceUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r700-5050-05/"
   },
   {
     "importKey": "catalog:article:R700.5050.09",
@@ -774,10 +803,11 @@
     "color": "оруж. сталь",
     "title": "RAGLO мойка врезная 50х50х20 см",
     "category": "Кухонные мойки",
-    "price": null,
+    "price": 22420.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "RAGLO мойка врезная 50х50х20 см Цвет: оруж. сталь. Артикул: R700.5050.09."
+    "description": "RAGLO мойка врезная 50х50х20 см Цвет: оруж. сталь. Артикул: R700.5050.09.",
+    "priceSourceUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r700-5050-09/"
   },
   {
     "importKey": "catalog:article:R701.6050.03",
@@ -786,10 +816,12 @@
     "color": "матов. золото",
     "title": "RAGLO мойка врезная 60х50х20 см",
     "category": "Кухонные мойки",
-    "price": null,
+    "price": 24168.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "RAGLO мойка врезная 60х50х20 см Цвет: матов. золото. Артикул: R701.6050.03."
+    "imageUrl": "/images/catalog/R701-6050-03.jpg",
+    "description": "RAGLO мойка врезная 60х50х20 см Цвет: матов. золото. Артикул: R701.6050.03.",
+    "imagePageUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r701-6050-03/",
+    "priceSourceUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r701-6050-03/"
   },
   {
     "importKey": "catalog:article:R701.6050.05",
@@ -798,10 +830,12 @@
     "color": "сатин",
     "title": "RAGLO мойка врезная 60х50х20 см",
     "category": "Кухонные мойки",
-    "price": null,
+    "price": 22518.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "RAGLO мойка врезная 60х50х20 см Цвет: сатин. Артикул: R701.6050.05."
+    "imageUrl": "/images/catalog/R701-6050-05.jpg",
+    "description": "RAGLO мойка врезная 60х50х20 см Цвет: сатин. Артикул: R701.6050.05.",
+    "imagePageUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r701-6050-05/",
+    "priceSourceUrl": "https://raglo.ru/catalog/kukhonnye-moyki/r701-6050-05/"
   },
   {
     "importKey": "catalog:article:F10202-6",
@@ -810,10 +844,11 @@
     "color": "чёрный",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 3780.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: чёрный. Артикул: F10202-6."
+    "description": "Смеситель для раковины Цвет: чёрный. Артикул: F10202-6.",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h202-6-f10202-6-chernyj"
   },
   {
     "importKey": "catalog:article:F1046",
@@ -822,10 +857,11 @@
     "color": "хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 6910.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: хром. Артикул: F1046."
+    "description": "Смеситель для раковины Цвет: хром. Артикул: F1046.",
+    "priceSourceUrl": "https://frapshop.ru/smesiteli/h46/"
   },
   {
     "importKey": "catalog:article:F1061",
@@ -834,10 +870,12 @@
     "color": "хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 5190.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: хром. Артикул: F1061."
+    "imageUrl": "/images/catalog/F1061.webp",
+    "description": "Смеситель для раковины Цвет: хром. Артикул: F1061.",
+    "imagePageUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-f1061-xrom",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-f1061-xrom"
   },
   {
     "importKey": "catalog:article:F1061-23",
@@ -846,10 +884,12 @@
     "color": "матов. золото",
     "title": "Смеситель на раковину высокий",
     "category": "Смесители",
-    "price": null,
+    "price": 9450.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель на раковину высокий Цвет: матов. золото. Артикул: F1061-23."
+    "imageUrl": "/images/catalog/F1061-23.webp",
+    "description": "Смеситель на раковину высокий Цвет: матов. золото. Артикул: F1061-23.",
+    "imagePageUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h61-f1061-23",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h61-f1061-23"
   },
   {
     "importKey": "catalog:article:F1073",
@@ -870,10 +910,11 @@
     "color": "сатин",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 4280.0,
     "stock": 0,
     "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: сатин. Артикул: F10802."
+    "description": "Смеситель для раковины Цвет: сатин. Артикул: F10802.",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h802-f10802-satin"
   },
   {
     "importKey": "catalog:article:F1085",
@@ -882,10 +923,12 @@
     "color": "хром",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 5440.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: хром. Артикул: F1085."
+    "imageUrl": "/images/catalog/F1085.webp",
+    "description": "Смеситель для раковины Цвет: хром. Артикул: F1085.",
+    "imagePageUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h85-f108",
+    "priceSourceUrl": "https://frapshop.ru/smesitel-dlja-rakoviny-frap-h85-f108"
   },
   {
     "importKey": "catalog:article:F1087-9",
@@ -906,10 +949,12 @@
     "color": "матов. золото",
     "title": "Смеситель для раковины",
     "category": "Смесители",
-    "price": null,
+    "price": 7060.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Смеситель для раковины Цвет: матов. золото. Артикул: F1089-3."
+    "imageUrl": "/images/catalog/F1089-3.webp",
+    "description": "Смеситель для раковины Цвет: матов. золото. Артикул: F1089-3.",
+    "imagePageUrl": "https://frapshop.ru/smesiteli/h89/",
+    "priceSourceUrl": "https://frapshop.ru/smesiteli/h89/"
   },
   {
     "importKey": "catalog:article:F1090-3",
@@ -954,10 +999,12 @@
     "color": "хром",
     "title": "Душевая система с изливом",
     "category": "Душевые системы",
-    "price": null,
+    "price": 18470.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Душевая система с изливом Цвет: хром. Артикул: F2416."
+    "imageUrl": "/images/catalog/F2416.jpeg",
+    "description": "Душевая система с изливом Цвет: хром. Артикул: F2416.",
+    "imagePageUrl": "https://frapshop.ru/dushevaja-sistema-frap-f2416-xrom",
+    "priceSourceUrl": "https://frapshop.ru/dushevaja-sistema-frap-f2416-xrom"
   },
   {
     "importKey": "catalog:article:F2461",
@@ -966,10 +1013,12 @@
     "color": "хром",
     "title": "Душевая система с изливом",
     "category": "Душевые системы",
-    "price": null,
+    "price": 21220.0,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Душевая система с изливом Цвет: хром. Артикул: F2461."
+    "imageUrl": "/images/catalog/F2461.jpg",
+    "description": "Душевая система с изливом Цвет: хром. Артикул: F2461.",
+    "imagePageUrl": "https://frapshop.ru/dushevaja-sistema-frap-h61-f2461-xrom",
+    "priceSourceUrl": "https://frapshop.ru/dushevaja-sistema-frap-h61-f2461-xrom"
   },
   {
     "importKey": "catalog:article:F24803-1",
@@ -992,8 +1041,9 @@
     "category": "Душевые системы",
     "price": null,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Душевая система с изливом Цвет: хром. Артикул: F2490."
+    "imageUrl": "/images/catalog/F2490.png",
+    "description": "Душевая система с изливом Цвет: хром. Артикул: F2490.",
+    "imagePageUrl": "https://epicentrk.ua/ua/shop/mplc-dusova-sistema-frap-f2490-hrom-1055771-1f06d833-adb5-6692-9704-692ec1f960ae.html"
   },
   {
     "importKey": "catalog:article:F2491-23",

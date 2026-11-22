@@ -71,6 +71,10 @@ public class CatalogImportRunner implements CommandLineRunner {
                         product.setBarcode(text(entry, "barcode"));
                         product.setColor(text(entry, "color"));
                         product.setDescription(text(entry, "description"));
+                        Double importedPrice = number(entry, "price");
+                        if (importedPrice != null) {
+                            product.setPrice(importedPrice);
+                        }
                         changed = true;
                     }
                     String imageUrl = text(entry, "imageUrl");
@@ -94,7 +98,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 product.setCategory(category);
                 product.setDescription(text(entry, "description"));
                 product.setImageUrl(text(entry, "imageUrl"));
-                product.setPrice(null);
+                product.setPrice(number(entry, "price"));
                 product.setOldPrice(null);
                 product.setStock(0);
                 product.setIsShowroom(false);
@@ -107,6 +111,11 @@ public class CatalogImportRunner implements CommandLineRunner {
             productRepository.saveAll(pending);
         }
         System.out.printf("Каталог: добавлено %d товаров, добавлено фото %d.%n", added, photoUpdates);
+    }
+
+    private static Double number(JsonNode node, String field) {
+        JsonNode value = node.get(field);
+        return value == null || value.isNull() || !value.isNumber() ? null : value.asDouble();
     }
 
     private static String text(JsonNode node, String field) {
