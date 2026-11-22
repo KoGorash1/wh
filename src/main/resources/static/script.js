@@ -223,7 +223,11 @@
             return {
                 id: Number(p.id),
                 title: p.title,
-                price: Number(p.price),
+                price: p.price != null ? Number(p.price) : null,
+                stock: p.stock != null ? Number(p.stock) : 0,
+                article: p.article || '',
+                barcode: p.barcode || '',
+                color: p.color || '',
                 old: p.oldPrice != null ? Number(p.oldPrice) : null,
                 img: imgUrl,
                 meta: p.category,
@@ -263,7 +267,7 @@
             const sty = checked('style');
 
             let list = all.filter((p) => {
-                if (p.price < min || p.price > max) return false;
+                if (p.price != null && (p.price < min || p.price > max)) return false;
                 if (
                     w.length &&
                     !(
@@ -277,16 +281,21 @@
                 if (sty.length && !(p.style && sty.includes(p.style))) return false;
                 return !(
                     st.q &&
-                    !((p.title || '') + ' ' + (p.meta || '')).toLowerCase().includes(st.q)
+                    !((p.title || '') + ' ' + (p.meta || '') + ' ' + (p.article || '') + ' ' + (p.barcode || '')).toLowerCase().includes(st.q)
                 );
             });
 
-            if (st.sort === 'asc') list = [...list].sort((a, b) => a.price - b.price);
-            if (st.sort === 'desc') list = [...list].sort((a, b) => b.price - a.price);
+            if (st.sort === 'asc') list = [...list].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+            if (st.sort === 'desc') list = [...list].sort((a, b) => {
+                if (a.price == null) return 1;
+                if (b.price == null) return -1;
+                return b.price - a.price;
+            });
             return list;
         }
 
         function card(p) {
+            const canBuy = p.price != null && p.price > 0 && p.stock > 0;
             const sale = Boolean(p.old && p.old > p.price);
             const badge =
                 p.badge === 'new'
@@ -307,10 +316,10 @@
         <div class="pc-body">
           <span class="pc-meta">${esc(p.meta || '')}</span>
           <h3 class="pc-title"><a href="/product/${esc(p.id)}">${esc(p.title)}</a></h3>
-          <p class="pc-w">${p.w ? 'Ширина: ' + p.w + ' см' : '&nbsp;'}</p>
+          <p class="pc-w">${[p.article ? 'Артикул: ' + esc(p.article) : '', p.barcode ? 'Штрихкод: ' + esc(p.barcode) : '', p.color ? 'Цвет: ' + esc(p.color) : '', p.w ? 'Ширина: ' + p.w + ' см' : ''].filter(Boolean).join(' · ') || '&nbsp;'}</p>
           <div class="pc-foot">
             <div class="pc-price${sale ? ' sale' : ''}">
-              <span>${fmt(p.price)} ₽</span>${sale ? `<s>${fmt(p.old)} ₽</s>` : ''}
+              <span>${canBuy ? fmt(p.price) + ' ₽' : 'Цена уточняется'}</span>${sale ? `<s>${fmt(p.old)} ₽</s>` : ''}
             </div>
             <a class="pc-go" href="/product/${esc(p.id)}" aria-label="Подробнее">→</a>
           </div>
@@ -605,6 +614,7 @@
             const cartLabelEl = $('cartLabel');
             const pdAddTextEl = $('pdAddText');
             const pdAdd = $('pdAdd');
+            const canBuy = p.price != null && Number(p.price) > 0 && Number(p.stock) > 0;
 
             document.title = (p.title || 'Товар') + ' — Белый Дом';
             if (pdCrumbEl) pdCrumbEl.textContent = p.title || '';
@@ -616,13 +626,33 @@
             if (pdKickerEl) pdKickerEl.textContent = cat;
             pdTitleEl.textContent = p.title || '';
             if (pdDescEl) pdDescEl.textContent = p.description || '';
-            if (pdPriceEl) pdPriceEl.textContent = fmt(p.price) + ' ₽';
+            if (pdPriceEl) pdPriceEl.textContent = canBuy ? fmt(p.price) + ' ₽' : 'Цена уточняется';
+            if (!primaryImg && pdZoom) pdZoom.style.display = 'none';
+            if (pdAdd && !canBuy) {
+                pdAdd.disabled = true;
+                pdAdd.setAttribute('aria-disabled', 'true');
+                if (pdAddTextEl) pdAddTextEl.textContent = 'Пока недоступен';
+            }
 
             const showImg = (i) => {
                 cur = i;
                 if (pdImgEl) {
-                    pdImgEl.src = images[i].src || '';
-                    pdImgEl.alt = p.title || '';
+                    if (images[i].src) {
+                        pdImgEl.src = images[i].src;
+                        pdImgEl.style.display = '';
+                        pdImgEl.alt = p.title || '';
+                    } else {
+                        pdImgEl.removeAttribute('src');
+                        pdImgEl.style.display = 'none';
+                        const container = pdImgEl.parentElement;
+                        let placeholder = container && container.querySelector('.pd-no-image');
+                        if (container && !placeholder) {
+                            placeholder = document.createElement('div');
+                            placeholder.className = 'pd-no-image';
+                            placeholder.textContent = 'Фото добавим позже';
+                            container.appendChild(placeholder);
+                        }
+                    }
                 }
                 if (pdCountEl) {
                     pdCountEl.textContent =
@@ -729,6 +759,7 @@
 
             if (pdAdd) {
                 pdAdd.addEventListener('click', () => {
+                    if (!canBuy) return;
                     const width = w || undefined;
                     const ex = cart.find(
                         (c) =>
