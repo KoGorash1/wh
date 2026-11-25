@@ -636,7 +636,6 @@
             const pdCrumbEl = $('pdCrumb');
             const pdCatEl = $('pdCat');
             const pdKickerEl = $('pdKicker');
-            const pdDescEl = $('pdDesc');
             const pdPriceEl = $('pdPrice');
             const pdTableEl = $('pdTable');
             const pdImgEl = $('pdImg');
@@ -662,7 +661,6 @@
             }
             if (pdKickerEl) pdKickerEl.textContent = cat;
             pdTitleEl.textContent = p.title || '';
-            if (pdDescEl) pdDescEl.textContent = p.description || '';
             if (pdPriceEl) pdPriceEl.textContent = canBuy ? fmt(p.price) + ' ₽' : 'Цена уточняется';
             if (!primaryImg && pdZoom) pdZoom.style.display = 'none';
             if (pdAdd && !canBuy) {
@@ -758,15 +756,20 @@
                 if (w) rows.push(['Ширина', w + ' см']);
                 if (p.kit && KIT[p.kit]) rows.push(['Тип комплекта', KIT[p.kit]]);
                 if (p.style && STYLE[p.style]) rows.push(['Стиль', STYLE[p.style]]);
+                const description = String(p.description || '').trim() || [
+                    p.title ? `${p.title}.` : '',
+                    w ? `Ширина: ${w} см.` : '',
+                    p.kit && KIT[p.kit] ? `Комплектация: ${KIT[p.kit]}.` : '',
+                    p.style && STYLE[p.style] ? `Стиль: ${STYLE[p.style]}.` : '',
+                    'Остальные характеристики уточняйте у менеджера.'
+                ].filter(Boolean).join(' ');
                 if (pdTableEl) {
-                    pdTableEl.innerHTML = rows
-                        .map(
-                            ([k, v]) =>
-                                `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`
-                        )
-                        .join('');
+                    pdTableEl.innerHTML = rows.map(([k, v]) =>
+                        `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`
+                    ).join('') +
+                        `<div class="pd-description-row"><dt>Описание</dt><dd>${esc(description)}</dd></div>`;
                 }
-            };
+            };;
 
             const plan = planW && (planW.closest('.pd-plan') || planW.closest('svg'));
             hide(plan);
