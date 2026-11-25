@@ -2150,6 +2150,9 @@ input:checked + .slider:before {
 .pd-table > div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 .pd-table > div:first-child { border-top: 1px solid var(--line); }
 .pd-table dt { color: var(--muted); }
+.pd-table > div.pd-description-row { display: block; }
+.pd-description-row dt { margin-bottom: 8px; }
+.pd-description-row dd { margin: 0; color: inherit; line-height: 1.65; text-align: left; overflow-wrap: anywhere; }
 .pd-empty { padding: 80px 0; text-align: center; color: var(--muted); }
 .pd-empty a { display: inline-block; margin-top: 12px; color: var(--navy); }
 .pd-lb {
