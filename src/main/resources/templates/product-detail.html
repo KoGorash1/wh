@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif:wght@400;500&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" th:href="@{/style.css(v=6)}">
+    <link rel="stylesheet" th:href="@{/style.css(v=7)}">
 </head>
 
 <body class="page-product" id="top">
@@ -154,6 +154,13 @@
 
             <div class="pd-main">
                 <img id="pdImg" src="" alt="">
+
+                <button class="pd-gallery-arrow pd-gallery-arrow--prev" id="pdPrev" type="button" aria-label="Предыдущее фото">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <button class="pd-gallery-arrow pd-gallery-arrow--next" id="pdNext" type="button" aria-label="Следующее фото">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
 
                 <button class="pd-zoom"
                         id="pdZoom"
@@ -344,7 +351,7 @@
 
 </footer>
 
-<script th:src="@{/script.js(v=7)}"></script>
+<script th:src="@{/script.js(v=8)}"></script>
 
 </body>
 </html>

@@ -655,6 +655,8 @@
             const pdCountEl = $('pdCount');
             const pdThumbsEl = $('pdThumbs');
             const pdZoom = $('pdZoom');
+            const pdPrev = $('pdPrev');
+            const pdNext = $('pdNext');
             const pdWidthsEl = $('pdWidths');
             const pdFinishEl = $('pdFinish');
             const planW = $('planW');
@@ -684,6 +686,8 @@
 
             const showImg = (i) => {
                 cur = i;
+                if (pdPrev) pdPrev.style.display = images.length > 1 ? 'grid' : 'none';
+                if (pdNext) pdNext.style.display = images.length > 1 ? 'grid' : 'none';
                 if (pdImgEl) {
                     if (images[i].src) {
                         pdImgEl.src = images[i].src;
@@ -708,6 +712,9 @@
                 }
                 $$('.pd-thumb').forEach((b, k) => b.classList.toggle('active', k === i));
             };
+
+            if (pdPrev) pdPrev.addEventListener('click', () => showImg((cur - 1 + images.length) % images.length));
+            if (pdNext) pdNext.addEventListener('click', () => showImg((cur + 1) % images.length));
 
             if (pdThumbsEl) {
                 pdThumbsEl.innerHTML =
