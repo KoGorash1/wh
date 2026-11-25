@@ -120,19 +120,22 @@ public class CatalogImportRunner implements CommandLineRunner {
         return productRepository.findFirstByTitleAndCategory("Раковина «Пласт»", "Раковины")
                 .map(product -> {
                     String imageUrl = "/images/catalog/sanita-fest-80.jpg";
-                    String description = "Форма: прямоугольная. Монтаж: подвесная. Крыло: отсутствует. Количество чаш: 1. "
-                            + "Для людей с ограниченными возможностями: нет. Расположение смесителя: посередине. "
-                            + "Отверстие для перелива: есть. Отверстий под смеситель: 1. Цвет: белый. "
-                            + "Материал: санфарфор. Поверхность: глянцевая. Покрытие: отсутствует. "
-                            + "Мыльница: нет. Полотенцедержатель: нет. Донный клапан: нет. "
-                            + "Размеры: высота 220 мм, ширина 800 мм, глубина 455 мм. Стиль: современный. "
-                            + "Артикул производителя: WB.FN/Fest/80-C/WHT.G/S1. Гарантия производителя — 15 лет.";
+                    String description = "Серия: SANITA FEST 80; Форма раковины: прямоугольная; Монтаж раковины: подвесная; "
+                            + "Расположение крыла: без крыла; Количество чаш: 1 шт; "
+                            + "Для людей с ограниченными возможностями: нет; Расположение смесителя: посередине; "
+                            + "Отверстие для перелива: есть; Количество отверстий под смеситель: 1; "
+                            + "Цвет раковины: белый; Материал раковины: санфарфор; Поверхность: глянцевая; "
+                            + "Покрытие: без покрытия; Мыльница: нет; Полотенцедержатель: нет; Донный клапан: нет; "
+                            + "Высота раковины: 220 мм; Ширина раковины: 800 мм; Глубина раковины: 455 мм; "
+                            + "Стиль: современный; Артикул производителя: WB.FN/Fest/80-C/WHT.G/S1; "
+                            + "Гарантия производителя: 15 лет.";
                     boolean changed = !imageUrl.equals(product.getImageUrl())
                             || !description.equals(product.getDescription())
                             || !"00000055861".equals(product.getArticle())
                             || product.getPrice() == null || product.getPrice() != 6649.0
                             || product.getOldPrice() == null || product.getOldPrice() != 7130.0
-                            || !"sale".equals(product.getBadge());
+                            || !"sale".equals(product.getBadge())
+                            || !"modern".equals(product.getStyle());
 
                     if (!changed) {
                         return 0;
@@ -140,6 +143,7 @@ public class CatalogImportRunner implements CommandLineRunner {
 
                     product.setImageUrl(imageUrl);
                     product.setDescription(description);
+                    product.setStyle("modern");
                     product.setArticle("00000055861");
                     product.setPrice(6649.0);
                     product.setOldPrice(7130.0);
