@@ -37,6 +37,8 @@ public class DataInitializer {
     private static final String IMG_SINK =
             "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80";
 
+    private static final String IMG_SINK_PLAST = "/images/catalog/sanita-fest-80.jpg";
+
     private static final String IMG_MIX =
             "https://images.unsplash.com/photo-1584622749010-6811282666f3?auto=format&fit=crop&w=1200&q=80";
 
@@ -77,7 +79,10 @@ public class DataInitializer {
         List<P> l = new ArrayList<>();
 
         // ---- Раковины ----
-        l.add(p("Раковина «Пласт»", "Раковины", 48600, IMG_SINK).showroom().w(80).style("minimal").badge("new"));
+        l.add(p("Раковина «Пласт»", "Раковины", 6649, IMG_SINK_PLAST)
+                .showroom().w(80).style("minimal").old(7130).badge("sale")
+                .article("00000055861")
+                .description("Мебельный умывальник SANITA FEST 80 из белого глянцевого фарфора. Размеры: 800 × 450 × 220 мм (ширина × глубина × высота). Устанавливается на тумбу; есть центральное отверстие под смеситель и перелив. В комплекте умывальник и заглушка перелива. Артикул производителя: WB.FN/Fest/80-C/WHT.G/S1. Гарантия производителя — 15 лет."));
         l.add(p("Раковина «Круг»", "Раковины", 32000, IMG_SINK).w(60).style("modern"));
         l.add(p("Раковина «Квадрат»", "Раковины", 41000, IMG_SINK).w(70).style("minimal"));
         l.add(p("Раковина «Капля»", "Раковины", 55000, IMG_SINK).w(90).style("modern").badge("new"));
@@ -274,6 +279,16 @@ public class DataInitializer {
          */
         P badge(String v) {
             product.setBadge(v);
+            return this;
+        }
+
+        P article(String v) {
+            product.setArticle(v);
+            return this;
+        }
+
+        P description(String v) {
+            product.setDescription(v);
             return this;
         }
     }

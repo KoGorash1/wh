@@ -107,10 +107,45 @@ public class CatalogImportRunner implements CommandLineRunner {
             }
         }
 
+        int featuredProductUpdates = updatePlastWashbasin(pending);
+
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
         }
-        System.out.printf("Каталог: добавлено %d товаров, добавлено фото %d.%n", added, photoUpdates);
+        System.out.printf("Каталог: добавлено %d товаров, добавлено фото %d, обновлено карточек %d.%n",
+                added, photoUpdates, featuredProductUpdates);
+    }
+
+    private int updatePlastWashbasin(List<Product> pending) {
+        return productRepository.findFirstByTitleAndCategory("Раковина «Пласт»", "Раковины")
+                .map(product -> {
+                    String imageUrl = "/images/catalog/sanita-fest-80.jpg";
+                    String description = "Мебельный умывальник SANITA FEST 80 из белого глянцевого фарфора. "
+                            + "Размеры: 800 × 450 × 220 мм (ширина × глубина × высота). "
+                            + "Устанавливается на тумбу; есть центральное отверстие под смеситель и перелив. "
+                            + "В комплекте умывальник и заглушка перелива. "
+                            + "Артикул производителя: WB.FN/Fest/80-C/WHT.G/S1. Гарантия производителя — 15 лет.";
+                    boolean changed = !imageUrl.equals(product.getImageUrl())
+                            || !description.equals(product.getDescription())
+                            || !"00000055861".equals(product.getArticle())
+                            || product.getPrice() == null || product.getPrice() != 6649.0
+                            || product.getOldPrice() == null || product.getOldPrice() != 7130.0
+                            || !"sale".equals(product.getBadge());
+
+                    if (!changed) {
+                        return 0;
+                    }
+
+                    product.setImageUrl(imageUrl);
+                    product.setDescription(description);
+                    product.setArticle("00000055861");
+                    product.setPrice(6649.0);
+                    product.setOldPrice(7130.0);
+                    product.setBadge("sale");
+                    pending.add(product);
+                    return 1;
+                })
+                .orElse(0);
     }
 
     private static Double number(JsonNode node, String field) {
