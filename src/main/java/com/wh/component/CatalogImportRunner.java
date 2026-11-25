@@ -86,6 +86,16 @@ public class CatalogImportRunner implements CommandLineRunner {
                         }
                         changed = true;
                     }
+                    Integer importedWidth = integer(entry, "width");
+                    if (product.getWidth() == null && importedWidth != null) {
+                        product.setWidth(importedWidth);
+                        changed = true;
+                    }
+                    String importedStyle = text(entry, "style");
+                    if (blank(product.getStyle()) && !blank(importedStyle)) {
+                        product.setStyle(importedStyle);
+                        changed = true;
+                    }
                     String imageUrl = text(entry, "imageUrl");
                     if (blank(product.getImageUrl()) && !blank(imageUrl)) {
                         product.setImageUrl(imageUrl);
@@ -105,6 +115,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 product.setColor(text(entry, "color"));
                 product.setTitle(title);
                 product.setCategory(category);
+                product.setWidth(integer(entry, "width"));
+                product.setStyle(text(entry, "style"));
                 product.setDescription(text(entry, "description"));
                 product.setImageUrl(text(entry, "imageUrl"));
                 product.setPrice(number(entry, "price"));
@@ -168,6 +180,11 @@ public class CatalogImportRunner implements CommandLineRunner {
     private static Double number(JsonNode node, String field) {
         JsonNode value = node.get(field);
         return value == null || value.isNull() || !value.isNumber() ? null : value.asDouble();
+    }
+
+    private static Integer integer(JsonNode node, String field) {
+        JsonNode value = node.get(field);
+        return value == null || value.isNull() || !value.isNumber() ? null : value.asInt();
     }
 
     private static String text(JsonNode node, String field) {
