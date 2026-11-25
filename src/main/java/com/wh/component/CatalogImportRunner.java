@@ -75,6 +75,15 @@ public class CatalogImportRunner implements CommandLineRunner {
                         if (importedPrice != null) {
                             product.setPrice(importedPrice);
                         }
+                        Double importedOldPrice = number(entry, "oldPrice");
+                        if (importedOldPrice != null) {
+                            product.setOldPrice(importedOldPrice);
+                            product.setBadge(text(entry, "badge"));
+                        }
+                        Double importedStock = number(entry, "stock");
+                        if (importedStock != null) {
+                            product.setStock(importedStock.intValue());
+                        }
                         changed = true;
                     }
                     String imageUrl = text(entry, "imageUrl");
@@ -99,8 +108,10 @@ public class CatalogImportRunner implements CommandLineRunner {
                 product.setDescription(text(entry, "description"));
                 product.setImageUrl(text(entry, "imageUrl"));
                 product.setPrice(number(entry, "price"));
-                product.setOldPrice(null);
-                product.setStock(0);
+                product.setOldPrice(number(entry, "oldPrice"));
+                product.setBadge(text(entry, "badge"));
+                Double importedStock = number(entry, "stock");
+                product.setStock(importedStock == null ? 0 : importedStock.intValue());
                 product.setIsShowroom(false);
                 pending.add(product);
                 added++;
