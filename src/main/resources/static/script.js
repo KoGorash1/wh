@@ -763,13 +763,56 @@
                     p.style && STYLE[p.style] ? `Стиль: ${STYLE[p.style]}.` : '',
                     'Остальные характеристики уточняйте у менеджера.'
                 ].filter(Boolean).join(' ');
+                const details = description.split(';').map((item) => {
+                    const colon = item.indexOf(':');
+                    return colon > 0
+                        ? [item.slice(0, colon).trim(), item.slice(colon + 1).trim()]
+                        : null;
+                }).filter((item) => item && item[0] && item[1]);
+                const hasStructuredDetails = details.length >= 3;
+                const specsTitleEl = $('pdSpecsTitle');
+                if (specsTitleEl && p.article === '00000055861') {
+                    specsTitleEl.textContent = 'Технические характеристики SANITA FEST 80';
+                }
                 if (pdTableEl) {
                     pdTableEl.innerHTML = rows.map(([k, v]) =>
                         `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`
-                    ).join('') +
-                        `<div class="pd-description-row"><dt>Описание</dt><dd>${esc(description)}</dd></div>`;
+                    ).join('');
+
+                    const detailMarkup = hasStructuredDetails
+                        ? `<div class="pd-details-list">${details.map(([label, value]) =>
+                            `<div class="pd-spec-row"><span class="pd-spec-label">${esc(label)}</span><span class="pd-spec-leader" aria-hidden="true"></span><span class="pd-spec-value">${esc(value)}</span></div>`
+                        ).join('')}</div>`
+                        : `<p class="pd-details-copy">${esc(description)}</p>`;
+                    const detailLabel = hasStructuredDetails ? 'Все характеристики' : 'Описание товара';
+                    const detailMeta = hasStructuredDetails ? `Параметры · ${details.length}` : 'Подробнее';
+                    pdTableEl.insertAdjacentHTML('afterend', `
+                        <section class="pd-details" id="pdDetails">
+                            <button class="pd-details-toggle" id="pdDetailsToggle" type="button"
+                                    aria-expanded="false" aria-controls="pdDetailsPanel">
+                                <span class="pd-details-heading">${detailLabel}</span>
+                                <span class="pd-details-meta">${detailMeta}</span>
+                                <svg class="pd-details-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                    <path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <div class="pd-details-panel" id="pdDetailsPanel" aria-hidden="true">
+                                <div class="pd-details-inner">${detailMarkup}</div>
+                            </div>
+                        </section>`);
+
+                    const toggle = $('pdDetailsToggle');
+                    const panel = $('pdDetailsPanel');
+                    if (toggle && panel) {
+                        toggle.addEventListener('click', () => {
+                            const open = toggle.getAttribute('aria-expanded') !== 'true';
+                            toggle.setAttribute('aria-expanded', String(open));
+                            panel.setAttribute('aria-hidden', String(!open));
+                            panel.classList.toggle('is-open', open);
+                        });
+                    }
                 }
-            };;
+            };
 
             const plan = planW && (planW.closest('.pd-plan') || planW.closest('svg'));
             hide(plan);
@@ -1185,4 +1228,3 @@
     initCheckout();
     initOrderSuccess();
 })();
-
