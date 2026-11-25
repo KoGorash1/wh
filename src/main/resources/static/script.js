@@ -630,7 +630,20 @@
         function init(p) {
             const rawImg = p['imageUrl'];
             const primaryImg = typeof rawImg === 'string' ? rawImg : '';
-            const images = [{ src: primaryImg, label: 'Фото' }];
+            const extraImages = p.article === 'WB.PD/Samarsky/57-C/WHT.G/S1 (SMRSAWB01)'
+                ? [
+                    '/images/catalog/sanita-samarsky-57-2.jpeg',
+                    '/images/catalog/sanita-samarsky-57-3.jpeg',
+                    '/images/catalog/sanita-samarsky-57-4.jpeg',
+                    '/images/catalog/sanita-samarsky-57-5.jpeg',
+                    '/images/catalog/sanita-samarsky-57-6.jpeg',
+                    '/images/catalog/sanita-samarsky-57-7.jpeg',
+                ]
+                : [];
+            const images = [
+                { src: primaryImg, label: 'Фото 1' },
+                ...extraImages.map((src, i) => ({ src, label: `Фото ${i + 2}` })),
+            ];
             let cur = 0;
 
             const pdCrumbEl = $('pdCrumb');
