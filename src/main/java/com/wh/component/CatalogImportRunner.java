@@ -161,7 +161,27 @@ public class CatalogImportRunner implements CommandLineRunner {
                                 + "Размеры: 685 × 380 × 775 мм (длина × ширина × высота). "
                                 + "Источник цены и фото: ПроТепло33; характеристики: Stella Polar / Santehnica.",
                         "/images/catalog/stella-polar-kuenka-KN6831000-2.jpg")
-                + updateToiletFloorFixing(pending);
+                + updateToiletFloorFixing(pending)
+                + updateShowerEnclosure(pending, "1228C/100MATT",
+                        "Душевое ограждение REDO 1228C Chrome Matt 100×100",
+                        "матовое стекло, хромированный профиль", 25200.0,
+                        "/images/catalog/redo-1228c-100-matt-main.png",
+                        "Бренд: REDO; Серия: 1228C Chrome Matt; Артикул: 1228C/100MATT; Форма: квадратная; "
+                                + "Монтаж: универсальный, на пол или поддон; Размеры: 1000 × 1000 × 1950 мм; "
+                                + "Стекло: закалённое, матовое, толщиной 6 мм; Двери: 2 раздвижные; "
+                                + "Профиль: анодированный алюминий, серебристый; Поддон в комплекте: нет; "
+                                + "Безсиликоновая сборка; Гарантия: 1 год. Цена найдена в REDO82.",
+                        "/images/catalog/redo-1228c-100-matt-2.png")
+                + updateShowerEnclosure(pending, "RD-JK.100G",
+                        "Душевое ограждение REDO Joy Grey 100×100",
+                        "серое тонированное стекло", 31634.0,
+                        "/images/catalog/redo-joy-grey-100-100-main.jpeg",
+                        "Бренд: REDO; Серия: Joy Grey; Артикул: RD-JK.100G; Форма: квадратная; "
+                                + "Размеры: 1000 × 1000 × 1950 мм; Стекло: закалённое, серое тонированное, "
+                                + "толщиной 6 мм; Двери: 2 раздвижные; Профиль: алюминий; "
+                                + "Установка: на пол или поддон; Поддон в комплекте: нет; "
+                                + "Страна производства: Китай. Цена найдена в ФО-ОПТТОРГ.",
+                        null);
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -414,6 +434,32 @@ public class CatalogImportRunner implements CommandLineRunner {
             product.setDescription(description);
             product.setPrice(62.22);
             product.setStock(0);
+            product.setIsShowroom(false);
+            pending.add(product);
+            return 1;
+        }).orElse(0);
+    }
+
+    private int updateShowerEnclosure(List<Product> pending, String article, String title, String color,
+                                      double price, String imageUrl, String description, String galleryImage) {
+        return productRepository.findFirstByArticle(article).map(product -> {
+            boolean changed = !title.equals(product.getTitle())
+                    || !"Душевые ограждения".equals(product.getCategory())
+                    || !color.equals(product.getColor())
+                    || !imageUrl.equals(product.getImageUrl())
+                    || !description.equals(product.getDescription())
+                    || product.getPrice() == null || product.getPrice() != price
+                    || product.getStock() == null || product.getStock() != 0
+                    || product.getWidth() == null || product.getWidth() != 100;
+            if (!changed) return 0;
+            product.setTitle(title);
+            product.setCategory("Душевые ограждения");
+            product.setColor(color);
+            product.setImageUrl(imageUrl);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setStock(0);
+            product.setWidth(100);
             product.setIsShowroom(false);
             pending.add(product);
             return 1;

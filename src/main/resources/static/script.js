@@ -665,6 +665,8 @@
                 ? ['/images/catalog/knois-KN6291000-specs.jpg']
                 : p.article === 'KN6831000'
                 ? ['/images/catalog/stella-polar-kuenka-KN6831000-2.jpg']
+                : p.article === '1228C/100MATT'
+                ? ['/images/catalog/redo-1228c-100-matt-2.png']
                 : p.article === 'F027'
                 ? [
                     '/images/catalog/frap-f027-2.jpg',
