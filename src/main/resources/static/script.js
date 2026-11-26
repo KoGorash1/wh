@@ -632,6 +632,8 @@
             const primaryImg = typeof rawImg === 'string' ? rawImg : '';
             const extraImages = p.article === 'G2407'
                 ? ['/images/catalog/g2407-2.jpg', '/images/catalog/g2407-3.jpg', '/images/catalog/g2407-4.jpg']
+                : /^4627132453(267|281|298|304|311|328|335|359|366|373|380)$/.test(p.article || '')
+                ? ['/images/catalog/gas-hose-elka-details.jpg']
                 : p.article === 'F4049'
                 ? ['/images/catalog/kitchen-mixer-F4049-2.jpg', '/images/catalog/kitchen-mixer-F4049-3.jpg', '/images/catalog/kitchen-mixer-F4049-4.jpg', '/images/catalog/kitchen-mixer-F4049-5.jpg']
                 : p.article === 'F4497-6'

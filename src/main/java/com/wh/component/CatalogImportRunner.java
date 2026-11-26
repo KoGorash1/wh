@@ -137,6 +137,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateKitchenSinks(pending)
                 + removeUnarticledKitchenMixers(pending)
                 + updateKitchenMixers(pending)
+                + removeUnarticledGasHoses(pending)
+                + updateGasHoses(pending)
                 + updateDrainValves(pending)
                 + updateBathroomAccessories(pending)
                 + updateShowerSystems(pending)
@@ -875,6 +877,49 @@ public class CatalogImportRunner implements CommandLineRunner {
                 .filter(p -> blank(p.getArticle())).toList();
         productRepository.deleteAll(withoutArticle);
         return removedFromImport + withoutArticle.size();
+    }
+
+    private int removeUnarticledGasHoses(List<Product> pending) {
+        int removedFromImport = (int) pending.stream()
+                .filter(p -> "Газовые шланги".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).count();
+        pending.removeIf(p -> "Газовые шланги".equals(p.getCategory()) && blank(p.getArticle()));
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(p -> "Газовые шланги".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).toList();
+        productRepository.deleteAll(withoutArticle);
+        return removedFromImport + withoutArticle.size();
+    }
+
+    private int updateGasHoses(List<Product> pending) {
+        String[][] products = {
+                {"4627132453267", "0,8"}, {"4627132453281", "1,2"},
+                {"4627132453298", "1,5"}, {"4627132453304", "1,8"},
+                {"4627132453311", "2,0"}, {"4627132453328", "2,5"},
+                {"4627132453335", "3,0"}, {"4627132453359", "4,0"},
+                {"4627132453366", "4,5"}, {"4627132453373", "5,0"},
+                {"4627132453380", "6,0"}
+        };
+        int updated = 0;
+        for (String[] item : products) {
+            String article = item[0];
+            String length = item[1];
+            String title = "Шланг газовый ELKA 1/2 г/г, " + length + " м";
+            String description = "Бренд: ELKA; Артикул: " + article
+                    + "; Тип: гибкий газовый шланг; Материал: трёхслойный ПВХ с армированием полиэфирной нитью"
+                    + "; Размер: 10×15 мм; Длина: " + length + " м; Цвет: жёлтый"
+                    + "; Соединение: гайка-гайка; Резьба: внутренняя 1/2 дюйма с обеих сторон"
+                    + "; Назначение: подача природного или сжиженного газа; Максимальное рабочее давление: 1 МПа"
+                    + "; Шланг является диэлектриком. Источники: ELKA, DTRD, ВсеИнструменты.";
+            updated += updateMixer(pending, article, title, "/images/catalog/gas-hose-elka-main.jpg", description);
+            Product product = pending.stream().filter(candidate -> article.equals(candidate.getArticle())).findFirst()
+                    .or(() -> productRepository.findFirstByArticle(article)).orElse(null);
+            if (product != null) {
+                product.setColor("Жёлтый");
+                if (!pending.contains(product)) productRepository.save(product);
+            }
+        }
+        return updated;
     }
 
     private int removeUnarticledKitchenMixers(List<Product> pending) {
