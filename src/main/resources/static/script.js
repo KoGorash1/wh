@@ -652,6 +652,12 @@
                     '/images/catalog/sanita-classic-luxe-80-2.webp',
                     '/images/catalog/sanita-classic-luxe-80-3.webp',
                 ]
+                : p.article === 'F027'
+                ? [
+                    '/images/catalog/frap-f027-2.jpg',
+                    '/images/catalog/frap-f027-3.jpg',
+                    '/images/catalog/frap-f027-6.jpg',
+                ]
                 : p.article === 'F025'
                 ? [
                     '/images/catalog/frap-f025-4.jpg',

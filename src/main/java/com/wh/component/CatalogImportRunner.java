@@ -130,7 +130,8 @@ public class CatalogImportRunner implements CommandLineRunner {
             }
         }
 
-        int featuredProductUpdates = updatePlastWashbasin(pending) + updateFrapF02632(pending);
+        int featuredProductUpdates = updatePlastWashbasin(pending)
+                + updateFrapF02632(pending) + updateFrapF027(pending);
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -204,6 +205,43 @@ public class CatalogImportRunner implements CommandLineRunner {
                     product.setImageUrl(imageUrl);
                     product.setDescription(description);
                     product.setPrice(3460.0);
+                    product.setStock(0);
+                    product.setIsShowroom(false);
+                    pending.add(product);
+                    return 1;
+                })
+                .orElse(0);
+    }
+
+    private int updateFrapF027(List<Product> pending) {
+        return productRepository.findFirstByArticle("F027")
+                .map(product -> {
+                    String title = "Лейка для душа FRAP F027, 3 режима";
+                    String category = "Душевые лейки";
+                    String color = "хром";
+                    String imageUrl = "/images/catalog/frap-f027-5.jpg";
+                    String description = "Бренд: FRAP; Модель: F027; Артикул: F027; "
+                            + "Тип: ручная лейка для душа; Количество режимов: 3; Форма: круглая; "
+                            + "Диаметр головки: 120 мм; Длина: 250 мм; Материал: ABS-пластик; "
+                            + "Покрытие: хромированное; Цвет: хром; Поверхность: глянцевая; "
+                            + "Переключение режимов: поворотное; Подключение: 1/2 дюйма; "
+                            + "Держатель: не входит в комплект; Шланг: не входит в комплект; Фильтр: нет; "
+                            + "Легкая очистка: да; Страна производства: Китай.";
+                    boolean changed = !title.equals(product.getTitle())
+                            || !category.equals(product.getCategory())
+                            || !color.equals(product.getColor())
+                            || !imageUrl.equals(product.getImageUrl())
+                            || !description.equals(product.getDescription())
+                            || product.getPrice() == null || product.getPrice() != 1161.0
+                            || product.getStock() == null || product.getStock() != 0;
+                    if (!changed) return 0;
+                    product.setTitle(title);
+                    product.setCategory(category);
+                    product.setArticle("F027");
+                    product.setColor(color);
+                    product.setImageUrl(imageUrl);
+                    product.setDescription(description);
+                    product.setPrice(1161.0);
                     product.setStock(0);
                     product.setIsShowroom(false);
                     pending.add(product);
