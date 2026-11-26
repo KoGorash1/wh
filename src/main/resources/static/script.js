@@ -652,6 +652,19 @@
                     '/images/catalog/sanita-classic-luxe-80-2.webp',
                     '/images/catalog/sanita-classic-luxe-80-3.webp',
                 ]
+                : p.article === 'WB.PD/Best/55-C/WHT.G/S1'
+                ? [
+                    '/images/catalog/sanita-best-luxe-55-5.jpg',
+                    '/images/catalog/sanita-best-luxe-55-6.jpg',
+                    '/images/catalog/sanita-best-luxe-55-7.jpg',
+                    '/images/catalog/sanita-best-luxe-55-8.jpg',
+                    '/images/catalog/sanita-best-luxe-55-9.jpg',
+                    '/images/catalog/sanita-best-luxe-55-10.jpg',
+                    '/images/catalog/sanita-best-luxe-55-11.jpg',
+                    '/images/catalog/sanita-best-luxe-55-12.jpg',
+                    '/images/catalog/sanita-best-luxe-55-13.jpg',
+                    '/images/catalog/sanita-best-luxe-55-dimensions.jpg',
+                ]
                 : [];
             const images = [
                 { src: primaryImg, label: 'Фото 1' },
