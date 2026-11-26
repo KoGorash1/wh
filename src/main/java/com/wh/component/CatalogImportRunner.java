@@ -808,7 +808,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 "/images/catalog/bathroom-furniture-aster-80.jpg",
                 "Бренд: EQUIL; Артикул: tpASTER80.2Y4; Коллекция: Aster; Тип: подвесная тумба с раковиной; Цвет: Амаретти; Размер тумбы: 792×472×540 мм; Размер комплекта с раковиной: 800×480×562 мм; Материалы: влагостойкий ЛДСП, МДФ, ПВХ-плёнка Soft Touch; Хранение: 2 выдвижных ящика с доводчиками; Раковина Палермо из кварцевого композита; сифон в комплекте. Источник: EQUIL.");
         updated += updateMixer(pending, "RD-031-100-WM SINK", "Столешница-моноблок 1000×500×150 мм с кронштейнами",
-                "/images/catalog/bathroom-furniture-aster-80.jpg",
+                "/images/catalog/bathroom-furniture-rd031.jpg",
                 "Артикул: RD-031-100-WM SINK; Тип: столешница-моноблок с кронштейнами; Размеры: 1000×500×150 мм. Подробные сведения изготовителя в доступном каталоге не найдены.");
         return updated;
     }
