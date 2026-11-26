@@ -160,7 +160,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                                 + "Смыв: душевой, двухрежимный; антивсплеск; сиденье из дюропласта с микролифтом; "
                                 + "Размеры: 685 × 380 × 775 мм (длина × ширина × высота). "
                                 + "Источник цены и фото: ПроТепло33; характеристики: Stella Polar / Santehnica.",
-                        "/images/catalog/stella-polar-kuenka-KN6831000-2.jpg");
+                        "/images/catalog/stella-polar-kuenka-KN6831000-2.jpg")
+                + updateToiletFloorFixing(pending);
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -387,6 +388,32 @@ public class CatalogImportRunner implements CommandLineRunner {
             product.setPrice(price);
             product.setStock(0);
             product.setWidth(width);
+            product.setIsShowroom(false);
+            pending.add(product);
+            return 1;
+        }).orElse(0);
+    }
+
+    private int updateToiletFloorFixing(List<Product> pending) {
+        return productRepository.findFirstByArticle("6-0001").map(product -> {
+            String title = "Крепление унитаза к полу Симтек";
+            String imageUrl = "/images/catalog/simtek-toilet-floor-fixing-6-0001.png";
+            String description = "Бренд: Симтек; Артикул: 6-0001; Тип: комплект для напольного крепления унитаза; "
+                    + "Материал: сталь и пластик; Длина крепежа: 70 мм; Комплектация: 2 шурупа, 2 дюбеля, "
+                    + "шайбы и белые декоративные колпачки; Цена: 62,22 ₽ за комплект. Источник: Lunda.";
+            boolean changed = !title.equals(product.getTitle())
+                    || !imageUrl.equals(product.getImageUrl())
+                    || !description.equals(product.getDescription())
+                    || product.getPrice() == null || product.getPrice() != 62.22
+                    || product.getStock() == null || product.getStock() != 0;
+            if (!changed) return 0;
+            product.setTitle(title);
+            product.setCategory("Унитазы");
+            product.setColor("белый");
+            product.setImageUrl(imageUrl);
+            product.setDescription(description);
+            product.setPrice(62.22);
+            product.setStock(0);
             product.setIsShowroom(false);
             pending.add(product);
             return 1;

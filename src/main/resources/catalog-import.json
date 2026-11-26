@@ -259,13 +259,13 @@
     "importKey": "catalog:article:6-0001",
     "article": "6-0001",
     "barcode": null,
-    "color": null,
-    "title": "Крепления унитаза к полу",
+    "color": "белый",
+    "title": "Крепление унитаза к полу Симтек",
     "category": "Унитазы",
-    "price": null,
+    "price": 62.22,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Крепления унитаза к полу Артикул: 6-0001."
+    "imageUrl": "/images/catalog/simtek-toilet-floor-fixing-6-0001.png",
+    "description": "Бренд: Симтек; Артикул: 6-0001; Тип: комплект для напольного крепления унитаза; Материал: сталь и пластик; Длина крепежа: 70 мм; Комплектация: 2 шурупа, 2 дюбеля, шайбы и белые декоративные колпачки; Цена: 62,22 ₽ за комплект. Источник: Lunda."
   },
   {
     "importKey": "catalog:article:F025",
