@@ -630,7 +630,21 @@
         function init(p) {
             const rawImg = p['imageUrl'];
             const primaryImg = typeof rawImg === 'string' ? rawImg : '';
-            const extraImages = p.article === 'WB.PD/Samarsky/57-C/WHT.G/S1 (SMRSAWB01)'
+            const extraImages = p.article === 'G904-3'
+                ? ['/images/catalog/g904-3-2.png', '/images/catalog/g904-3-3.png']
+                : p.article === 'G904-9'
+                ? ['/images/catalog/g904-9-2.png', '/images/catalog/g904-9-3.png']
+                : p.article === 'G906-3'
+                ? ['/images/catalog/g906-3-2.png', '/images/catalog/g906-3-3.png']
+                : p.article === 'R340.02'
+                ? ['/images/catalog/r340-02-2.jpg', '/images/catalog/r340-02-3.jpg']
+                : p.article === 'R340.02.09'
+                ? ['/images/catalog/r340-02-09-2.jpg', '/images/catalog/r340-02-09-3.jpg']
+                : p.article === 'R340.03.03'
+                ? ['/images/catalog/r340-03-03-2.jpg', '/images/catalog/r340-03-03-3.jpg']
+                : p.article === 'R340.03.09'
+                ? ['/images/catalog/r340-03-09-2.jpg', '/images/catalog/r340-03-09-3.jpg']
+                : p.article === 'WB.PD/Samarsky/57-C/WHT.G/S1 (SMRSAWB01)'
                 ? [
                     '/images/catalog/sanita-samarsky-57-2.jpeg',
                     '/images/catalog/sanita-samarsky-57-3.jpeg',

@@ -136,6 +136,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateKnoisToilet(pending)
                 + updateKitchenSinks(pending)
                 + updateDrainValves(pending)
+                + updateBathroomAccessories(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -573,6 +574,59 @@ public class CatalogImportRunner implements CommandLineRunner {
             if (!changed) return 0;
             product.setTitle(title);
             product.setCategory("Сливы и донные клапаны");
+            product.setColor(color);
+            product.setImageUrl(imageUrl);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setStock(0);
+            product.setIsShowroom(false);
+            pending.add(product);
+            return 1;
+        }).orElse(0);
+    }
+
+    private int updateBathroomAccessories(List<Product> pending) {
+        int updated = 0;
+        updated += updateBathroomAccessory(pending, "G904-3", "Ёршик для унитаза GAPPO G904-3",
+                "сатиновое золото", 8809, "/images/catalog/g904-3-1.png",
+                "Напольный или настенный ёршик для унитаза; настенный держатель с крышкой; отделка — сатиновое золото; материалы: латунь и пластик; высота около 49 см, диаметр около 8 см; гарантия 1 год.");
+        updated += updateBathroomAccessory(pending, "G904-9", "Ёршик для унитаза GAPPO G904-9",
+                "оружейная сталь", 8809, "/images/catalog/g904-9-1.png",
+                "Напольный или настенный ёршик для унитаза; держатель с крышкой; отделка — оружейная сталь; металлическое основание и ручка, пластиковая щётка; комплект крепления для монтажа на стену.");
+        updated += updateBathroomAccessory(pending, "G906-3", "Многофункциональная стойка GAPPO G906-3",
+                "сатиновое золото", 14958, "/images/catalog/g906-3-1.png",
+                "Напольная многофункциональная стойка для ванной комнаты; держатель туалетной бумаги, полка и ёршик; отделка — сатиновое золото; материалы: латунь и пластик.");
+        updated += updateBathroomAccessory(pending, "G906-9", "Многофункциональная стойка GAPPO G906-9",
+                "оружейная сталь", 14224, "/images/catalog/g906-9-1.png",
+                "Напольная многофункциональная стойка для ванной комнаты; держатель туалетной бумаги, полка и ёршик; отделка — оружейная сталь; сочетание металлических и пластиковых деталей.");
+        updated += updateBathroomAccessory(pending, "R340.02", "Полка RAGLO R340.02 с крючками",
+                "хром", 3884, "/images/catalog/r340-02-1.jpg",
+                "Прямая настенная полка для ванны и душа с двумя боковыми крючками; 29×11,5×5,5 см; нержавеющая сталь SUS304, хром; скрытый монтаж; допустимая нагрузка до 5 кг.");
+        updated += updateBathroomAccessory(pending, "R340.02.09", "Полка RAGLO R340.02.09 с крючками",
+                "графит", 4472, "/images/catalog/r340-02-09-1.jpg",
+                "Прямая настенная полка для ванны и душа с двумя боковыми крючками; 29×11,5×5,5 см; нержавеющая сталь SUS304, графитовое покрытие; скрытый монтаж; допустимая нагрузка до 5 кг.");
+        updated += updateBathroomAccessory(pending, "R340.03.03", "Полка RAGLO R340.03.03",
+                "сатиновое золото", 5207, "/images/catalog/r340-03-03-1.jpg",
+                "Прямая настенная полка для ванной комнаты; 40×10×8 см; нержавеющая сталь SUS304, сатиновое золотое покрытие; скрытый монтаж; допустимая нагрузка до 5 кг.");
+        updated += updateBathroomAccessory(pending, "R340.03.09", "Полка RAGLO R340.03.09",
+                "графит", 5295, "/images/catalog/r340-03-09-1.jpg",
+                "Прямая настенная полка для ванной комнаты; 40×10×8 см; нержавеющая сталь SUS304, графитовое покрытие; скрытый монтаж; допустимая нагрузка до 5 кг.");
+        return updated;
+    }
+
+    private int updateBathroomAccessory(List<Product> pending, String article, String title, String color,
+                                        double price, String imageUrl, String details) {
+        String description = "Бренд: " + (article.startsWith("R340") ? "RAGLO" : "GAPPO")
+                + "; Артикул: " + article + "; " + details + "; Цена по каталогу производителя.";
+        return productRepository.findFirstByArticle(article).map(product -> {
+            boolean changed = !title.equals(product.getTitle())
+                    || !"Аксессуары для ванной".equals(product.getCategory())
+                    || !color.equals(product.getColor()) || !imageUrl.equals(product.getImageUrl())
+                    || !description.equals(product.getDescription()) || product.getPrice() == null
+                    || product.getPrice() != price || product.getStock() == null || product.getStock() != 0;
+            if (!changed) return 0;
+            product.setTitle(title);
+            product.setCategory("Аксессуары для ванной");
             product.setColor(color);
             product.setImageUrl(imageUrl);
             product.setDescription(description);
