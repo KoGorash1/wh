@@ -221,6 +221,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateBathtubs(pending)
                 + removeUnarticledBathroomFurniture()
                 + updateBathroomFurniture(pending)
+                + removeUnarticledShowerTraps()
+                + updateShowerTraps(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -833,6 +835,30 @@ public class CatalogImportRunner implements CommandLineRunner {
                 "/images/catalog/bathroom-furniture-rd031.jpg",
                 "Артикул: RD-031-100-WM SINK; Тип: столешница-моноблок с кронштейнами; Размеры: 1000×500×150 мм. Подробные сведения изготовителя в доступном каталоге не найдены.");
         return updated;
+    }
+
+    private int removeUnarticledShowerTraps() {
+        List<Product> noArticle = productRepository.findAll().stream()
+                .filter(p -> "Душевые трапы".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).toList();
+        productRepository.deleteAll(noArticle);
+        return noArticle.size();
+    }
+
+    private int updateShowerTraps(List<Product> pending) {
+        int n = 0;
+        n += updateMixer(pending, "G85007-39", "Душевой трап GAPPO G85007-39 500×70 мм оружейная сталь", "https://gappo-russia.ru/img/catphotos/48/dushevoj-trap-gappo-g85007-39005.jpg", "Бренд: GAPPO; Артикул: G85007-39; Тип: линейный душевой трап; Размеры: 500×70 мм; Материал: нержавеющая сталь; Цвет: оружейная сталь; Комбинированный гидрозатвор; поворотный сифон; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G86007-39", "Душевой трап GAPPO G86007-39 600×70 мм оружейная сталь", "https://gappo-russia.ru/img/catphotos/48/dushevoj-trap-gappo-g85007-39005.jpg", "Бренд: GAPPO; Артикул: G86007-39; Тип: линейный душевой трап; Размеры: 600×70 мм; Материал: нержавеющая сталь; Цвет: оружейная сталь; Комбинированный гидрозатвор; регулируемые опорные ножки; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G87007-1", "Душевой трап GAPPO G87007-1 700×70 мм сатин", "https://gappo-russia.ru/img/catphotos/25/dushevoj-trap-gappo-g87007-3021.jpg", "Бренд: GAPPO; Артикул: G87007-1; Тип: линейный душевой трап; Размеры: 700×70 мм; Материал: нержавеющая сталь; Цвет: сатин; Комбинированный гидрозатвор; регулируемые ножки; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G87007-33", "Душевой трап GAPPO G87007-33 700×70 мм золото", "https://gappo-russia.ru/img/catphotos/50/dushevoj-trap-gappo-g85007-330031.jpg", "Бренд: GAPPO; Артикул: G87007-33; Тип: линейный душевой трап; Размеры: 700×70 мм; Материал: нержавеющая сталь; Цвет: глянцевое золото; комбинированный затвор; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G87007-39", "Душевой трап GAPPO G87007-39 700×70 мм оружейная сталь", "https://gappo-russia.ru/img/catphotos/48/dushevoj-trap-gappo-g85007-39005.jpg", "Бренд: GAPPO; Артикул: G87007-39; Тип: линейный душевой трап; Размеры: 700×70 мм; Материал: нержавеющая сталь; Цвет: оружейная сталь; комбинированный затвор; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G88007-1", "Душевой трап GAPPO G88007-1 800×70 мм сатин", "https://gappo-russia.ru/img/catphotos/40/dushevoj-trap-gappo-g88007-1038.jpg", "Бренд: GAPPO; Артикул: G88007-1; Тип: линейный душевой трап; Размеры: 800×70 мм; Материал: нержавеющая сталь; Цвет: сатин; комбинированный гидрозатвор; регулируемые ножки; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G88007-33", "Душевой трап GAPPO G88007-33 800×70 мм золото", "https://gappo-russia.ru/img/catphotos/33/dushevoj-trap-gappo-g88007-33004.jpg", "Бренд: GAPPO; Артикул: G88007-33; Тип: линейный душевой трап; Размеры: 800×70 мм; Материал: нержавеющая сталь; Цвет: глянцевое золото; комбинированный затвор; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G88007-39", "Душевой трап GAPPO G88007-39 800×70 мм оружейная сталь", "https://gappo-russia.ru/img/catphotos/48/dushevoj-trap-gappo-g85007-39005.jpg", "Бренд: GAPPO; Артикул: G88007-39; Тип: линейный душевой трап; Размеры: 800×70 мм; Материал: нержавеющая сталь; Цвет: оружейная сталь; комбинированный гидрозатвор; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G81050", "Трап GAPPO G81050 100×100 мм хром", "/images/catalog/trap-g81050.jpg", "Бренд: GAPPO; Артикул: G81050; Тип: точечный душевой трап; Размеры: 100×100 мм; Материал: латунь; Цвет: хром; Вертикальный выпуск; сухой затвор. Источник: GAPPO.");
+        n += updateMixer(pending, "G86007-36", "Душевой трап GAPPO G86007-36 600×70 мм чёрный", "https://gappo-russia.ru/image/cache/catalog/produkts/dushevoy-trap-kombinirovannyy-zatvor-gappo-g88007-36-680x680.png", "Бренд: GAPPO; Артикул: G86007-36; Тип: линейный душевой трап; Размеры: 600×70 мм; Материал: нержавеющая сталь; Цвет: чёрный; комбинированный гидрозатвор; боковой выпуск 40 мм; гарантия 2 года. Источник: GAPPO.");
+        n += updateMixer(pending, "G88007-36", "Душевой трап GAPPO G88007-36 800×70 мм чёрный", "https://gappo-russia.ru/image/cache/catalog/produkts/dushevoy-trap-kombinirovannyy-zatvor-gappo-g88007-36-680x680.png", "Бренд: GAPPO; Артикул: G88007-36; Тип: линейный душевой трап; Размеры: 800×70 мм; Материал: нержавеющая сталь; Цвет: чёрный; комбинированный гидрозатвор; боковой выпуск 40 мм; гарантия 2 года. Источник: GAPPO.");
+        return n;
     }
 
     private int updateMixerCategories(List<Product> pending) {
