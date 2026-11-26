@@ -138,6 +138,16 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateDrainValves(pending)
                 + updateBathroomAccessories(pending)
                 + updateShowerSystems(pending)
+                + updateMixer(pending, "G1018", "Смеситель для раковины GAPPO G1018", "/images/catalog/mixer-G1018.jpg",
+                        "Бренд: GAPPO; Артикул: G1018; Серия: G18; Назначение: для раковины; Материал: латунь; Цвет: хром; Управление: однорычажное; Картридж: керамический 35 мм; Монтаж: на гайке, 1 отверстие; Излив: фиксированный, длина 131 мм; Высота смесителя: 158 мм; Аэратор: Neoperl; Подводка: гибкая 1/2, 500 мм; Гарантия: 5 лет. Источник: GAPPO." )
+                + updateMixer(pending, "G1050", "Смеситель для раковины GAPPO G1050", "/images/catalog/mixer-G1050.png",
+                        "Бренд: GAPPO; Артикул: G1050; Серия: Aventador; Назначение: для раковины; Материал: латунь; Цвет: чёрный; Поверхность: матовая; Управление: однорычажное; Картридж: керамический 35 мм; Монтаж: на гайке, 1 отверстие; Излив: фиксированный, длина 134 мм; Высота излива: 127 мм; Аэратор: есть; Подводка: гибкая 1/2; Гарантия: до 5 лет. Источники: GAPPO, ВсеИнструменты.")
+                + updateMixer(pending, "F1073", "Смеситель для раковины FRAP F1073", "/images/catalog/mixer-F1073.jpg",
+                        "Бренд: FRAP; Артикул: F1073; Коллекция: H03; Назначение: для раковины; Материал: латунь; Цвет: хром; Управление: однорычажное; Картридж: керамический 35 мм; Монтаж: на гайке, 1 отверстие; Аэратор: F72-1 M24; Подводка: гибкая M10×1–G1/2, 45 см. Источник: StroyCity.")
+                + updateMixer(pending, "F1087-9", "Смеситель для раковины FRAP F1087-9", "/images/catalog/mixer-F1087-9.jpg",
+                        "Бренд: FRAP; Артикул: F1087-9; Назначение: для раковины; Материал: латунь; Цвет: оружейная сталь; Поверхность: матовая; Управление: однорычажное; Картридж: керамический 35 мм; Монтаж: на гайке, 1 отверстие; Излив: фиксированный, длина 134 мм; Высота смесителя: 156 мм; Высота излива: 94 мм; Аэратор: есть; Подводка: гибкая. Источник: Dush.kz.")
+                + updateMixer(pending, "F10202-6", "Смеситель для раковины FRAP F10202-6", "/images/catalog/mixer-F10202-6.jpg",
+                        "Бренд: FRAP; Артикул: F10202-6; Серия: H202; Назначение: для раковины; Цвет: чёрный сатин; Материал корпуса: алюминий; Управление: однорычажное; Картридж: керамический 25 мм; Монтаж: на гайке; Аэратор: F72-1-6 M24; Подводка: гибкая M10×1–G1/2, 450 мм. Источники: каталог FRAP, Vivon.")
                 + removeUnarticledShowerSystems()
                 + removeUnarticledMixers()
                 + updateMixerCategories(pending)
@@ -709,11 +719,19 @@ public class CatalogImportRunner implements CommandLineRunner {
                     ? "Смесители для кухни"
                     : title.contains("ванн") ? "Смесители для ванны" : "Смесители";
             if (!targetCategory.equals(category)) {
-                product.setCategory(targetCategory);
-                if (product.getId() == null) {
-                    pending.add(product);
+                Product pendingVersion = pending.stream()
+                        .filter(candidate -> candidate != product && product.getId() != null
+                                && product.getId().equals(candidate.getId()))
+                        .findFirst().orElse(null);
+                if (pendingVersion != null) {
+                    pendingVersion.setCategory(targetCategory);
                 } else {
-                    persistedUpdates.add(product);
+                    product.setCategory(targetCategory);
+                    if (product.getId() == null) {
+                        pending.add(product);
+                    } else {
+                        persistedUpdates.add(product);
+                    }
                 }
                 updated++;
             }
@@ -722,6 +740,21 @@ public class CatalogImportRunner implements CommandLineRunner {
             productRepository.saveAll(persistedUpdates);
         }
         return updated;
+    }
+
+    private int updateMixer(List<Product> pending, String article, String title, String imageUrl, String description) {
+        return productRepository.findFirstByArticle(article).map(product -> {
+            Product target = pending.stream()
+                    .filter(candidate -> article.equals(candidate.getArticle()))
+                    .findFirst().orElse(product);
+            target.setTitle(title);
+            target.setImageUrl(imageUrl);
+            target.setDescription(description);
+            if (!pending.contains(target)) {
+                productRepository.save(target);
+            }
+            return 1;
+        }).orElse(0);
     }
 
     private int updateBathroomAccessory(List<Product> pending, String article, String title, String color,
