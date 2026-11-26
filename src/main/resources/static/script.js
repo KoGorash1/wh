@@ -652,6 +652,13 @@
                     '/images/catalog/sanita-classic-luxe-80-2.webp',
                     '/images/catalog/sanita-classic-luxe-80-3.webp',
                 ]
+                : p.article === 'F025'
+                ? [
+                    '/images/catalog/frap-f025-4.jpg',
+                    '/images/catalog/frap-f025-6.jpg',
+                    '/images/catalog/frap-f025-8.jpg',
+                    '/images/catalog/frap-f025-3.jpg',
+                ]
                 : p.article === 'WB.PD/Best/55-C/WHT.G/S1'
                 ? [
                     '/images/catalog/sanita-best-luxe-55-5.jpg',
