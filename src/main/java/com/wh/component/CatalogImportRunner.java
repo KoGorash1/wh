@@ -229,6 +229,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateShowerTraps(pending)
                 + removeUnarticledTowelWarmers(pending)
                 + updateTowelWarmers(pending)
+                + removeUnarticledMirrors(pending)
+                + updateMirrors(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -629,6 +631,72 @@ public class CatalogImportRunner implements CommandLineRunner {
                 pending.add(product);
                 return 1;
             }).orElse(0);
+        }
+        return updated;
+    }
+
+    private int removeUnarticledMirrors(List<Product> pending) {
+        int removedFromImport = (int) pending.stream()
+                .filter(p -> "Зеркала".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).count();
+        pending.removeIf(p -> "Зеркала".equals(p.getCategory()) && blank(p.getArticle()));
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(p -> "Зеркала".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).toList();
+        productRepository.deleteAll(withoutArticle);
+        return removedFromImport + withoutArticle.size();
+    }
+
+    private int updateMirrors(List<Product> pending) {
+        String[][] mirrors = {
+                {"ЗЛП4919", "Стейдж 800×600 зеркало CONTINENT с бесконтактным сенсором", "/images/catalog/mirror-stage.jpg", "Стейдж", "черная алюминиевая рамка", "бесконтактный сенсор; холодная LED-подсветка; алюминиевый профиль"},
+                {"ЗЛП5601", "Армандо 1000×700 зеркало CONTINENT с сенсором", "", "Армандо", "", "сенсорный выключатель; холодная LED-подсветка"},
+                {"ЗЛП5603", "Армандо 1000×700 зеркало CONTINENT с антизапотеванием", "", "Армандо", "", "сенсорный выключатель; холодная LED-подсветка; функция антизапотевания"},
+                {"ЗЛП5610", "Армандо 900×700 зеркало CONTINENT с сенсором", "", "Армандо", "", "сенсорный выключатель; холодная LED-подсветка"},
+                {"ЗЛП537", "Демур 900×700 зеркало CONTINENT с подогревом", "/images/catalog/mirror-demur-900.jpg", "Демур", "", "сенсорный выключатель; LED-подсветка; подогрев полотна"},
+                {"ЗЛП4194", "Клэмм 1000×700 зеркало CONTINENT с подсветкой и подогревом", "/images/catalog/mirror-klemm.jpg", "Клэмм", "", "сенсорный выключатель; LED-подсветка; подогрев полотна"},
+                {"ЗЛП5624", "Блас 800×700 зеркало CONTINENT с сенсором", "", "Блас", "", "сенсорный выключатель; холодная LED-подсветка"},
+                {"ЗЛП5625", "Блас 900×700 зеркало CONTINENT с сенсором", "", "Блас", "", "сенсорный выключатель; холодная LED-подсветка"},
+                {"ЗЛП2522", "Меркури 800×700 зеркало CONTINENT с антизапотеванием", "/images/catalog/mirror-mercury.jpg", "Меркури", "", "сенсорный выключатель; LED-подсветка; функция антизапотевания"},
+                {"ЗЛП32", "Релакс 800×600 зеркало CONTINENT", "/images/catalog/mirror-relax.jpg", "Релакс", "", "сенсорный выключатель; LED-подсветка"},
+                {"ЗЛП1528", "Тори 1000×700 зеркало CONTINENT с фоновой подсветкой", "/images/catalog/mirror-torry.jpg", "Тори", "черная окантовка", "бесконтактный сенсор; фоновая LED-подсветка"},
+                {"ЗЛП3037", "Руссо 800×700 зеркало CONTINENT", "/images/catalog/mirror-russo.jpg", "Руссо", "", "сенсорный выключатель; LED-подсветка"},
+                {"ЗЛП627", "Лючиа 800×900 зеркало CONTINENT", "/images/catalog/mirror-lucia.jpg", "Лючиа", "", "сенсорный выключатель; LED-подсветка"},
+                {"ЗЛП1199", "Вельвет 900×700 зеркало CONTINENT", "/images/catalog/mirror-velvette.jpg", "Вельвет", "", "сенсорный выключатель; LED-подсветка"},
+                {"ЗЛП3022", "Клэмм 800×700 зеркало CONTINENT с подсветкой", "/images/catalog/mirror-klemm-800.jpg", "Клэмм", "", "сенсорный выключатель; холодная LED-подсветка"},
+                {"В005", "Зеркало Арго 400×585 см с полкой", "/images/catalog/mirror-argo.jpg", "Арго", "", "настенное зеркало с полкой; размеры 400×585 мм"},
+                {"Б056", "Зеркало Боско 600×740 с фацетом", "/images/catalog/mirror-bosko.jpg", "Боско", "", "зеркальное полотно с фацетной обработкой; размеры 600×740 мм"},
+                {"Б257", "Зеркало Брэйнс 500×900", "/images/catalog/mirror-brains.jpg", "Брэйнс", "", "настенное зеркало; размеры 500×900 мм"},
+                {"В085", "Зеркало Кипр 535×635", "", "Кипр", "", "настенное зеркало; размеры 535×635 мм"},
+                {"Б725", "Зеркало Альпы 500×1000, цвет дуб", "", "Альпы", "дуб", "настенное зеркало; размеры 500×1000 мм; отделка под дуб"},
+                {"В706", "Зеркало Арвен 500×700 с прозрачной полкой", "", "Арвен", "", "настенное зеркало с прозрачной полкой; размеры 500×700 мм"},
+                {"ЗЛП5196", "Алиро 1000×700 зеркало CONTINENT, золото", "/images/catalog/mirror-aliro-gold.jpg", "Алиро", "золото", "алюминиевая рама матовое золото; бесконтактный сенсор; LED-подсветка двойного свечения"},
+                {"ЗЛП5193", "Алиро 600×800 зеркало CONTINENT, золото", "/images/catalog/mirror-aliro-gold.jpg", "Алиро", "золото", "алюминиевая рама матовое золото; бесконтактный сенсор; LED-подсветка двойного свечения"},
+                {"ЗЛП5195", "Алиро 700×1000 зеркало CONTINENT, золото", "/images/catalog/mirror-aliro-gold.jpg", "Алиро", "золото", "алюминиевая рама матовое золото; бесконтактный сенсор; LED-подсветка двойного свечения"},
+                {"ЗЛП5194", "Алиро 800×600 зеркало CONTINENT, золото", "/images/catalog/mirror-aliro-gold.jpg", "Алиро", "золото", "алюминиевая рама матовое золото; бесконтактный сенсор; LED-подсветка двойного свечения"}
+        };
+        int updated = 0;
+        for (String[] mirror : mirrors) {
+            String article = mirror[0];
+            String description = "Бренд: CONTINENT; Коллекция: " + mirror[3] + "; Артикул: " + article
+                    + "; Тип: настенное зеркало для ванной; Размер: " + mirror[1].replaceAll(".*?(\\d+×\\d+).*", "$1")
+                    + " мм; Особенности: " + mirror[5] + "; Цвет: "
+                    + (mirror[4].isBlank() ? "серебро" : mirror[4]) + "; Подключение подсветки: 220 В. Характеристики: каталог CONTINENT.";
+            Product product = pending.stream().filter(p -> article.equals(p.getArticle())).findFirst()
+                    .or(() -> productRepository.findFirstByArticle(article)).orElse(null);
+            if (product != null) {
+                boolean changed = !mirror[1].equals(product.getTitle())
+                        || !"Зеркала".equals(product.getCategory())
+                        || !description.equals(product.getDescription())
+                        || (!mirror[2].isBlank() && !mirror[2].equals(product.getImageUrl()));
+                if (changed) updated++;
+                product.setTitle(mirror[1]);
+                product.setCategory("Зеркала");
+                product.setColor(mirror[4].isBlank() ? "серебро" : mirror[4]);
+                product.setDescription(description);
+                if (!mirror[2].isBlank()) product.setImageUrl(mirror[2]);
+                if (!pending.contains(product)) productRepository.save(product);
+            }
         }
         return updated;
     }
