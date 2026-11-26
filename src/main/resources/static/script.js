@@ -632,6 +632,28 @@
             const primaryImg = typeof rawImg === 'string' ? rawImg : '';
             const extraImages = p.article === 'G2407'
                 ? ['/images/catalog/g2407-2.jpg', '/images/catalog/g2407-3.jpg', '/images/catalog/g2407-4.jpg']
+                : p.article === 'F4049'
+                ? ['/images/catalog/kitchen-mixer-F4049-2.jpg', '/images/catalog/kitchen-mixer-F4049-3.jpg', '/images/catalog/kitchen-mixer-F4049-4.jpg', '/images/catalog/kitchen-mixer-F4049-5.jpg']
+                : p.article === 'F4497-6'
+                ? ['/images/catalog/kitchen-mixer-F4497-6-2.jpg', '/images/catalog/kitchen-mixer-F4497-6-3.jpg', '/images/catalog/kitchen-mixer-F4497-6-4.jpg']
+                : p.article === 'FS8255L-05'
+                ? ['/images/catalog/kitchen-mixer-FS8255L-05-2.png']
+                : p.article === 'FS8255Q-06'
+                ? ['/images/catalog/kitchen-mixer-FS8255Q-06-2.jpg']
+                : p.article === 'FS8255-H'
+                ? ['/images/catalog/kitchen-mixer-FS8255-H-2.jpg']
+                : p.article === 'FS8255C-07'
+                ? ['/images/catalog/kitchen-mixer-FS8255C-07-2.jpg']
+                : p.article === 'FS26829-04'
+                ? ['/images/catalog/kitchen-mixer-FS26829-04-2.png']
+                : p.article === 'FS26829-12'
+                ? ['/images/catalog/kitchen-mixer-FS26829-12-2.png', '/images/catalog/kitchen-mixer-FS26829-12-3.png']
+                : p.article === 'FM4104-01'
+                ? ['/images/catalog/kitchen-mixer-FM4104-01-2.jpeg']
+                : p.article === 'FM4104-04'
+                ? ['/images/catalog/kitchen-mixer-FM4104-04-2.jpeg']
+                : p.article === 'FM4104-12'
+                ? ['/images/catalog/kitchen-mixer-FM4104-12-2.jpeg']
                 : p.article === 'G2407-8'
                 ? ['/images/catalog/g2407-8-2.jpg', '/images/catalog/g2407-8-3.jpg', '/images/catalog/g2407-8-4.png']
                 : p.article === 'F2416'
