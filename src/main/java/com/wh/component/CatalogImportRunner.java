@@ -139,6 +139,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateBathroomAccessories(pending)
                 + updateShowerSystems(pending)
                 + removeUnarticledShowerSystems()
+                + updateMixerCategories(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -674,6 +675,36 @@ public class CatalogImportRunner implements CommandLineRunner {
                 .toList();
         productRepository.deleteAll(withoutArticle);
         return withoutArticle.size();
+    }
+
+    private int updateMixerCategories(List<Product> pending) {
+        List<Product> products = new ArrayList<>(productRepository.findAll());
+        for (Product product : pending) {
+            if (product.getId() == null) {
+                products.add(product);
+            }
+        }
+
+        int updated = 0;
+        for (Product product : products) {
+            String category = product.getCategory();
+            if (category == null || !category.startsWith("Смесители")) {
+                continue;
+            }
+
+            String title = product.getTitle() == null ? "" : product.getTitle().toLowerCase();
+            String targetCategory = title.contains("кухон") || title.contains("мойк")
+                    ? "Смесители для кухни"
+                    : title.contains("ванн") ? "Смесители для ванны" : "Смесители";
+            if (!targetCategory.equals(category)) {
+                product.setCategory(targetCategory);
+                if (!pending.contains(product)) {
+                    pending.add(product);
+                }
+                updated++;
+            }
+        }
+        return updated;
     }
 
     private int updateBathroomAccessory(List<Product> pending, String article, String title, String color,
