@@ -2688,6 +2688,14 @@ input:checked + .slider:before {
     filter: brightness(1.08) saturate(.92);
 }
 .pc:hover .pc-img img[src*="pedestal-sanita-"] { transform: scale(1.015); }
+.pc-img img[src*="/mirror-"] {
+    object-fit: contain;
+    padding: 10px 18px;
+    background: #fff;
+    mix-blend-mode: normal;
+    filter: brightness(1.08) saturate(.96);
+}
+.pc:hover .pc-img img[src*="/mirror-"] { transform: scale(1.015); }
 .pc-link { position: absolute; inset: 0; z-index: 1; }
 .pc .badge {
     position: absolute; top: 12px; left: 12px; z-index: 2; padding: 5px 14px; border-radius: 999px;
