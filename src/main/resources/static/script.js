@@ -652,6 +652,11 @@
                     '/images/catalog/sanita-classic-luxe-80-2.webp',
                     '/images/catalog/sanita-classic-luxe-80-3.webp',
                 ]
+                : p.article === 'KN6184000'
+                ? [
+                    '/images/catalog/knois-KN6184000_1-1000x1000.jpg',
+                    '/images/catalog/knois-KN6184000_2-1000x1000.jpg',
+                ]
                 : p.article === 'F027'
                 ? [
                     '/images/catalog/frap-f027-2.jpg',

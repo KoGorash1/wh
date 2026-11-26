@@ -39,13 +39,14 @@
     "importKey": "catalog:article:KN6184000",
     "article": "KN6184000",
     "barcode": null,
-    "color": null,
+    "color": "белый",
     "title": "Унитаз моноблок напольный, с сидением",
     "category": "Унитазы",
-    "price": null,
+    "price": 16500,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Унитаз моноблок напольный, с сидением Артикул: KN6184000."
+    "imageUrl": "/images/catalog/knois-KN6184000-1000x1000.jpg",
+    "description": "Бренд: KNOIS; Артикул: KN6184000; Тип: напольный унитаз-моноблок; Комплектация: сиденье; Материал: фаянс; Форма: прямоугольная с острыми углами; Цвет: белый; Тип подключения: нижнее; Размеры: 695 × 380 × 770 мм (глубина × ширина × высота).",
+    "width": 38
   },
   {
     "importKey": "catalog:article:KN61710BW",

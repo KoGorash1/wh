@@ -132,7 +132,8 @@ public class CatalogImportRunner implements CommandLineRunner {
 
         int featuredProductUpdates = updatePlastWashbasin(pending)
                 + updateFrapF02632(pending) + updateFrapF027(pending)
-                + updateArinBerdCornice(pending) + updateAdditionalCornices(pending);
+                + updateArinBerdCornice(pending) + updateAdditionalCornices(pending)
+                + updateKnoisToilet(pending);
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -276,6 +277,42 @@ public class CatalogImportRunner implements CommandLineRunner {
                         + "Ширина: 1000 мм; Материал: нержавеющая сталь; Цвет: хром; Диаметр трубы: 25 мм; "
                         + "Толщина стенки: 1 мм; Крепление: настенное; Страна производства: Россия.");
         return updated;
+    }
+
+
+    private int updateKnoisToilet(List<Product> pending) {
+        return productRepository.findFirstByArticle("KN6184000")
+                .map(product -> {
+                    String title = "Унитаз моноблок напольный, с сидением";
+                    String category = "Унитазы";
+                    String color = "белый";
+                    String imageUrl = "/images/catalog/knois-KN6184000-1000x1000.jpg";
+                    String description = "Бренд: KNOIS; Артикул: KN6184000; Тип: напольный унитаз-моноблок; "
+                            + "Комплектация: сиденье; Материал: фаянс; Форма: прямоугольная с острыми углами; "
+                            + "Цвет: белый; Тип подключения: нижнее; "
+                            + "Размеры: 695 × 380 × 770 мм (глубина × ширина × высота).";
+                    boolean changed = !title.equals(product.getTitle())
+                            || !category.equals(product.getCategory())
+                            || !color.equals(product.getColor())
+                            || !imageUrl.equals(product.getImageUrl())
+                            || !description.equals(product.getDescription())
+                            || product.getPrice() == null || product.getPrice() != 16500.0
+                            || product.getStock() == null || product.getStock() != 0
+                            || product.getWidth() == null || product.getWidth() != 38;
+                    if (!changed) return 0;
+                    product.setTitle(title);
+                    product.setCategory(category);
+                    product.setColor(color);
+                    product.setImageUrl(imageUrl);
+                    product.setDescription(description);
+                    product.setPrice(16500.0);
+                    product.setStock(0);
+                    product.setWidth(38);
+                    product.setIsShowroom(false);
+                    pending.add(product);
+                    return 1;
+                })
+                .orElse(0);
     }
 
     private int updateCornice(List<Product> pending, String title, String article, double price,
