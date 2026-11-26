@@ -216,6 +216,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                         "Бренд: FRAP; Артикул: F1089-3; Серия: H89; Назначение: для раковины; Материал: латунь; Цвет: сатин золотой; Поверхность: матовая; Управление: однорычажное; Картридж: керамический 30 мм; Монтаж: на гайке, 1 отверстие; Излив: фиксированный; Высота смесителя: 160 мм; Длина излива: 146 мм; Высота излива: 104 мм; Аэратор: есть; Подводка: гибкая. Источник: FRAP.")
                 + removeUnarticledShowerSystems()
                 + removeUnarticledMixers()
+                + removeUnarticledBathtubs()
+                + updateBathtubs(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -762,6 +764,32 @@ public class CatalogImportRunner implements CommandLineRunner {
                 .toList();
         productRepository.deleteAll(withoutArticle);
         return withoutArticle.size();
+    }
+
+    private int removeUnarticledBathtubs() {
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(product -> "Ванны".equals(product.getCategory()))
+                .filter(product -> blank(product.getArticle()))
+                .toList();
+        productRepository.deleteAll(withoutArticle);
+        return withoutArticle.size();
+    }
+
+    private int updateBathtubs(List<Product> pending) {
+        int updated = 0;
+        updated += updateMixer(pending, "OV-521/180/2PL", "Ванна OVO CLARISE LINE 180×76×58 см, левая",
+                "/images/catalog/bathtub-clarise.jpg",
+                "Бренд: OVO; Артикул: OV-521/180/2PL; Коллекция: CLARISE LINE; Тип: отдельностоящая ванна на каркасе; Ориентация: левая; Размеры: 180×76×58 см; Цвет: белый. Источник фото и размеров: ФО-ОПТТОРГ.");
+        updated += updateMixer(pending, "OV-521/180/2PR", "Ванна OVO CLARISE LINE 180×76×58 см, правая",
+                "/images/catalog/bathtub-clarise.jpg",
+                "Бренд: OVO; Артикул: OV-521/180/2PR; Коллекция: CLARISE LINE; Тип: отдельностоящая ванна на каркасе; Ориентация: правая; Размеры: 180×76×58 см; Цвет: белый. Источник фото и размеров: ФО-ОПТТОРГ.");
+        updated += updateMixer(pending, "OV-521/170R", "Ванна OVO CLARISE 170×76×58 см, правая",
+                "/images/catalog/bathtub-clarise.jpg",
+                "Бренд: OVO; Артикул: OV-521/170R; Коллекция: CLARISE; Тип: отдельностоящая акриловая ванна на каркасе; Ориентация: правая; Размеры: 170×76×58 см. Источник фото и размеров: Muzaev.");
+        updated += updateMixer(pending, "OV-526", "Ванна SONATA 170×80×60 см",
+                "/images/catalog/bathtub-sonata.jpg",
+                "Артикул: OV-526; Коллекция: SONATA; Тип: отдельностоящая ванна на каркасе; Размеры: 170×80×60 см; Цвет: белый. Характеристики взяты из исходной карточки товара.");
+        return updated;
     }
 
     private int updateMixerCategories(List<Product> pending) {
