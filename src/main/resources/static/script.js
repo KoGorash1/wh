@@ -647,6 +647,11 @@
                     '/images/catalog/sanita-next-luxe-60-5.jpeg',
                     '/images/catalog/sanita-next-luxe-60-6.jpeg',
                 ]
+                : p.article === 'WB.FN/Classic/80-C/WHT.G/S1'
+                ? [
+                    '/images/catalog/sanita-classic-luxe-80-2.webp',
+                    '/images/catalog/sanita-classic-luxe-80-3.webp',
+                ]
                 : [];
             const images = [
                 { src: primaryImg, label: 'Фото 1' },
