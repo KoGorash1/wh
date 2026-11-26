@@ -1809,15 +1809,15 @@
   },
   {
     "importKey": "catalog:no-article:148",
-    "article": null,
+    "article": "84938",
     "barcode": null,
     "color": null,
     "title": "Карниз д/в Г-обр. 1000/1000",
     "category": "Карнизы для душа",
-    "price": null,
+    "price": 1589.63,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Карниз д/в Г-обр. 1000/1000"
+    "imageUrl": "/images/catalog/arin-berd-cornice-1000-1000.jpg",
+    "description": "Бренд: ARIN BERD; Артикул поставщика: 84938; Форма: Г-образная; Ширина: 1000 мм; Глубина: 1000 мм; Материал: нержавеющая сталь; Диаметр трубы: 1/2 дюйма; Крепление к потолку: нет; Гарантия производителя: 1 год; Страна производства: Россия."
   },
   {
     "importKey": "catalog:article:ЗЛП1199",
@@ -1845,27 +1845,27 @@
   },
   {
     "importKey": "catalog:no-article:151",
-    "article": null,
+    "article": "Щ0000052844",
     "barcode": null,
     "color": null,
     "title": "Карниз д/в Г-обр. 1800/800",
     "category": "Карнизы для душа",
-    "price": null,
+    "price": 4320,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Карниз д/в Г-обр. 1800/800"
+    "imageUrl": "/images/catalog/triton-cornice-1800-800.jpg",
+    "description": "Бренд: Triton; Артикул производителя: Щ0000052844; Форма: Г-образная; Длина: 1800 мм; Ширина: 800 мм; Материал: нержавеющая сталь."
   },
   {
     "importKey": "catalog:no-article:152",
-    "article": null,
+    "article": "K25R-120x120",
     "barcode": null,
     "color": null,
     "title": "Карниз д/в Дуга 1200/1200",
     "category": "Карнизы для душа",
-    "price": null,
+    "price": 2450,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Карниз д/в Дуга 1200/1200"
+    "imageUrl": "/images/catalog/mrkarniz-arc-1200-1200.jpg",
+    "description": "Бренд: Mr.Karniz; Модель: K25R-120x120; Форма: дугообразная; Ширина: 1200 мм; Глубина: 1200 мм; Материал: нержавеющая сталь; Цвет: хром; Диаметр трубы: 25 мм; Толщина стенки: 1 мм; Установка: настенная; Крепление: шурупы; Максимальная нагрузка: более 25 кг; Гарантия: 10 лет; Страна производства: Россия."
   },
   {
     "importKey": "catalog:article:Б725",
@@ -1941,15 +1941,15 @@
   },
   {
     "importKey": "catalog:no-article:159",
-    "article": null,
+    "article": "K25G-120x100",
     "barcode": null,
     "color": null,
     "title": "Карниз д/в Г-обр. 1200/1000",
     "category": "Карнизы для душа",
-    "price": null,
+    "price": 3728,
     "stock": 0,
-    "imageUrl": null,
-    "description": "Карниз д/в Г-обр. 1200/1000"
+    "imageUrl": "/images/catalog/mrkarniz-g-1200-1000.jpg",
+    "description": "Бренд: Mr.Karniz; Модель: K25G-120x100; Форма: Г-образная; Длина: 1200 мм; Ширина: 1000 мм; Материал: нержавеющая сталь; Цвет: хром; Диаметр трубы: 25 мм; Толщина стенки: 1 мм; Крепление: настенное; Страна производства: Россия."
   },
   {
     "importKey": "catalog:article:ЗЛП5196",

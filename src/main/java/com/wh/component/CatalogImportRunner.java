@@ -132,7 +132,7 @@ public class CatalogImportRunner implements CommandLineRunner {
 
         int featuredProductUpdates = updatePlastWashbasin(pending)
                 + updateFrapF02632(pending) + updateFrapF027(pending)
-                + updateArinBerdCornice(pending);
+                + updateArinBerdCornice(pending) + updateAdditionalCornices(pending);
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -251,6 +251,54 @@ public class CatalogImportRunner implements CommandLineRunner {
                 .orElse(0);
     }
 
+
+
+    private int updateAdditionalCornices(List<Product> pending) {
+        int updated = 0;
+        updated += updateCornice(pending, "Карниз д/в Г-обр. 1000/1000", "84938", 1589.63,
+                "/images/catalog/arin-berd-cornice-1000-1000.jpg",
+                "Бренд: ARIN BERD; Артикул поставщика: 84938; Форма: Г-образная; Ширина: 1000 мм; "
+                        + "Глубина: 1000 мм; Материал: нержавеющая сталь; Диаметр трубы: 1/2 дюйма; "
+                        + "Крепление к потолку: нет; Гарантия производителя: 1 год; Страна производства: Россия.");
+        updated += updateCornice(pending, "Карниз д/в Г-обр. 1800/800", "Щ0000052844", 4320.0,
+                "/images/catalog/triton-cornice-1800-800.jpg",
+                "Бренд: Triton; Артикул производителя: Щ0000052844; Форма: Г-образная; "
+                        + "Длина: 1800 мм; Ширина: 800 мм; Материал: нержавеющая сталь.");
+        updated += updateCornice(pending, "Карниз д/в Дуга 1200/1200", "K25R-120x120", 2450.0,
+                "/images/catalog/mrkarniz-arc-1200-1200.jpg",
+                "Бренд: Mr.Karniz; Модель: K25R-120x120; Форма: дугообразная; Ширина: 1200 мм; "
+                        + "Глубина: 1200 мм; Материал: нержавеющая сталь; Цвет: хром; Диаметр трубы: 25 мм; "
+                        + "Толщина стенки: 1 мм; Установка: настенная; Крепление: шурупы; "
+                        + "Максимальная нагрузка: более 25 кг; Гарантия: 10 лет; Страна производства: Россия.");
+        updated += updateCornice(pending, "Карниз д/в Г-обр. 1200/1000", "K25G-120x100", 3728.0,
+                "/images/catalog/mrkarniz-g-1200-1000.jpg",
+                "Бренд: Mr.Karniz; Модель: K25G-120x100; Форма: Г-образная; Длина: 1200 мм; "
+                        + "Ширина: 1000 мм; Материал: нержавеющая сталь; Цвет: хром; Диаметр трубы: 25 мм; "
+                        + "Толщина стенки: 1 мм; Крепление: настенное; Страна производства: Россия.");
+        return updated;
+    }
+
+    private int updateCornice(List<Product> pending, String title, String article, double price,
+                              String imageUrl, String description) {
+        return productRepository.findFirstByTitleAndCategory(title, "Карнизы для душа")
+                .map(product -> {
+                    boolean changed = !article.equals(product.getArticle())
+                            || !imageUrl.equals(product.getImageUrl())
+                            || !description.equals(product.getDescription())
+                            || product.getPrice() == null || product.getPrice() != price
+                            || product.getStock() == null || product.getStock() != 0;
+                    if (!changed) return 0;
+                    product.setArticle(article);
+                    product.setImageUrl(imageUrl);
+                    product.setDescription(description);
+                    product.setPrice(price);
+                    product.setStock(0);
+                    product.setIsShowroom(false);
+                    pending.add(product);
+                    return 1;
+                })
+                .orElse(0);
+    }
 
     private int updateArinBerdCornice(List<Product> pending) {
         return productRepository.findFirstByTitleAndCategory("Карниз д/в Г-обр. 900/900", "Карнизы для душа")
