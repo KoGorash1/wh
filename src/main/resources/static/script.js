@@ -699,6 +699,26 @@
                     '/images/catalog/sanita-best-luxe-55-13.jpg',
                     '/images/catalog/sanita-best-luxe-55-dimensions.jpg',
                 ]
+                : p.article === 'R700.5050.03'
+                ? ['/images/catalog/raglo-R700-5050-03-kit.jpg']
+                : p.article === 'R700.5050.05'
+                ? ['/images/catalog/raglo-R700-5050-05-kit.jpg']
+                : p.article === 'R700.5050.09'
+                ? ['/images/catalog/raglo-R700-5050-09-kit.jpg']
+                : p.article === 'R701.6050.03'
+                ? ['/images/catalog/raglo-R701-6050-03-kit.jpg']
+                : p.article === 'R701.6050.05'
+                ? ['/images/catalog/raglo-R701-6050-05-kit.jpg']
+                : p.article === 'T76050H-1' || p.article === 'T76050H+TD1'
+                ? ['/images/catalog/oute-T76050H-specs.jpg']
+                : p.article === 'T75050H-1' || p.article === 'T75050H+TD1'
+                ? ['/images/catalog/oute-T75050H-specs.jpg']
+                : p.article === 'T76050L-1+TD1'
+                ? ['/images/catalog/oute-T76050L-1-specs.jpg']
+                : p.article === 'T75050L-1+TD1'
+                ? ['/images/catalog/oute-T75050L-1-specs.jpg']
+                : p.article === 'T75050L'
+                ? ['/images/catalog/oute-T75050L-specs.jpg']
                 : [];
             const images = [
                 { src: primaryImg, label: 'Фото 1' },

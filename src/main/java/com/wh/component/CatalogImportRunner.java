@@ -134,6 +134,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateFrapF02632(pending) + updateFrapF027(pending)
                 + updateArinBerdCornice(pending) + updateAdditionalCornices(pending)
                 + updateKnoisToilet(pending)
+                + updateKitchenSinks(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
                         "Бренд: KNOIS; Артикул: KN61710BW; Тип: напольный унитаз-моноблок с функцией биде; "
@@ -460,6 +461,95 @@ public class CatalogImportRunner implements CommandLineRunner {
             product.setPrice(price);
             product.setStock(0);
             product.setWidth(100);
+            product.setIsShowroom(false);
+            pending.add(product);
+            return 1;
+        }).orElse(0);
+    }
+
+    private int updateKitchenSinks(List<Product> pending) {
+        int updated = 0;
+        updated += updateKitchenSink(pending, "T76050H-1", "Мойка OUTE 60×50 см с декором", "чёрный", 8490,
+                "/images/catalog/oute-T76050H-1.jpg", 60,
+                "Бренд: OUTE; Артикул: T76050H-1; Размер: 600×500×200 мм; Материал: нержавеющая сталь; "
+                        + "Цвет: чёрный/графит; Покрытие: PVD; Чаша: одна, глубина 200 мм; Установка: врезная; "
+                        + "В комплекте сифон. Цена: Colorlon.");
+        updated += updateKitchenSink(pending, "T75050H-1", "Мойка OUTE 50×50 см с декором", "чёрный", 6489,
+                "/images/catalog/oute-T75050H-1.jpg", 50,
+                "Бренд: OUTE; Артикул: T75050H-1; Размер: 500×500×200 мм; Материал: нержавеющая сталь; "
+                        + "Цвет: чёрный/графит; Покрытие: PVD; Чаша: одна, глубина 200 мм; Установка: врезная; "
+                        + "В комплекте сифон. Цена: Яндекс Маркет.");
+        updated += updateKitchenSink(pending, "T75050L", "Мойка OUTE 50×50 см сатин", "сатин", 5499,
+                "/images/catalog/oute-T75050L.jpg", 50,
+                "Бренд: OUTE; Артикул: T75050L; Размер: 500×500×200 мм; Материал: нержавеющая сталь SUS304; "
+                        + "Цвет/покрытие: сатин PVD; Чаша: одна; Толщина основания: 3 мм, чаши: 1 мм; "
+                        + "Шумоизоляция; отверстие слива 90 мм; отверстия под смеситель и дозатор; сифон в комплекте; "
+                        + "Гарантия: 2 года на мойку и покрытие. Цена: ВсеИнструменты.");
+        updated += updateKitchenSink(pending, "T76050L-1+TD1", "Мойка OUTE 60×50 см сатин с декором", "сатин", 8500,
+                "/images/catalog/oute-T76050L-1.jpg", 60,
+                "Бренд: OUTE; Артикул: T76050L-1+TD1; Размер: 600×500×200 мм; Материал: нержавеющая сталь; "
+                        + "Цвет: сатин; Декоративная обработка чаши; Покрытие PVD; Одна чаша; Врезной монтаж; "
+                        + "Цена указана для модели T76050L-1, найденной в розничном каталоге.");
+        updated += updateKitchenSink(pending, "T76050H+TD1", "Мойка OUTE 60×50 см чёрная", "чёрный", 8500,
+                "/images/catalog/oute-T76050H.jpg", 60,
+                "Бренд: OUTE; Артикул: T76050H+TD1; Размер: 600×500×200 мм; Материал: нержавеющая сталь; "
+                        + "Цвет: чёрный; Покрытие PVD; Одна чаша; Врезной монтаж; Сифон в комплекте. "
+                        + "Цена указана для розничной модели OUTE T76050H.");
+        updated += updateKitchenSink(pending, "T75050L-1+TD1", "Мойка OUTE 50×50 см сатин с декором", "сатин", 7900,
+                "/images/catalog/oute-T75050L-1.jpg", 50,
+                "Бренд: OUTE; Артикул: T75050L-1+TD1; Размер: 500×500×200 мм; Материал: нержавеющая сталь; "
+                        + "Цвет: сатин; Декоративная обработка чаши; Покрытие PVD; Одна чаша; Врезной монтаж; "
+                        + "Цена указана для модели T75050L-1, найденной в розничном каталоге.");
+        updated += updateKitchenSink(pending, "T75050J", "Мойка OUTE 50×50 см матовое золото", "матовое золото", 7856,
+                "/images/catalog/oute-T75050J.jpg", 50,
+                "Бренд: OUTE; Артикул: T75050J; Размер: 500×500×200 мм; Материал: нержавеющая сталь; "
+                        + "Цвет: матовое золото; PVD-покрытие; Одна чаша, глубина 200 мм; Сифон в комплекте; "
+                        + "В комплекте также тропическая лейка 30 см. Цена: ВсеИнструменты.");
+        updated += updateKitchenSink(pending, "T75050H+TD1", "Мойка OUTE 50×50 см чёрная", "чёрный", 7900,
+                "/images/catalog/oute-T75050H.jpg", 50,
+                "Бренд: OUTE; Артикул: T75050H+TD1; Размер: 500×500×200 мм; Материал: нержавеющая сталь; "
+                        + "Цвет: чёрный; Декоративная обработка; PVD-покрытие; Одна чаша; Врезной монтаж; "
+                        + "Цена указана для розничной модели OUTE T75050H.");
+
+        updated += updateKitchenSink(pending, "R700.5050.03", "Мойка RAGLO R700 50×50×20,8 см", "сатин золотой", 22420,
+                "/images/catalog/raglo-R700-5050-03.jpg", 50, ragloDescription("R700.5050.03", "сатин золотой", 50));
+        updated += updateKitchenSink(pending, "R700.5050.05", "Мойка RAGLO R700 50×50×20,8 см", "сатин", 20840,
+                "/images/catalog/raglo-R700-5050-05.jpg", 50, ragloDescription("R700.5050.05", "сатин", 50));
+        updated += updateKitchenSink(pending, "R700.5050.09", "Мойка RAGLO R700 50×50×20,8 см", "графит", 22420,
+                "/images/catalog/raglo-R700-5050-09.jpg", 50, ragloDescription("R700.5050.09", "графит", 50));
+        updated += updateKitchenSink(pending, "R701.6050.03", "Мойка RAGLO R701 60×50×20,8 см", "сатин золотой", 24168,
+                "/images/catalog/raglo-R701-6050-03.jpg", 60, ragloDescription("R701.6050.03", "сатин золотой", 60));
+        updated += updateKitchenSink(pending, "R701.6050.05", "Мойка RAGLO R701 60×50×20,8 см", "сатин", 22518,
+                "/images/catalog/raglo-R701-6050-05.jpg", 60, ragloDescription("R701.6050.05", "сатин", 60));
+        return updated;
+    }
+
+    private String ragloDescription(String article, String color, int base) {
+        return "Бренд: RAGLO; Артикул: " + article + "; Размер: " + base + "×50×20,8 см; "
+                + "Материал: нержавеющая сталь SUS304; Цвет: " + color + "; Покрытие: PVD; "
+                + "Форма: прямоугольная; Чаша: одна, глубина 208 мм; Толщина борта: 3 мм, чаши: 0,8 мм; "
+                + "Два готовых отверстия (35 и 28 мм); Врезной монтаж или установка в один уровень; "
+                + "Шумоизоляция и защита от вибрации; В комплекте крепления, слив 90 мм, сифон с подключением "
+                + "посудомоечной машины, донный клапан, перелив, коландер и шаблон. Цена: официальный каталог RAGLO.";
+    }
+
+    private int updateKitchenSink(List<Product> pending, String article, String title, String color,
+                                  double price, String imageUrl, int width, String description) {
+        return productRepository.findFirstByArticle(article).map(product -> {
+            boolean changed = !title.equals(product.getTitle())
+                    || !"Кухонные мойки".equals(product.getCategory())
+                    || !color.equals(product.getColor()) || !imageUrl.equals(product.getImageUrl())
+                    || !description.equals(product.getDescription()) || product.getPrice() == null
+                    || product.getPrice() != price || product.getWidth() == null || product.getWidth() != width;
+            if (!changed) return 0;
+            product.setTitle(title);
+            product.setCategory("Кухонные мойки");
+            product.setColor(color);
+            product.setPrice(price);
+            product.setImageUrl(imageUrl);
+            product.setDescription(description);
+            product.setWidth(width);
+            product.setStock(0);
             product.setIsShowroom(false);
             pending.add(product);
             return 1;
