@@ -2245,12 +2245,15 @@
     "article": "WB.PD/Next/60-C/WHT.G/S1 (NXTSLWB01)",
     "barcode": null,
     "color": "белый",
-    "title": "NEXT LUXE Раковина Sanita luxe",
+    "title": "Раковина Next Luxe 60",
     "category": "Раковины",
-    "price": null,
+    "style": "modern",
+    "price": 3182,
+    "oldPrice": 4320,
+    "badge": "sale",
     "stock": 0,
-    "imageUrl": null,
-    "description": "NEXT LUXE Раковина Sanita luxe Цвет: белый. Артикул: WB.PD/Next/60-C/WHT.G/S1 (NXTSLWB01)."
+    "imageUrl": "/images/catalog/sanita-next-luxe-60-1.jpeg",
+    "description": "Серия: SANITA LUXE Next 60; Форма: прямоугольная; Монтаж: подвесной или на пьедестал; Количество чаш: 1; Ориентация: универсальная; Расположение крыла: без крыла; Расположение смесителя: по центру; Готовые отверстия под смеситель: 1; Перелив: есть; Цвет: белый; Материал: санфарфор; Поверхность: глянцевая; Донный клапан: нет; Полотенцедержатель: нет; Пьедестал: не входит в комплект; Высота: 214 мм; Ширина: 610 мм; Глубина: 454 мм; Стиль: современный; Вес: 27,8 кг; Артикул: WB.PD/Next/60-C/WHT.G/S1; Гарантия: 15 лет; Наличие у поставщика: под заказ."
   },
   {
     "importKey": "catalog:article:PD.FS/NEXT/N/WHT.G/S1 (NXTSLPD01)",

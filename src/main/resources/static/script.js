@@ -356,7 +356,7 @@
           <p class="pc-w">${[p.article ? 'Артикул: ' + esc(p.article) : '', p.barcode ? 'Штрихкод: ' + esc(p.barcode) : '', p.color ? 'Цвет: ' + esc(p.color) : '', p.w ? 'Ширина: ' + p.w + ' см' : ''].filter(Boolean).join(' · ') || '&nbsp;'}</p>
           <div class="pc-foot">
             <div class="pc-price${sale ? ' sale' : ''}">
-              <span>${canBuy ? fmt(p.price) + ' ₽' : 'Цена уточняется'}</span>${sale ? `<s>${fmt(p.old)} ₽</s>` : ''}
+              <span>${p.price != null && p.price > 0 ? fmt(p.price) + ' ₽' : 'Цена уточняется'}</span>${sale ? `<s>${fmt(p.old)} ₽</s>` : ''}
             </div>
             <a class="pc-go" href="/product/${esc(p.id)}" aria-label="Подробнее">→</a>
           </div>
@@ -639,6 +639,14 @@
                     '/images/catalog/sanita-samarsky-57-6.jpeg',
                     '/images/catalog/sanita-samarsky-57-7.jpeg',
                 ]
+                : p.article === 'WB.PD/Next/60-C/WHT.G/S1 (NXTSLWB01)'
+                ? [
+                    '/images/catalog/sanita-next-luxe-60-2.jpeg',
+                    '/images/catalog/sanita-next-luxe-60-3.jpeg',
+                    '/images/catalog/sanita-next-luxe-60-4.jpeg',
+                    '/images/catalog/sanita-next-luxe-60-5.jpeg',
+                    '/images/catalog/sanita-next-luxe-60-6.jpeg',
+                ]
                 : [];
             const images = [
                 { src: primaryImg, label: 'Фото 1' },
@@ -676,7 +684,7 @@
             }
             if (pdKickerEl) pdKickerEl.textContent = cat;
             pdTitleEl.textContent = p.title || '';
-            if (pdPriceEl) pdPriceEl.textContent = canBuy ? fmt(p.price) + ' ₽' : 'Цена уточняется';
+            if (pdPriceEl) pdPriceEl.textContent = p.price != null && Number(p.price) > 0 ? fmt(p.price) + ' ₽' : 'Цена уточняется';
             if (!primaryImg && pdZoom) pdZoom.style.display = 'none';
             if (pdAdd && !canBuy) {
                 pdAdd.disabled = true;
