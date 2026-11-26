@@ -135,6 +135,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateArinBerdCornice(pending) + updateAdditionalCornices(pending)
                 + updateKnoisToilet(pending)
                 + updateKitchenSinks(pending)
+                + updateDrainValves(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -536,6 +537,51 @@ public class CatalogImportRunner implements CommandLineRunner {
             }).orElse(0);
         }
         return updated;
+    }
+
+    private int updateDrainValves(List<Product> pending) {
+        int updated = 0;
+        updated += updateDrainValve(pending, "RD-UN3850C", "Донный клапан REDO универсальный",
+                "хром", 1308.0, "/images/catalog/rd-un3850c.jpg", "нержавеющая сталь");
+        updated += updateDrainValve(pending, "RD-UN385MB", "Донный клапан REDO универсальный",
+                "матовый черный", 1439.0, "/images/catalog/rd-un385mb.jpg", "нержавеющая сталь");
+        updated += updateDrainValve(pending, "RD-UN3850G", "Донный клапан REDO универсальный",
+                "золотой", 1439.0, "/images/catalog/rd-un3850g.jpg", "нержавеющая сталь");
+        updated += updateDrainValve(pending, "RD-UNK385MB", "Донный клапан REDO универсальный керамический",
+                "матовый черный", 1253.0, "/images/catalog/rd-unk385mb.jpg", "керамика");
+        updated += updateDrainValve(pending, "RD-UNK385MW", "Донный клапан REDO универсальный керамический",
+                "матовый белый", 1253.0, "/images/catalog/rd-unk385mw.jpg", "керамика");
+        updated += updateDrainValve(pending, "RD-UNK385GW", "Донный клапан REDO универсальный керамический",
+                "глянцевый белый", 1253.0, "/images/catalog/rd-unk385gw.jpg", "керамика");
+        return updated;
+    }
+
+    private int updateDrainValve(List<Product> pending, String article, String title, String color,
+                                 double price, String imageUrl, String material) {
+        String description = "Бренд: REDO; Артикул: " + article + "; Тип: универсальный донный клапан click-clack; "
+                + "Материал: " + material + "; Цвет: " + color + "; Диаметр слива: 32 мм; "
+                + "Универсальное подключение; подходит для раковин без перелива; Страна производства: Китай; "
+                + "Вес в упаковке: 0,3 кг. Цена и фото: ФО-ОПТТОРГ.";
+        return productRepository.findFirstByArticle(article).map(product -> {
+            boolean changed = !title.equals(product.getTitle())
+                    || !"Сливы и донные клапаны".equals(product.getCategory())
+                    || !color.equals(product.getColor())
+                    || !imageUrl.equals(product.getImageUrl())
+                    || !description.equals(product.getDescription())
+                    || product.getPrice() == null || product.getPrice() != price
+                    || product.getStock() == null || product.getStock() != 0;
+            if (!changed) return 0;
+            product.setTitle(title);
+            product.setCategory("Сливы и донные клапаны");
+            product.setColor(color);
+            product.setImageUrl(imageUrl);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setStock(0);
+            product.setIsShowroom(false);
+            pending.add(product);
+            return 1;
+        }).orElse(0);
     }
 
     private String ragloDescription(String article, String color, int base) {
