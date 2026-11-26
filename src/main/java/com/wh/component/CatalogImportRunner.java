@@ -130,7 +130,7 @@ public class CatalogImportRunner implements CommandLineRunner {
             }
         }
 
-        int featuredProductUpdates = updatePlastWashbasin(pending);
+        int featuredProductUpdates = updatePlastWashbasin(pending) + updateFrapF02632(pending);
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -171,6 +171,41 @@ public class CatalogImportRunner implements CommandLineRunner {
                     product.setPrice(6649.0);
                     product.setOldPrice(7130.0);
                     product.setBadge("sale");
+                    pending.add(product);
+                    return 1;
+                })
+                .orElse(0);
+    }
+
+    private int updateFrapF02632(List<Product> pending) {
+        return productRepository.findFirstByArticle("F026-32")
+                .map(product -> {
+                    String title = "Верхний душ FRAP F026-32, 320 × 220 мм";
+                    String category = "Душевые лейки";
+                    String color = "оружейная сталь";
+                    String imageUrl = "/images/catalog/frap-f026-32-1.jpg";
+                    String description = "Бренд: FRAP; Модель: F026; Артикул: F026-32; "
+                            + "Тип: верхний тропический душ; Форма: прямоугольная; Монтаж: потолочный; "
+                            + "Длина: 320 мм; Ширина: 220 мм; Материал: пластик; Цвет: оружейная сталь; "
+                            + "Количество режимов: 1; Подключение: 1/2 дюйма; "
+                            + "Комплектация: верхний душ, упаковка; Страна производства: Китай.";
+                    boolean changed = !title.equals(product.getTitle())
+                            || !category.equals(product.getCategory())
+                            || !color.equals(product.getColor())
+                            || !imageUrl.equals(product.getImageUrl())
+                            || !description.equals(product.getDescription())
+                            || product.getPrice() == null || product.getPrice() != 3460.0
+                            || product.getStock() == null || product.getStock() != 0;
+                    if (!changed) return 0;
+                    product.setTitle(title);
+                    product.setCategory(category);
+                    product.setArticle("F026-32");
+                    product.setColor(color);
+                    product.setImageUrl(imageUrl);
+                    product.setDescription(description);
+                    product.setPrice(3460.0);
+                    product.setStock(0);
+                    product.setIsShowroom(false);
                     pending.add(product);
                     return 1;
                 })

@@ -16,6 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findFirstByImportKey(String importKey);
 
+    Optional<Product> findFirstByArticle(String article);
+
     Optional<Product> findFirstByTitleAndCategory(String title, String category);
 
 }
