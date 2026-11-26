@@ -657,6 +657,14 @@
                     '/images/catalog/knois-KN6184000_1-1000x1000.jpg',
                     '/images/catalog/knois-KN6184000_2-1000x1000.jpg',
                 ]
+                : p.article === 'KN61710BW'
+                ? ['/images/catalog/knois-KN61710BW-specs.png']
+                : p.article === 'KN6279000'
+                ? ['/images/catalog/knois-KN6279000-specs.jpg']
+                : p.article === 'KN6291000'
+                ? ['/images/catalog/knois-KN6291000-specs.jpg']
+                : p.article === 'KN6831000'
+                ? ['/images/catalog/stella-polar-kuenka-KN6831000-2.jpg']
                 : p.article === 'F027'
                 ? [
                     '/images/catalog/frap-f027-2.jpg',

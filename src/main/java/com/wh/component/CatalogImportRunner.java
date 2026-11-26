@@ -133,7 +133,34 @@ public class CatalogImportRunner implements CommandLineRunner {
         int featuredProductUpdates = updatePlastWashbasin(pending)
                 + updateFrapF02632(pending) + updateFrapF027(pending)
                 + updateArinBerdCornice(pending) + updateAdditionalCornices(pending)
-                + updateKnoisToilet(pending);
+                + updateKnoisToilet(pending)
+                + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
+                        18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
+                        "Бренд: KNOIS; Артикул: KN61710BW; Тип: напольный унитаз-моноблок с функцией биде; "
+                                + "Материал: фаянс; Форма: округлая; Цвет: белый; Подвод воды: нижний; "
+                                + "Сиденье в комплекте. Источник: ПроТепло33.",
+                        "/images/catalog/knois-KN61710BW-specs.png")
+                + updateToilet(pending, "KN6279000", "Унитаз-моноблок KNOIS",
+                        16990.0, 38, "/images/catalog/knois-KN6279000-1000x1000.jpg",
+                        "Бренд: KNOIS; Артикул: KN6279000; Тип: напольный унитаз-моноблок; "
+                                + "Материал: фаянс; Форма: округлая; Цвет: белый; Подвод воды: нижний; "
+                                + "Сиденье в комплекте. Источник: ПроТепло33.",
+                        "/images/catalog/knois-KN6279000-specs.jpg")
+                + updateToilet(pending, "KN6291000", "Унитаз-моноблок Stella Polar Толедо",
+                        15990.0, 40, "/images/catalog/knois-KN6291000-1000x1000.jpg",
+                        "Бренд: Stella Polar; Коллекция: Толедо; Артикул: KN6291000; Тип: напольный унитаз-моноблок; "
+                                + "Материал: фаянс; Форма: округлая; Цвет: белый; Подвод воды: нижний; "
+                                + "Размеры: 685 × 400 × 700 мм (глубина × ширина × высота); сиденье с микролифтом. "
+                                + "Источник: ПроТепло33 и Santehnica.",
+                        "/images/catalog/knois-KN6291000-specs.jpg")
+                + updateToilet(pending, "KN6831000", "Унитаз-моноблок Stella Polar Куэнка",
+                        17990.0, 38, "/images/catalog/stella-polar-kuenka-KN6831000-1000x1000.jpg",
+                        "Бренд: Stella Polar; Коллекция: Куэнка; Артикул: KN6831000; Тип: напольный унитаз-моноблок; "
+                                + "Материал: фаянс; Форма чаши: овальная; Цвет: белый; Подвод воды: нижний; "
+                                + "Смыв: душевой, двухрежимный; антивсплеск; сиденье из дюропласта с микролифтом; "
+                                + "Размеры: 685 × 380 × 775 мм (длина × ширина × высота). "
+                                + "Источник цены и фото: ПроТепло33; характеристики: Stella Polar / Santehnica.",
+                        "/images/catalog/stella-polar-kuenka-KN6831000-2.jpg");
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -199,7 +226,9 @@ public class CatalogImportRunner implements CommandLineRunner {
                             || !description.equals(product.getDescription())
                             || product.getPrice() == null || product.getPrice() != 3460.0
                             || product.getStock() == null || product.getStock() != 0;
-                    if (!changed) return 0;
+                    if (!changed) {
+                        return 0;
+                    }
                     product.setTitle(title);
                     product.setCategory(category);
                     product.setArticle("F026-32");
@@ -252,7 +281,31 @@ public class CatalogImportRunner implements CommandLineRunner {
                 .orElse(0);
     }
 
-
+    private int updateArinBerdCornice(List<Product> pending) {
+        return productRepository.findFirstByTitleAndCategory("Карниз д/в Г-обр. 900/900", "Карнизы для душа")
+                .map(product -> {
+                    String imageUrl = "/images/catalog/arin-berd-cornice-900-900.jpg";
+                    String description = "Бренд: ARIN BERD; Модель: карниз для душевого поддона; "
+                            + "Артикул поставщика: 84937; Форма: Г-образная; Ширина: 900 мм; Глубина: 900 мм; "
+                            + "Материал: нержавеющая сталь; Диаметр трубы: 1/2 дюйма; Крепление к потолку: нет; "
+                            + "Гарантия производителя: 1 год; Страна производства: Россия.";
+                    boolean changed = !imageUrl.equals(product.getImageUrl())
+                            || !description.equals(product.getDescription())
+                            || !"84937".equals(product.getArticle())
+                            || product.getPrice() == null || product.getPrice() != 1400.63
+                            || product.getStock() == null || product.getStock() != 0;
+                    if (!changed) return 0;
+                    product.setArticle("84937");
+                    product.setImageUrl(imageUrl);
+                    product.setDescription(description);
+                    product.setPrice(1400.63);
+                    product.setStock(0);
+                    product.setIsShowroom(false);
+                    pending.add(product);
+                    return 1;
+                })
+                .orElse(0);
+    }
 
     private int updateAdditionalCornices(List<Product> pending) {
         int updated = 0;
@@ -278,7 +331,6 @@ public class CatalogImportRunner implements CommandLineRunner {
                         + "Толщина стенки: 1 мм; Крепление: настенное; Страна производства: Россия.");
         return updated;
     }
-
 
     private int updateKnoisToilet(List<Product> pending) {
         return productRepository.findFirstByArticle("KN6184000")
@@ -315,6 +367,32 @@ public class CatalogImportRunner implements CommandLineRunner {
                 .orElse(0);
     }
 
+    private int updateToilet(List<Product> pending, String article, String title, double price, int width,
+                             String imageUrl, String description, String galleryImage) {
+        return productRepository.findFirstByArticle(article).map(product -> {
+            boolean changed = !title.equals(product.getTitle())
+                    || !"Унитазы".equals(product.getCategory())
+                    || !"белый".equals(product.getColor())
+                    || !imageUrl.equals(product.getImageUrl())
+                    || !description.equals(product.getDescription())
+                    || product.getPrice() == null || product.getPrice() != price
+                    || product.getStock() == null || product.getStock() != 0
+                    || product.getWidth() == null || product.getWidth() != width;
+            if (!changed) return 0;
+            product.setTitle(title);
+            product.setCategory("Унитазы");
+            product.setColor("белый");
+            product.setImageUrl(imageUrl);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setStock(0);
+            product.setWidth(width);
+            product.setIsShowroom(false);
+            pending.add(product);
+            return 1;
+        }).orElse(0);
+    }
+
     private int updateCornice(List<Product> pending, String title, String article, double price,
                               String imageUrl, String description) {
         return productRepository.findFirstByTitleAndCategory(title, "Карнизы для душа")
@@ -329,32 +407,6 @@ public class CatalogImportRunner implements CommandLineRunner {
                     product.setImageUrl(imageUrl);
                     product.setDescription(description);
                     product.setPrice(price);
-                    product.setStock(0);
-                    product.setIsShowroom(false);
-                    pending.add(product);
-                    return 1;
-                })
-                .orElse(0);
-    }
-
-    private int updateArinBerdCornice(List<Product> pending) {
-        return productRepository.findFirstByTitleAndCategory("Карниз д/в Г-обр. 900/900", "Карнизы для душа")
-                .map(product -> {
-                    String imageUrl = "/images/catalog/arin-berd-cornice-900-900.jpg";
-                    String description = "Бренд: ARIN BERD; Модель: карниз для душевого поддона; "
-                            + "Артикул поставщика: 84937; Форма: Г-образная; Ширина: 900 мм; Глубина: 900 мм; "
-                            + "Материал: нержавеющая сталь; Диаметр трубы: 1/2 дюйма; Крепление к потолку: нет; "
-                            + "Гарантия производителя: 1 год; Страна производства: Россия.";
-                    boolean changed = !imageUrl.equals(product.getImageUrl())
-                            || !description.equals(product.getDescription())
-                            || !"84937".equals(product.getArticle())
-                            || product.getPrice() == null || product.getPrice() != 1400.63
-                            || product.getStock() == null || product.getStock() != 0;
-                    if (!changed) return 0;
-                    product.setArticle("84937");
-                    product.setImageUrl(imageUrl);
-                    product.setDescription(description);
-                    product.setPrice(1400.63);
                     product.setStock(0);
                     product.setIsShowroom(false);
                     pending.add(product);
