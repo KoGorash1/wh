@@ -223,6 +223,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateBathroomFurniture(pending)
                 + removeUnarticledShowerTraps()
                 + updateShowerTraps(pending)
+                + removeUnarticledTowelWarmers(pending)
+                + updateTowelWarmers(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -861,6 +863,42 @@ public class CatalogImportRunner implements CommandLineRunner {
         return n;
     }
 
+    private int removeUnarticledTowelWarmers(List<Product> pending) {
+        int removedFromImport = (int) pending.stream()
+                .filter(p -> "Полотенцесушители".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).count();
+        pending.removeIf(p -> "Полотенцесушители".equals(p.getCategory()) && blank(p.getArticle()));
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(p -> "Полотенцесушители".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).toList();
+        productRepository.deleteAll(withoutArticle);
+        return removedFromImport + withoutArticle.size();
+    }
+
+    private int updateTowelWarmers(List<Product> pending) {
+        int updated = 0;
+        updated += updateMixer(pending, "ЛТ60х50ЭЛ",
+                "Электрический полотенцесушитель Ника Trapezium ЛТ Г2 60×50, правый ТЭН",
+                "/images/catalog/towel-warmer-lt-60-50-1.jpg",
+                "Бренд: Ника; Коллекция: Trapezium; Артикул: ЛТ60х50ЭЛ; Тип: электрический полотенцесушитель-лесенка; Размер: 60×50 см (высота × межосевое расстояние); Габариты: 660×560×127 мм; Материал: нержавеющая сталь AISI 304; Цвет: хром; Нагреватель: ТЭН с терморегулятором, подключение справа; Мощность: 333 Вт; Обогреваемый объём: до 8 м³; Перекладин: 7; Монтаж: настенный; Комплектация: терморегулятор, кабель с вилкой, крепления, декоративные заглушки, краны Маевского и инструкция; Гарантия: 5 лет. Источник: Santehnica.ru, каталог Ника.");
+        setTowelWarmerCardMetadata(pending, "ЛТ60х50ЭЛ");
+        updated += updateMixer(pending, "ЛТ80х50ЭЛ",
+                "Электрический полотенцесушитель Ника Trapezium ЛТ Г2 80×50, правый ТЭН",
+                "/images/catalog/towel-warmer-lt-80-50-1.jpg",
+                "Бренд: Ника; Коллекция: Trapezium; Артикул: ЛТ80х50ЭЛ; Тип: электрический полотенцесушитель-лесенка; Размер: 80×50 см (высота × межосевое расстояние); Габариты: 860×560×127 мм; Материал: нержавеющая сталь AISI 304; Цвет: хром; Нагреватель: ТЭН с терморегулятором, подключение справа; Мощность: 433 Вт; Обогреваемый объём: до 11 м³; Перекладин: 9; Монтаж: настенный; Комплектация: терморегулятор, кабель с вилкой, крепления, декоративные заглушки, краны Маевского и инструкция; Гарантия: 5 лет. Источник: Santehnica.ru, каталог Ника.");
+        setTowelWarmerCardMetadata(pending, "ЛТ80х50ЭЛ");
+        return updated;
+    }
+
+    private void setTowelWarmerCardMetadata(List<Product> pending, String article) {
+        Product product = pending.stream().filter(p -> article.equals(p.getArticle())).findFirst()
+                .or(() -> productRepository.findFirstByArticle(article)).orElse(null);
+        if (product == null) return;
+        product.setWidth(50);
+        product.setColor("хром");
+        if (!pending.contains(product)) productRepository.save(product);
+    }
+
     private int updateMixerCategories(List<Product> pending) {
         List<Product> products = new ArrayList<>(productRepository.findAll());
         for (Product product : pending) {
@@ -898,7 +936,9 @@ public class CatalogImportRunner implements CommandLineRunner {
     }
 
     private int updateMixer(List<Product> pending, String article, String title, String imageUrl, String description) {
-        return productRepository.findFirstByArticle(article).map(product -> {
+        return productRepository.findFirstByArticle(article)
+                .or(() -> pending.stream().filter(candidate -> article.equals(candidate.getArticle())).findFirst())
+                .map(product -> {
             Product target = pending.stream()
                     .filter(candidate -> article.equals(candidate.getArticle()))
                     .findFirst().orElse(product);

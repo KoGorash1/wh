@@ -733,6 +733,10 @@
                 ? ['/images/catalog/raglo-R700-5050-05-kit.jpg']
                 : p.article === 'R700.5050.09'
                 ? ['/images/catalog/raglo-R700-5050-09-kit.jpg']
+                : p.article === 'ЛТ60х50ЭЛ'
+                ? ['/images/catalog/towel-warmer-lt-60-50-2.jpg', '/images/catalog/towel-warmer-lt-60-50-3.jpg']
+                : p.article === 'ЛТ80х50ЭЛ'
+                ? ['/images/catalog/towel-warmer-lt-80-50-2.jpg', '/images/catalog/towel-warmer-lt-80-50-3.jpg', '/images/catalog/towel-warmer-lt-80-50-4.jpg']
                 : p.article === 'R701.6050.03'
                 ? ['/images/catalog/raglo-R701-6050-03-kit.jpg']
                 : p.article === 'R701.6050.05'
