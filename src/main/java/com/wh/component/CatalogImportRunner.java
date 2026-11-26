@@ -139,6 +139,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateBathroomAccessories(pending)
                 + updateShowerSystems(pending)
                 + removeUnarticledShowerSystems()
+                + removeUnarticledMixers()
                 + updateMixerCategories(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
@@ -677,6 +678,16 @@ public class CatalogImportRunner implements CommandLineRunner {
         return withoutArticle.size();
     }
 
+    private int removeUnarticledMixers() {
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(product -> product.getCategory() != null
+                        && product.getCategory().startsWith("Смесители"))
+                .filter(product -> blank(product.getArticle()))
+                .toList();
+        productRepository.deleteAll(withoutArticle);
+        return withoutArticle.size();
+    }
+
     private int updateMixerCategories(List<Product> pending) {
         List<Product> products = new ArrayList<>(productRepository.findAll());
         for (Product product : pending) {
@@ -686,6 +697,7 @@ public class CatalogImportRunner implements CommandLineRunner {
         }
 
         int updated = 0;
+        List<Product> persistedUpdates = new ArrayList<>();
         for (Product product : products) {
             String category = product.getCategory();
             if (category == null || !category.startsWith("Смесители")) {
@@ -698,11 +710,16 @@ public class CatalogImportRunner implements CommandLineRunner {
                     : title.contains("ванн") ? "Смесители для ванны" : "Смесители";
             if (!targetCategory.equals(category)) {
                 product.setCategory(targetCategory);
-                if (!pending.contains(product)) {
+                if (product.getId() == null) {
                     pending.add(product);
+                } else {
+                    persistedUpdates.add(product);
                 }
                 updated++;
             }
+        }
+        if (!persistedUpdates.isEmpty()) {
+            productRepository.saveAll(persistedUpdates);
         }
         return updated;
     }
