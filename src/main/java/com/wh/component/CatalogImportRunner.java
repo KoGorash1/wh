@@ -131,7 +131,8 @@ public class CatalogImportRunner implements CommandLineRunner {
         }
 
         int featuredProductUpdates = updatePlastWashbasin(pending)
-                + updateFrapF02632(pending) + updateFrapF027(pending);
+                + updateFrapF02632(pending) + updateFrapF027(pending)
+                + updateArinBerdCornice(pending);
 
         if (!pending.isEmpty()) {
             productRepository.saveAll(pending);
@@ -242,6 +243,33 @@ public class CatalogImportRunner implements CommandLineRunner {
                     product.setImageUrl(imageUrl);
                     product.setDescription(description);
                     product.setPrice(1161.0);
+                    product.setStock(0);
+                    product.setIsShowroom(false);
+                    pending.add(product);
+                    return 1;
+                })
+                .orElse(0);
+    }
+
+
+    private int updateArinBerdCornice(List<Product> pending) {
+        return productRepository.findFirstByTitleAndCategory("Карниз д/в Г-обр. 900/900", "Карнизы для душа")
+                .map(product -> {
+                    String imageUrl = "/images/catalog/arin-berd-cornice-900-900.jpg";
+                    String description = "Бренд: ARIN BERD; Модель: карниз для душевого поддона; "
+                            + "Артикул поставщика: 84937; Форма: Г-образная; Ширина: 900 мм; Глубина: 900 мм; "
+                            + "Материал: нержавеющая сталь; Диаметр трубы: 1/2 дюйма; Крепление к потолку: нет; "
+                            + "Гарантия производителя: 1 год; Страна производства: Россия.";
+                    boolean changed = !imageUrl.equals(product.getImageUrl())
+                            || !description.equals(product.getDescription())
+                            || !"84937".equals(product.getArticle())
+                            || product.getPrice() == null || product.getPrice() != 1400.63
+                            || product.getStock() == null || product.getStock() != 0;
+                    if (!changed) return 0;
+                    product.setArticle("84937");
+                    product.setImageUrl(imageUrl);
+                    product.setDescription(description);
+                    product.setPrice(1400.63);
                     product.setStock(0);
                     product.setIsShowroom(false);
                     pending.add(product);
