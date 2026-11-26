@@ -135,6 +135,7 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateArinBerdCornice(pending) + updateAdditionalCornices(pending)
                 + updateKnoisToilet(pending)
                 + updateKitchenSinks(pending)
+                + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
                         "Бренд: KNOIS; Артикул: KN61710BW; Тип: напольный унитаз-моноблок с функцией биде; "
@@ -521,6 +522,19 @@ public class CatalogImportRunner implements CommandLineRunner {
                 "/images/catalog/raglo-R701-6050-03.jpg", 60, ragloDescription("R701.6050.03", "сатин золотой", 60));
         updated += updateKitchenSink(pending, "R701.6050.05", "Мойка RAGLO R701 60×50×20,8 см", "сатин", 22518.0,
                 "/images/catalog/raglo-R701-6050-05.jpg", 60, ragloDescription("R701.6050.05", "сатин", 60));
+        return updated;
+    }
+
+    private int updateMirrorCategories(List<Product> pending) {
+        int updated = 0;
+        for (String article : List.of("Б725", "В706", "ЗЛП5196", "ЗЛП5193", "ЗЛП5195", "ЗЛП5194")) {
+            updated += productRepository.findFirstByArticle(article).map(product -> {
+                if ("Зеркала".equals(product.getCategory())) return 0;
+                product.setCategory("Зеркала");
+                pending.add(product);
+                return 1;
+            }).orElse(0);
+        }
         return updated;
     }
 
