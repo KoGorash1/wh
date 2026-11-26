@@ -232,6 +232,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + removeUnarticledMirrors(pending)
                 + updateMirrors(pending)
                 + updateMirrorCategories(pending)
+                + removeUnarticledPedestals(pending)
+                + updatePedestals(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
                         "Бренд: KNOIS; Артикул: KN61710BW; Тип: напольный унитаз-моноблок с функцией биде; "
@@ -697,6 +699,67 @@ public class CatalogImportRunner implements CommandLineRunner {
                 if (!mirror[2].isBlank()) product.setImageUrl(mirror[2]);
                 if (!pending.contains(product)) productRepository.save(product);
             }
+        }
+        return updated;
+    }
+
+    private int removeUnarticledPedestals(List<Product> pending) {
+        int removedFromImport = (int) pending.stream()
+                .filter(p -> "Пьедесталы".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).count();
+        pending.removeIf(p -> "Пьедесталы".equals(p.getCategory()) && blank(p.getArticle()));
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(p -> "Пьедесталы".equals(p.getCategory()))
+                .filter(p -> blank(p.getArticle())).toList();
+        productRepository.deleteAll(withoutArticle);
+        return removedFromImport + withoutArticle.size();
+    }
+
+    private int updatePedestals(List<Product> pending) {
+        String[][] pedestals = {
+                {"PD.FS/Attica/N/WHT.G/S1", "Пьедестал Sanita Аттика", "/images/catalog/pedestal-sanita-attica.jpg",
+                        "Sanita", "Аттика", "186 × 168 × 690 мм", "санфарфор", "8,3 кг", "5 лет",
+                        "Подходит к умывальникам Аттика 48 и 55. Источник: SANRIKS и РеСан."},
+                {"PD.FS/Best/N/WHT.G/S1", "Пьедестал Sanita Luxe Best", "/images/catalog/pedestal-sanita-best.jpg",
+                        "Sanita Luxe", "Best", "185 × 180 × 655 мм", "фарфор", "около 7 кг", "15 лет",
+                        "Напольная опора для совместимой раковины Best. Источник: Сантехника.ру и SANRIKS."},
+                {"PD.FS/Classic_24/N/WHT.G/S1", "Пьедестал Sanita Luxe Classic 24", "/images/catalog/pedestal-sanita-classic24.webp",
+                        "Sanita Luxe", "Classic 24", "166 × 184 × 701 мм", "санфарфор", "не указан", "10 лет",
+                        "Напольный пьедестал для раковины коллекции Classic 24. Источник: Сантехника-Онлайн и SANRIKS."},
+                {"PD.FS/Next/N/WHT.G/S1", "Пьедестал Sanita Luxe Next", "/images/catalog/pedestal-sanita-next.jpg",
+                        "Sanita Luxe", "Next", "207 × 188 × 697 мм", "санфарфор", "около 7 кг", "10 лет",
+                        "Напольный пьедестал для раковины коллекции Next. Источник: Gidro-butik и SANRIKS."}
+        };
+        int updated = 0;
+        for (String[] item : pedestals) {
+            String article = item[0];
+            Product product = pending.stream()
+                    .filter(p -> p.getArticle() != null && p.getArticle().startsWith(article))
+                    .findFirst()
+                    .or(() -> productRepository.findAll().stream()
+                            .filter(p -> p.getArticle() != null && p.getArticle().startsWith(article))
+                            .findFirst())
+                    .orElse(null);
+            if (product == null) continue;
+
+            String description = "Бренд: " + item[3] + "; Коллекция: " + item[4] + "; Артикул: " + article
+                    + "; Тип: напольный пьедестал для раковины; Размеры (Ш × Г × В): " + item[5]
+                    + "; Материал: " + item[6] + "; Цвет: белый глянец; Вес: " + item[7]
+                    + "; Гарантия: " + item[8] + ". " + item[9];
+            boolean changed = !item[1].equals(product.getTitle())
+                    || !"Пьедесталы".equals(product.getCategory())
+                    || !item[2].equals(product.getImageUrl())
+                    || !description.equals(product.getDescription())
+                    || !"белый глянец".equalsIgnoreCase(product.getColor());
+            if (!changed) continue;
+
+            product.setTitle(item[1]);
+            product.setCategory("Пьедесталы");
+            product.setImageUrl(item[2]);
+            product.setColor("белый глянец");
+            product.setDescription(description);
+            if (!pending.contains(product)) productRepository.save(product);
+            updated++;
         }
         return updated;
     }
