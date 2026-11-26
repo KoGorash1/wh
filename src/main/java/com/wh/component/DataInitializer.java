@@ -164,12 +164,6 @@ public class DataInitializer {
         l.add(p("Душевая стойка «Премиум»", "Душевые стойки", 45000, IMG_SHOWER).style("minimal"));
 
         // ---- Душевые системы ----
-        l.add(p("Душевая система Rain", "Душевые системы", 34000, IMG_SHOWER).showroom().style("modern").badge("new"));
-        l.add(p("Душевая панель «Премиум»", "Душевые системы", 52000, IMG_SHOWER).style("minimal"));
-        l.add(p("Душевая система «С полкой»", "Душевые системы", 28000, IMG_SHOWER).style("modern"));
-        l.add(p("Душевая система «Хром»", "Душевые системы", 35000, IMG_SHOWER).style("classic"));
-        l.add(p("Душевая система «Черная»", "Душевые системы", 38000, IMG_SHOWER).style("loft"));
-
         // ---- Унитазы ----
         l.add(p("Унитаз-компакт Nord", "Унитазы", 26500, IMG_WC).style("modern"));
         l.add(p("Унитаз «Моноблок»", "Унитазы", 42000, IMG_WC).style("classic"));

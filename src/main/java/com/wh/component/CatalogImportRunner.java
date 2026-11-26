@@ -137,6 +137,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + updateKitchenSinks(pending)
                 + updateDrainValves(pending)
                 + updateBathroomAccessories(pending)
+                + updateShowerSystems(pending)
+                + removeUnarticledShowerSystems()
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -612,6 +614,66 @@ public class CatalogImportRunner implements CommandLineRunner {
                 "графит", 5295, "/images/catalog/r340-03-09-1.jpg",
                 "Тип: прямая полка для ванной; Установка: настенная, скрытый монтаж; Размеры: 40×10×8 см; Материал: нержавеющая сталь SUS304; Цвет: графит; Максимальная нагрузка: 5 кг.");
         return updated;
+    }
+
+    private int updateShowerSystems(List<Product> pending) {
+        int updated = 0;
+        updated += updateShowerSystem(pending, "G2407", "Душевая система GAPPO G2407 с каскадным изливом",
+                "хром", 23575, "/images/catalog/g2407-1.jpg",
+                "Бренд: GAPPO; Артикул: G2407; Тип: душевая система с верхним и ручным душем; Установка: настенная; Материал корпуса: латунь; Управление: однорычажное; Излив: каскадный, поворотный, служит переключателем душа; Высота стойки: регулируется от 100 до 150 см; Картридж: керамический SEDAL; Цвет: хром; Гарантия: 5 лет на корпус и покрытие, 1 год на комплектующие.");
+        updated += updateShowerSystem(pending, "G2407-8", "Душевая система GAPPO G2407-8 белый/хром",
+                "белый/хром", 40939, "/images/catalog/g2407-8-1.png",
+                "Бренд: GAPPO; Артикул: G2407-8; Тип: душевая система с верхним и ручным душем; Установка: настенная; Материал корпуса: латунь; Цвет: белый/хром; Размер верхнего душа: 200×300 мм; Высота стойки: 157 см; Длина излива: 16,5 см; Режимы ручной лейки: 2; Длина шланга: 150 см; Картридж: керамический, Sedal 35 мм; Гарантия: 5 лет на корпус и покрытие, 1 год на комплектующие.");
+        updated += updateShowerSystem(pending, "F2416", "Душевая система FRAP F2416 с изливом",
+                "хром", 18470, "/images/catalog/f2416-1.jpg",
+                "Бренд: FRAP; Артикул: F2416; Тип: душевая стойка со смесителем, верхним и ручным душем; Установка: настенная; Материал: латунь; Цвет: хром; Управление: рычажное; Длина излива: 180 мм; Длина шланга: 1500 мм; Режимы ручной лейки: 3; Картридж: керамический.");
+        updated += updateShowerSystem(pending, "F2461", "Душевая система FRAP F2461 с тропическим душем",
+                "хром", 21220, "/images/catalog/F2461.jpg",
+                "Бренд: FRAP; Артикул: F2461; Серия: H61; Тип: душевая стойка со смесителем, тропическим и ручным душем; Установка: настенная, на два отверстия; Материал корпуса: латунь; Цвет: хром; Размер верхнего душа: 290×190 мм; Режимы ручной лейки: 3; Длина шланга: 150 см; Излив: поворотный; Картридж: керамический, 35 мм.");
+        updated += updateShowerSystem(pending, "F24803-1", "Душевая система FRAP F24803-1 сатин",
+                "сатин", 29900, "/images/catalog/f24803-1-1.webp",
+                "Бренд: FRAP; Артикул: F24803-1; Серия: H803; Тип: душевая стойка со смесителем, верхним и ручным душем; Установка: настенная; Цвет: сатин; Длина излива: 187 мм; Длина шланга: 1500 мм.");
+        updated += updateShowerSystem(pending, "F2490", "Душевая система FRAP F2490 хром",
+                "хром", 26510, "/images/catalog/f2490-1.jpg",
+                "Бренд: FRAP; Артикул: F2490; Серия: H90; Тип: душевая стойка со смесителем, верхним и ручным душем; Установка: настенная; Материал корпуса: латунь; Цвет: хром; Высота: около 143 см; Излив: поворотный; Запорный механизм: керамический картридж.");
+        updated += updateShowerSystem(pending, "F2491-23", "Душевая система FRAP F2491-23 золотой сатин",
+                "золотой сатин", 17454, "/images/catalog/f2491-23-1.jpg",
+                "Бренд: FRAP; Артикул: F2491-23; Серия: H91-3; Тип: душевая стойка со смесителем, верхним и ручным душем; Установка: настенная; Материал корпуса: латунь; Цвет: золотой сатин; Поверхность: матовая; Излив: поворотный, длина 22 см; Режимы ручной лейки: 3; Длина шланга: 150 см; Запорный механизм: керамический картридж.");
+        updated += updateShowerSystem(pending, "F2491-9", "Душевая система FRAP F2491-9 оружейная сталь",
+                "оружейная сталь", 23657, "/images/catalog/f2491-9-1.jpg",
+                "Бренд: FRAP; Артикул: F2491-9; Серия: H91-9; Тип: душевая стойка со смесителем, верхним и ручным душем; Установка: настенная; Материал корпуса: латунь; Цвет: оружейная сталь; Верхний душ: 320×220 мм; Высота собранной стойки: около 1703 мм; Длина излива: около 239 мм; Режимы ручной лейки: 3; Длина шланга: 150 см; Запорный механизм: керамический картридж.");
+        return updated;
+    }
+
+    private int updateShowerSystem(List<Product> pending, String article, String title, String color,
+                                   double price, String imageUrl, String description) {
+        return productRepository.findFirstByArticle(article).map(product -> {
+            boolean changed = !title.equals(product.getTitle())
+                    || !"Душевые системы".equals(product.getCategory())
+                    || !color.equals(product.getColor()) || !imageUrl.equals(product.getImageUrl())
+                    || !description.equals(product.getDescription()) || product.getPrice() == null
+                    || product.getPrice() != price || product.getStock() == null || product.getStock() != 0;
+            if (!changed) return 0;
+            product.setTitle(title);
+            product.setCategory("Душевые системы");
+            product.setColor(color);
+            product.setImageUrl(imageUrl);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setStock(0);
+            product.setIsShowroom(false);
+            pending.add(product);
+            return 1;
+        }).orElse(0);
+    }
+
+    private int removeUnarticledShowerSystems() {
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(product -> "Душевые системы".equals(product.getCategory()))
+                .filter(product -> blank(product.getArticle()))
+                .toList();
+        productRepository.deleteAll(withoutArticle);
+        return withoutArticle.size();
     }
 
     private int updateBathroomAccessory(List<Product> pending, String article, String title, String color,

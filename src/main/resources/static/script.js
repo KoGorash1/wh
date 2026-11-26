@@ -630,7 +630,21 @@
         function init(p) {
             const rawImg = p['imageUrl'];
             const primaryImg = typeof rawImg === 'string' ? rawImg : '';
-            const extraImages = p.article === 'G904-3'
+            const extraImages = p.article === 'G2407'
+                ? ['/images/catalog/g2407-2.jpg', '/images/catalog/g2407-3.jpg', '/images/catalog/g2407-4.jpg']
+                : p.article === 'G2407-8'
+                ? ['/images/catalog/g2407-8-2.jpg', '/images/catalog/g2407-8-3.jpg', '/images/catalog/g2407-8-4.png']
+                : p.article === 'F2416'
+                ? ['/images/catalog/f2416-2.jpg', '/images/catalog/f2416-3.jpg']
+                : p.article === 'F24803-1'
+                ? ['/images/catalog/f24803-1-2.webp', '/images/catalog/f24803-1-3.webp', '/images/catalog/f24803-1-4.webp']
+                : p.article === 'F2490'
+                ? ['/images/catalog/f2490-2.jpg', '/images/catalog/f2490-3.jpg', '/images/catalog/f2490-4.jpg']
+                : p.article === 'F2491-23'
+                ? ['/images/catalog/f2491-23-2.jpg', '/images/catalog/f2491-23-3.jpg']
+                : p.article === 'F2491-9'
+                ? ['/images/catalog/f2491-9-2.jpg', '/images/catalog/f2491-9-3.jpg']
+                : p.article === 'G904-3'
                 ? ['/images/catalog/g904-3-2.png', '/images/catalog/g904-3-3.png']
                 : p.article === 'G904-9'
                 ? ['/images/catalog/g904-9-2.png', '/images/catalog/g904-9-3.png']
