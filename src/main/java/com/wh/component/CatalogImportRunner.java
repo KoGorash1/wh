@@ -218,6 +218,8 @@ public class CatalogImportRunner implements CommandLineRunner {
                 + removeUnarticledMixers()
                 + removeUnarticledBathtubs()
                 + updateBathtubs(pending)
+                + removeUnarticledBathroomFurniture()
+                + updateBathroomFurniture(pending)
                 + updateMirrorCategories(pending)
                 + updateToilet(pending, "KN61710BW", "Унитаз-моноблок KNOIS с биде",
                         18990.0, 38, "/images/catalog/knois-KN61710BW-1000x1000.jpg",
@@ -789,6 +791,25 @@ public class CatalogImportRunner implements CommandLineRunner {
         updated += updateMixer(pending, "OV-526", "Ванна SONATA 170×80×60 см",
                 "/images/catalog/bathtub-sonata.jpg",
                 "Артикул: OV-526; Коллекция: SONATA; Тип: отдельностоящая ванна на каркасе; Размеры: 170×80×60 см; Цвет: белый. Характеристики взяты из исходной карточки товара.");
+        return updated;
+    }
+
+    private int removeUnarticledBathroomFurniture() {
+        List<Product> withoutArticle = productRepository.findAll().stream()
+                .filter(product -> "Мебель для ванной".equals(product.getCategory()))
+                .filter(product -> blank(product.getArticle())).toList();
+        productRepository.deleteAll(withoutArticle);
+        return withoutArticle.size();
+    }
+
+    private int updateBathroomFurniture(List<Product> pending) {
+        int updated = 0;
+        updated += updateMixer(pending, "tpASTER80.2Y4", "Тумба EQUIL Aster 80.2Y Амаретти с раковиной Палермо 80",
+                "/images/catalog/bathroom-furniture-aster-80.jpg",
+                "Бренд: EQUIL; Артикул: tpASTER80.2Y4; Коллекция: Aster; Тип: подвесная тумба с раковиной; Цвет: Амаретти; Размер тумбы: 792×472×540 мм; Размер комплекта с раковиной: 800×480×562 мм; Материалы: влагостойкий ЛДСП, МДФ, ПВХ-плёнка Soft Touch; Хранение: 2 выдвижных ящика с доводчиками; Раковина Палермо из кварцевого композита; сифон в комплекте. Источник: EQUIL.");
+        updated += updateMixer(pending, "RD-031-100-WM SINK", "Столешница-моноблок 1000×500×150 мм с кронштейнами",
+                "/images/catalog/bathroom-furniture-aster-80.jpg",
+                "Артикул: RD-031-100-WM SINK; Тип: столешница-моноблок с кронштейнами; Размеры: 1000×500×150 мм. Подробные сведения изготовителя в доступном каталоге не найдены.");
         return updated;
     }
 
